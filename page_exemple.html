@@ -1,0 +1,152 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <!--<link rel="stylesheet" href="API/js/DataTables/css/jquery.dataTables.min.css"/>--> 
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <!--<script type="text/javascript" src="API/js/Highcharts/highcharts.js"></script>-->
+    <!--<script type="text/javascript" src="API/js/Highcharts/modules/exporting.js"></script>-->
+    <!--<script type="text/javascript" src="API/js/DataTables/js/jquery.dataTables.min.js"></script>--> 
+    <!--<script type="text/javascript" src="API/js/Ckeditor/ckeditor.js"></script>--> 
+    <!--<script type="text/javascript" src="API/js/Ckeditor/jquery.js"></script>--> 
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+    <script type="text/javascript" src="js/fonctions.js"></script>
+
+    <script type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 0;
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////    
+    /**
+     * @name OnLoad
+     * @desc this function is execute when all is ready
+     * @return {boolean}
+     */
+    function OnLoad(){
+        try {
+            var myReturn = true;
+            
+            chargerExemple();
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+            return null;
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * @name chargerExemple
+     * @desc Hello
+     * @param {type} nom
+     * @return {boolean}
+     */
+    function chargerExemple(){
+        try {
+            var myReturn = true;
+            
+            $.functionsLib.notification("Merci de patienter ...", $.functionsLib.INFO);
+            var tabSetting = { functionRetour : retourExemple};
+            var tabInput = { test : 'ok' };
+            $.functionsLib.callRest(domaine+"phpsql/exemple.php", tabSetting, tabInput); 
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerExemple):" + er.message);
+            return null;
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * @name retourExemple
+     * @param {json} p_retour
+     */
+    function retourExemple(p_retour){
+        try {
+            var myReturn = true;
+            
+            if(p_retour["strErreur"] == ""){
+                var strhtml = "Hello";
+                $('#div_exemple').html(strhtml);
+                $.functionsLib.notification("Bravo", $.functionsLib.oda_msg_color.SUCCES);
+            } else{
+                $.functionsLib.notification("Erreur : "+p_retour["strErreur"], $.functionsLib.oda_msg_color.ERROR);
+            }
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(retourExemple):" + er.message);
+            return null;
+        }
+    }
+</script>
+
+</head>
+<body onload="OnLoad();">
+
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+        
+        <!-- navbar -->
+        <!-- /navbar -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>Le vide</h4>
+                <div id="div_exemple">Anomalie code EXXX</div>
+            </div>       
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>

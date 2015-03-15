@@ -1,0 +1,8 @@
++ ftp :
+/
+
++ db :
+localhost/oda_chop/hunter
+
++ CSV 
+oda-shop

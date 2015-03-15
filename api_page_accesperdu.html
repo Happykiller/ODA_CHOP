@@ -1,0 +1,191 @@
+<!DOCTYPE html> 
+<html> 
+<head>  
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+
+    <script language="javascript" type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    function recupCompte() {
+        try {
+            var p_identifiant = $("#identifiant").val();
+            var p_email = $("#email").val();
+            
+            var results = $.functionsLib.getRecupUtilisateur(p_identifiant, p_email);
+            if(results["strErreur"] == ""){
+                for(var indice in results["data"]["resultat"]["data"])
+                {
+                    var compte = results["data"]["resultat"]["data"][indice];
+                    
+                    var contact_mail_administrateur = $.functionsLib.getParameter("contact_mail_administrateur");
+
+                    var message_html = "";
+                    message_html = "<html><head></head><body>";
+                    message_html += "Bonjour "+compte["prenom"]+",<br>";
+                    message_html += "<br>";
+                    message_html += "Voici les informations de votre compte.<br>";
+                    message_html += "<br>";
+                    message_html += "Pour rappel : <br>";
+                    message_html += "- votre identifiant : "+compte["code_user"]+"<br>";
+                    message_html += "- votre mot de passe : "+compte["password"]+"<br>";
+                    message_html += "<br>";
+                    message_html += "Merci et rendez-vous <a href='"+domaine+"'>ici</a><br>";
+                    message_html += "<br>";
+                    message_html += "L'&eacute;quipe<br>";
+                    message_html += "</body></html>";
+
+                    var paramsMail = {
+                        email_mails_dest : compte["mail"]+"," 
+                        ,email_mail_ori : contact_mail_administrateur
+                        , email_labelle_ori : "Service Mail ODA"
+                        , email_mail_reply : contact_mail_administrateur
+                        , email_labelle_reply : "Service Mail ODA"
+                        , email_mails_cache : contact_mail_administrateur
+                        , message_html : message_html
+                        , sujet : "[ODA]Récupération de votre compte réussi."
+                    };
+
+                    $.functionsLib.sendMail(paramsMail);
+                }
+
+                var strHtml = "F&eacute;licitation un mail vous a &eacute;t&eacute; envoy&eacute;.";
+                $.functionsLib.notification(strHtml, $.functionsLib.oda_msg_color.SUCCES);
+                
+                //UpdateAngular
+                angular.element('[ng-controller=OdaRecupCptController]').scope().formulaire.input.identifiant.value = "";
+                angular.element('[ng-controller=OdaRecupCptController]').scope().formulaire.input.email.value = "";
+                angular.element('[ng-controller=OdaRecupCptController]').scope().$apply();
+            }else{
+                var strHtml = "Erreur de cr&eacute;ation de votre compte, merci de contacter l'administrateur.";
+                $.functionsLib.notification(strHtml, $.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(recupCompte):" + er.message);
+        }
+    }
+    </script>
+</head> 
+
+<body onload="OnLoad();" ng-app="odaApp"> 
+
+    <!-- page -->
+    <div data-role="page" data-title="R&eacute;cup&eacute;rer son compte">
+
+        <!-- header -->
+        <div data-role="header">
+            <h1>R&eacute;cup&eacute;rer son compte</h1>
+            <a href="javascript:window.location = ('./api_page_contact_restreint.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content" ng-controller="OdaRecupCptController" ng-form='{{formulaire.valide}}'>
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="div_creationCompte">
+                <h4>Formulaire de r&eacute;cup&eacute;ration</h4>
+                Veuiller remplir les champs possibles pour vous retrouver :<br><br>
+                <div class="ui-grid-b ui-responsive">
+                    <div class="ui-block-a">
+                        <label for="identifiant" id="label_identifiant" style="width: 75%" ng-class="{'valide' : formulaire.input.identifiant.valide, 'notValide' : !formulaire.input.identifiant.valide, 'default' : (formulaire.input.identifiant.value == '')&&formulaire.input.email.valide}">Saisir votre identifiant :</label>
+                        <input type="text" name="identifiant" id="identifiant" value="" data-mini="true" placeholder="votre identifiant ici" ng-model="formulaire.input.identifiant.value" ng-tips='{{formulaire.input.identifiant.tips}}'/>
+                        <label for="identifiant" id="tips_identifiant" class="tips">&nbsp;</label>
+                    </div>
+                    <div class="ui-block-b" style="width:5%;">
+                        &nbsp;
+                    </div>
+                    <div class="ui-block-c">
+                        <label for="email" id="label_email" style="width: 75%" ng-class="{'valide' : formulaire.input.email.valide, 'notValide' : !formulaire.input.email.valide, 'default' : (formulaire.input.email.value == '')&&formulaire.input.identifiant.valide}">Saisir votre e-mail :</label>
+                        <input type="text" name="email" id="email" value="" data-mini="true" placeholder="votre e-mail ici" ng-model="formulaire.input.email.value" ng-tips='{{formulaire.input.email.tips}}'/>
+                        <label for="email" id="tips_email" class="tips">&nbsp;</label>
+                    </div>
+                </div>
+                <a href="javascript:window.location = ('./index.html?mili='+$.functionsLib.getMilise());" data-role="button" data-inline="true" data-icon="arrow-r" data-mini="true">Retour</a>					
+                <a href="javascript:recupCompte();" data-role="button" data-inline="true" data-icon="arrow-r" data-mini="true" ng-class="{'ui-state-disabled' : !formulaire.valide, 'ui-btn-active' : formulaire.valide}">Soumettre</a>					
+            </div>
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <h1>Utilisateur inconnu</h1>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+    
+    <script type="text/javascript" src="API/js/AngularJs/angular.min.js"></script>
+    <script type="text/javascript" src="API/js/AngularJs/odaApp.js"></script>
+    <script>
+        app.directive('ngForm', function(){
+            return {
+                template: function(elem){
+                    elem.bind('keyup', function(event){
+                        ((event.keyCode == 13) && (elem.context.getAttribute("ng-form") != 'false')) ? recupCompte() : null;
+                    });
+                }
+            };
+        });
+                
+        app.controller('OdaRecupCptController', function($scope) {
+            $scope.formulaire = {
+                valide : false,
+                input : {
+                    identifiant : {
+                        value : ''
+                        ,valide : false
+                        ,attendu : /^[a-zA-Z]{4,4}$/g
+                        ,tips : 'Quatre lettres.'
+                    }
+                    ,email :{
+                        value : ''
+                        ,valide : false
+                        ,attendu : /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]{2,}[.][a-zA-Z]{2,4}$/g
+                        ,tips : 'Utiliser le format standard.'
+                    } 
+                }
+            };
+        
+            $scope.$watch('formulaire', function(){
+                $scope.formulaire.input.identifiant.valide = ($scope.formulaire.input.identifiant.value.match($scope.formulaire.input.identifiant.attendu)) ? true : false;
+                $scope.formulaire.input.email.valide = ($scope.formulaire.input.email.value.match($scope.formulaire.input.email.attendu)) ? true : false;
+                $scope.formulaire.valide = ($scope.formulaire.input.identifiant.valide || $scope.formulaire.input.email.valide);
+            }, true);
+        });
+    </script>
+	
+</body>
+</html>

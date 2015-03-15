@@ -1,0 +1,183 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/js/DataTables/css/jquery.dataTables.min.css"/> 
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/DataTables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+    <script type="text/javascript" src="js/fonctions.js"></script>
+
+    <script type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 103;
+    var ite = 3;
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            chargerRapportMissTrad();
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * @name chargerRapportMissTrad
+     * @desc Hello
+     * @param {type} nom
+     * @return {boolean}
+     */
+    function chargerRapportMissTrad(){
+        try {
+            var myReturn = true;
+            
+            var tabSetting = { functionRetour : retourRapportMissTrad};
+            var tabInput = { test : 'ok' };
+            $.functionsLib.callRest(domaine+"phpsql/getRapportMissTrad.php", tabSetting, tabInput); 
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerRapportMissTrad):" + er.message);
+            return null;
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * @name retourRapportMissTrad
+     * @param {json} p_retour
+     */
+    function retourRapportMissTrad(p_retour){
+        try {
+            var myReturn = true;
+            
+            var langs = $.functionsChop.getLangs();
+            
+            if(p_retour["strErreur"] == ""){
+                var objDataTable = $.functionsLib.objDataTableFromJsonArray(p_retour["data"]["resultat"]["data"]);
+                
+                var colums = [
+                    { "sTitle": "Key","sClass": "Left", "sWidth": "300px" },
+                    { "sTitle": "Description","sClass": "Left" }
+                ];
+
+                for(var indice in langs){
+                    var lang = {
+                        "sTitle": langs[indice]["code"],"sClass": "center", "sWidth": "50px"
+                    } ;
+                    colums[colums.length] = lang;
+                }
+                
+                var strhtml = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_events"></table></br></br>';
+                $('#div_exemple').html(strhtml).trigger('create');
+            
+                var oTable = $('#table_events').dataTable( {
+                    "aaSorting": [],
+                    "iDisplayLength": 25,
+                    "sPaginationType": "full_numbers",
+                    "aaData": objDataTable.data,
+                    "aoColumns": colums
+                });
+            } else{
+                $.functionsLib.notification("Erreur : "+p_retour["strErreur"], $.functionsLib.oda_msg_color.ERROR);
+            }
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(retourRapportMissTrad):" + er.message);
+            return null;
+        }
+    }
+    
+    /**
+     * @name openElt
+     * @desc Hello
+     * @param {string} p_elet
+     * @return {boolean}
+     */
+    function openElt(p_elet){
+        try {
+            var myReturn = true;
+            
+            window.location=('./page_editeurElt.html?elementkey='+p_elet+'&elementType=TEXT&mili='+$.functionsLib.getMilise());
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(openElt):" + er.message);
+            return null;
+        }
+    }
+    
+</script>
+
+</head>
+<body onload="OnLoad();">
+
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+        
+        <!-- navbar -->
+        <!-- /navbar -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>Les traductions</h4>
+                <div id="div_exemple" style="font-size:small;">Anomalie code EXXX</div>
+            </div>       
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>

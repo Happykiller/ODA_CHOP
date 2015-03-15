@@ -1,0 +1,169 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+	
+    <script language="javascript" type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 0;
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            chargerSiteLabel();
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * chargerSiteLabel
+     */
+    function chargerSiteLabel(){
+        try {
+            var siteLabel = $.functionsLib.getParameter("nom_site");
+            $("#label_site_label").html("<center><h1>"+siteLabel+"</h1></center>");
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerSiteLabel):" + er.message);
+        }
+    }
+    
+    /**
+     * letMeIn
+     */
+    function letMeIn() {
+        try {
+            var p_input_log = $("#input_log").val();
+            var p_input_pass = $("#input_pass").val();
+            
+            var retour_login = $.functionsLib.login(p_input_log, p_input_pass, "index.html");
+            
+            if(retour_login.statut == "ok"){
+                window.location = "./page_home.html?mili="+$.functionsLib.getMilise();
+            }else{
+                $.functionsLib.notification("Erreur d'authentification.("+retour_login.message+")",$.functionsLib.oda_msg_color.WARNING);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(letMeIn):" + er.message);
+        }
+    }
+		
+    </script>
+  </head>
+  <body onload="OnLoad();" ng-app="odaApp">
+    <!-- page -->
+    <div data-role="page">
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <h1>L'Accueil</h1>
+            <a href="javascript:window.location = ('./api_page_contact_restreint.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content" ng-controller="OdaLoginController" ng-form='{{formulaire.valide}}'>
+            
+            <label id="label_site_label"></label>
+
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="div_form">
+                <h4>Authentification</h4>
+                <div class="ui-grid-b ui-responsive">
+                    <div class="ui-block-a">
+                        <label for="input_log" id="label_input_log" ng-class="{'valide' : formulaire.input.log.valide, 'notValide' : !formulaire.input.log.valide}">Identifiant :</label>
+                        <input type="text" name="input_log" id="input_log" value="" data-mini="true" placeholder="votre identifiant" ng-model="formulaire.input.log.value" ng-tips='{{formulaire.input.log.tips}}'/>
+                        <label for="input_log" id="tips_input_log" class="tips">&nbsp;</label>
+                    </div>
+                    <div class="ui-block-b" style="width:5%;">
+                        &nbsp;
+                    </div>
+                    <div class="ui-block-b">
+                        <label for="input_pass" id="label_input_pass" ng-class="{'valide' : formulaire.input.pass.valide, 'notValide' : !formulaire.input.pass.valide}">Mot de passe  :</label>
+                        <input type="password" name="input_pass" id="input_pass" value="" data-mini="true" placeholder="Votre mot de passe" ng-model="formulaire.input.pass.value" ng-tips='{{formulaire.input.pass.tips}}'/>
+                        <label for="input_pass" id="tips_input_pass" class="tips">&nbsp;</label>
+                    </div>
+                </div>
+                <a href="javascript:letMeIn();" data-role="button" data-inline="true" data-icon="arrow-r" data-mini="true" id="submit" ng-class="{'ui-state-disabled' : !formulaire.valide, 'ui-btn-active' : formulaire.valide}">Soumettre</a>					
+                <a href="javascript:window.location = ('./api_page_creercompte.html?mili='+$.functionsLib.getMilise());" data-role="button" data-inline="true" data-icon="arrow-r" data-mini="true" id="creercompte">Cr&eacute;er un compte</a>
+                <a href="javascript:window.location = ('./api_page_accesperdu.html?mili='+$.functionsLib.getMilise());" data-role="button" data-inline="true" data-icon="arrow-r" data-mini="true" id="accesperdu">Acc&egrave;s perdu ?</a>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <h1>Bienvenue</h1>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+    
+    <script type="text/javascript" src="API/js/AngularJs/angular.min.js"></script>
+    <script type="text/javascript" src="API/js/AngularJs/odaApp.js"></script>
+    <script>
+  
+        app.directive('ngForm', function(){
+            return {
+                template: function(elem){
+                    elem.bind('keyup', function(event){
+                        ((event.keyCode == 13) && (elem.context.getAttribute("ng-form") != 'false')) ? letMeIn() : null;
+                    });
+                }
+            };
+        });
+        
+        app.controller('OdaLoginController', function($scope) {
+            $scope.formulaire = {
+                valide : false,
+                input : {
+                    log : {
+                        value : ''
+                        ,valide : false
+                        ,attendu : /^[a-zA-Z]{2,}$/g
+                        ,tips : 'Que des caract&egrave;res et &agrave; minima de deux lettres.'
+                    }
+                    ,pass :{
+                        value : ''
+                        ,valide : false
+                        ,attendu : /^[a-zA-Z0-9]{2,}$/g
+                        ,tips : 'Pas de caract&egrave;res sp&eacute;ciaux.'
+                    } 
+                }
+            };
+        
+            $scope.$watch('formulaire', function(){
+                $scope.formulaire.input.log.valide = ($scope.formulaire.input.log.value.match($scope.formulaire.input.log.attendu)) ? true : false;
+                $scope.formulaire.input.pass.valide = ($scope.formulaire.input.pass.value.match($scope.formulaire.input.pass.attendu)) ? true : false;
+                $scope.formulaire.valide = ($scope.formulaire.input.log.valide && $scope.formulaire.input.pass.valide);
+            }, true);
+        });
+    </script>
+      
+</body>
+</html>

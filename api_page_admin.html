@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/js/DataTables/css/jquery.dataTables.min.css"/> 
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/DataTables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="API/js/Ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="API/js/Ckeditor/jquery.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+	
+    <script language="javascript" type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 5;
+    var user_edit = "";
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    /**
+     * Fin chargement page
+     *
+     */    
+    function OnLoad() {
+        try {
+            afficheListUtilisateur();
+            afficheListDiffusion();
+            chargerMessages();
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }	
+		
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * Affiche la liste des utilisateurs
+     * @returns {Boolean} 
+     */
+    function afficheListUtilisateur() {
+        try {
+            var retour = true;
+            
+            var tabInput = { indice_user : $.functionsLib.getUserInfo().code_user};
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getListutilisateurs.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                var objDataTable = $.functionsLib.objDataTableFromJsonArray(retour["data"]["resultats"]["data"]);
+                var strhtml = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_listUtilisateurs">';
+                strhtml += '<tfoot><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th oda-attr="select">6</th><th>7</th></tr></tfoot></table>';
+                $('#div_listUtilisateurs').html(strhtml);
+            
+                var oTable = $('#table_listUtilisateurs').dataTable( {
+                    "oLanguage": {
+                        "sUrl": "API/js/DataTables/i8n/lang_FR.json"
+                    },
+                    "sPaginationType": "full_numbers",
+                    "aaData": objDataTable.data,
+                    "aaSorting": [[4,'desc'],[1,'asc']],
+                    "aoColumns": [
+                        { "sTitle": "Utilisateur","sClass": "Left" },
+                        { "sTitle": "Code utilisateur","sClass": "center" },
+                        { "sTitle": "Mail","sClass": "Left" },
+                        { "sTitle": "Description","sClass": "Left" },
+                        { "sTitle": "Actif","sClass": "center" },
+                        { "sTitle": "Rang","sClass": "Left" },
+                        { "sTitle": "Actions","sClass": "center" }
+                    ],
+                    "aoColumnDefs": [
+                        {//Nom Prenom
+                            "mRender": function ( data, type, row ) {
+                                return row[2] + ", " + row[3];
+                            },
+                            "aTargets": [ 0 ]
+                        },
+                        {//code_user
+                            "mRender": function ( data, type, row ) {
+                                return row[0];
+                            },
+                            "aTargets": [ 1 ]
+                        },
+                        {//Mail
+                            "mRender": function ( data, type, row ) {
+                                return row[1];
+                            },
+                            "aTargets": [ 2 ]
+                        },
+                        {//Description
+                            "mRender": function ( data, type, row ) {
+                                return row[5];
+                            },
+                            "aTargets": [ 3 ]
+                        },
+                        {//Actif
+                            "mRender": function ( data, type, row ) {
+                                return row[6];
+                            },
+                            "aTargets": [ 4 ]
+                        },
+                        {//Rang
+                            "mRender": function ( data, type, row ) {
+                                return row[4];
+                            },
+                            "aTargets": [ 5 ]
+                        },
+                        {//Action
+                            "mRender": function ( data, type, row ) {
+                                var strHtml = "";
+                                strHtml += '<a href="javascript:editer(\''+row[0]+'\')" data-role="button" data-icon="gear" data-inline="true" id="bt_edit_'+row[0]+'" data-mini="true">Editer</a>';
+                                return strHtml;
+                            },
+                            "aTargets": [ 6 ]
+                        }
+                    ],
+                    "fnDrawCallback": function( oSettings ) {
+                        $('#table_listUtilisateurs').trigger('create');
+                    } 
+                });
+                
+                // DataTable
+                var table = $('#table_listUtilisateurs').DataTable();
+
+                $('#table_listUtilisateurs tbody').on( 'click', 'tr', function () {
+                    if ( $(this).hasClass('selected') ) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        table.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                    }
+                } );
+
+                $("#table_listUtilisateurs tfoot th").each( function ( i ) {
+                    var valOdaAttri = $(this).attr("oda-attr");
+                    if(valOdaAttri == "select") {
+                        var select = $('<select data-mini="true"><option></option></select>')
+                            .appendTo( $(this).empty() )
+                            .on( 'change', function () {
+                                var val = $(this).val();
+
+                                table.column( i )
+                                    .search( val ? '^'+$(this).val()+'$' : val, true, false )
+                                    .draw();
+                            } );
+
+                        table.column( i-1 ).data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' );
+                        } );
+                    }else{
+                        $( '<input type="text" placeholder="Search"  data-mini="true"/>' )
+                            .appendTo( $(this).empty() )
+                            .on( 'keyup change', function () {
+                                table
+                                    .column( i )
+                                    .search( this.value )
+                                    .draw();
+                            } );
+                    }
+                } );
+                
+            } else{
+                $('#div_listUtilisateurs').html(retour["strErreur"]);
+            }
+            
+            return retour;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(afficheListUtilisateur):" + er.message);
+            return false;
+        }
+    }
+    
+    /**
+     * Affiche la liste de diffusion pour le site
+     * @returns {Boolean} 
+     */
+    function afficheListDiffusion() {
+        try {
+            var retour = true;
+            
+            var tabSetting = { };
+            var tabInput = { };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getListMail.php", tabSetting, tabInput); 
+            
+            if(retour["strErreur"] == ""){
+                var strhtml = getHtmlListDiffusion(retour["data"]["resultat"]["data"]);
+                $('#div_listDiffusion').html(strhtml).trigger('create');
+            } else{
+                $('#div_listDiffusion').html(retour["strErreur"]);
+            }
+            
+            return retour;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(afficheListDiffusion):" + er.message);
+            return null;
+        }
+    }
+    
+    /**
+     * editer
+     * @param {string} p_code_user
+     */
+    function editer(p_code_user) {
+        try {
+            var tabInput = { code_user : p_code_user, profile : $.functionsLib.getUserInfo().profile };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getDetailsUser.php", {}, tabInput);
+            if(retour["strErreur"] == ""){
+                user_edit = p_code_user;
+                
+                var label = "Editer : " +p_code_user;
+                
+                var strHtml = "";
+                strHtml += 'Mail : <input type="text" name="edit_mail" id="edit_mail" value="'+retour["data"]["detailsUser"]["mail"]+'"  />';
+                strHtml += '<label for="edit_actif">Actif : </label>';
+                strHtml += '<select name="edit_actif" id="edit_actif" data-role="slider">';
+                if(retour["data"]["detailsUser"]["actif"] == "0"){
+                    strHtml += '<option value="0" selected>Off</option>';
+                    strHtml += '<option value="1">On</option>';
+                }else{
+                    strHtml += '<option value="0">Off</option>';
+                    strHtml += '<option value="1" selected>On</option>';
+                }
+                strHtml += '</select>';
+                strHtml += '<label for="input_rang" class="select">Rang :</label>';
+                strHtml += '<select name="input_rang" id="input_rang" data-mini="true">';
+                strHtml += '<option>Choisir...</option>';
+                for (var indice in retour["data"]["lesRangs"]["data"]) {
+                    if(retour["data"]["detailsUser"]["profile"] == retour["data"]["lesRangs"]["data"][indice]["indice"]){
+                        strHtml += '<option selected value="'+retour["data"]["lesRangs"]["data"][indice]["indice"]+'">'+retour["data"]["lesRangs"]["data"][indice]["labelle"]+'</option>';
+                    }else{
+                        strHtml += '<option value="'+retour["data"]["lesRangs"]["data"][indice]["indice"]+'">'+retour["data"]["lesRangs"]["data"][indice]["labelle"]+'</option>';
+                    }   
+                }
+                strHtml += '</select>';
+                strHtml += '<a href="javascript:validerEdition();" data-role="button" data-icon="check" id="bt_valider" data-mini="true"  data-inline="true">Soumettre</a>';
+                strHtml += '<a href="javascript:annulerEditionUser();" data-role="button" data-icon="delete" id="bt_annuler_user" data-mini="true" data-inline="true">Annuler</a>';
+                
+                $.functionsLib.affichePopUp(label, strHtml);
+            }else{
+                $.functionsLib.notification("Aie erreur!", $.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(editer):" + er.message);
+        }
+    }	
+    
+    /**
+     * validerEdition
+     */
+    function validerEdition() {
+        try {
+            var code_user = user_edit;
+            var mail = $('#edit_mail').val();
+            var actif = $('#edit_actif').val();
+            var rang = $('#input_rang').val();
+            
+            if((mail != "")&&(actif != "")&&(rang != "")){
+                var tabInput = { code_user : code_user, mail : mail, actif : actif, rang : rang };
+                var retour = $.functionsLib.callRest(domaine+"API/phpsql/updateUser.php", {}, tabInput);
+                if(retour["strErreur"] == ""){
+                    user_edit = "";
+                    $('#edit_mail').val("");
+                    $('#edit_actif').val("");
+                    $('#popup').popup('close');
+                    afficheListUtilisateur();
+                    $.functionsLib.notification("Modification ok.", $.functionsLib.oda_msg_color.INFO);
+                }else{
+                    $.functionsLib.notification("Erreur interface.", $.functionsLib.oda_msg_color.ERROR);
+                }
+            }else{
+                $.functionsLib.notification("Un champ est vide.", $.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(validerEdition):" + er.message);
+        }
+    }
+    
+    /**
+     * annulerEditionUser
+     */
+    function annulerEditionUser() {
+        try {
+            $('#edit_mail').val("");
+            $('#edit_actif').val("");
+            $('#popup').popup('close');
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(annulerEditionUser):" + er.message);
+        }
+    }
+    
+    /**
+     * chargerMessages
+     */
+    function chargerMessages(){
+        try {
+            var strhtml = "<IMG SRC=\"API/img/loading.gif\" ALT=\"Chargement\" TITLE=\"Chargement\">";
+            $('#div_messages').html(strhtml);
+            var tabInput = { code_user : $.functionsLib.getUserInfo().code_user };
+            $.functionsLib.callRest(domaine+"API/phpsql/getMessages.php", {functionRetour : retourMessages}, tabInput);          
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerMessages):" + er.message);
+        }
+    }
+    
+    /**
+     * afficherCreerMessage
+     */
+    function afficherCreerMessage(){
+        try {
+            //format size
+            var popUpWidth = $(window).width() * 0.80;
+            var popUpHeight= $(window).height() * 0.80;
+            $('#popup').width(popUpWidth).addClass( "mod" );
+            $('#popup').height(popUpHeight).addClass( "mod" );
+            var sizeTextArea = $.functionsLib.arrondir(popUpHeight*0.4,0);
+            
+            var label = "Cr&eacute;er un message";
+                
+            var strHtml = "";
+            strHtml += 'Message : <textarea id="input_message" style="font-size:small;family-name:arial;height:'+sizeTextArea+'px"></textarea>';
+            strHtml += 'Niveau d\'alerte : <input type="text" name="input_niveau" id="input_niveau"  />';
+            strHtml += 'Profile minimum : <input type="number" name="input_profile" id="input_profile"  />';
+            strHtml += 'Date d\'expiration (7J par defaut) : <input type="date" name="input_date_expiration" id="input_date_expiration"  />';
+            strHtml += '<a href="javascript:creeMessage()" data-role="button" data-icon="check" id="bt_cree_message" data-mini="true" data-inline="true">Soumettre</a>';
+            strHtml += '<a href="javascript:annulerMessage()" data-role="button" data-icon="delete" id="bt_annuler_user" data-mini="true" data-inline="true">Annuler</a>';
+
+            $.functionsLib.affichePopUp(label, strHtml);
+            
+            $('#input_message').ckeditor();
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(afficherCreerMessage):" + er.message);
+        }
+    }
+    
+    /**
+     * annulerMessage
+     */
+    function annulerMessage() {
+        try {
+            $('#input_message').val("");
+            $('#input_niveau').val("");
+            $('#input_date_expiration').val("");
+            $('#input_profile').val("");
+            $('#popup').popup('close');
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(annulerMessage):" + er.message);
+        }
+    }
+    
+    /**
+     * creeMessage
+     */
+    function creeMessage() {
+        try {
+            var input_message = $('#input_message').val();
+            var input_niveau = $('#input_niveau').val();
+            var input_date_expiration = $('#input_date_expiration').val();
+            var input_profile = $('#input_profile').val();
+            
+            if((input_message != "") && (input_niveau != "") && (input_profile != "")){
+                var tabInput = { 
+                    code_user : $.functionsLib.getUserInfo().code_user
+                    , message : input_message
+                    , niveau : input_niveau
+                    , date_expiration : input_date_expiration
+                    , profile : input_profile
+                };
+                var retour = $.functionsLib.callRest(domaine+"API/phpsql/addMessage.php", {}, tabInput);
+                if(retour["strErreur"] == ""){
+                    $('#input_message').val("");
+                    $('#input_niveau').val("");
+                    $('#input_date_expiration').val("");
+                    $('#input_profile').val("");
+                    $('#popup').popup('close');
+                    chargerMessages();
+                    $.functionsLib.notification("Message bien enregistr&eacute;.", $.functionsLib.oda_msg_color.INFO); 
+                }else{
+                    $.functionsLib.notification("Aie erreur!", $.functionsLib.oda_msg_color.ERROR);
+                }
+            }else{
+                $.functionsLib.notification("Merci de tout remplir.", $.functionsLib.oda_msg_color.ERROR);
+            } 
+            
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(creeMessage):" + er.message);
+        }
+    }
+		
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * getHtmlListDiffusion
+     * @param {array} p_tabListDiffusion
+     * @returns {String}
+     */
+    function getHtmlListDiffusion(p_tabListDiffusion) {
+        try {
+            var strResponse = "";
+
+            for (var indice in p_tabListDiffusion) {
+                strResponse += p_tabListDiffusion[indice]["mail"] + ";";
+            }
+
+            return strResponse;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(getHtmlListDiffusion):" + er.message);
+        }
+    }	
+    
+    /**
+     * retourMessages
+     * 
+     * @param {array} p_retour
+     */
+    function retourMessages(p_retour){
+        try {
+            if(p_retour["strErreur"] == ""){
+                var strhtml = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_messages"></table>';
+                strhtml += '<a href="javascript:afficherCreerMessage()" data-role="button" data-icon="plus" id="bt_creer_message" data-mini="true" data-inline="true">Cr&eacute;er un message</a>';
+                $('#div_messages').html(strhtml).trigger('create');
+                
+                var objDataTable = $.functionsLib.objDataTableFromJsonArray(p_retour["data"]["messages"]["data"]);
+                var oTable = $('#table_messages').dataTable( {
+                    "oLanguage": {
+                        "sUrl": "API/js/DataTables/i8n/lang_FR.json"
+                    },
+                    "sPaginationType": "full_numbers",
+                    "aaData": objDataTable.data,
+                    "aaSorting": [[6,'desc']],
+                    "aoColumns": [
+                        { sTitle: "actif", sClass: "left"  },
+                        { sTitle: "message", sClass: "left"  },
+                        { sTitle: "profile", sClass: "left"  },
+                        { sTitle: "niveau", sClass: "left"  },
+                        { sTitle: "date_expiration", sClass: "left"  },
+                        { sTitle: "code_user_creation", sClass: "left"  },
+                        { sTitle: "date_creation", sClass: "left"  }
+                    ],
+                   aoColumnDefs: [
+                        {//actif
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[1]);
+                                return strHtml;
+                            },
+                            aTargets: [ 0 ]
+                        },
+                        {//message
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[2]);
+                                return strHtml;
+                            },
+                            aTargets: [ 1 ]
+                        },
+                        {//profile
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[3]);
+                                return strHtml;
+                            },
+                            aTargets: [ 2 ]
+                        },
+                        {//niveau
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[4]);
+                                return strHtml;
+                            },
+                            aTargets: [ 3 ]
+                        },
+                        {//date_expiration
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[5]);
+                                return strHtml;
+                            },
+                            aTargets: [ 4 ]
+                        },
+                        {//code_user_creation
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[6]);
+                                return strHtml;
+                            },
+                            aTargets: [ 5 ]
+                        },
+                        {//date_creation
+                            mRender: function ( data, type, row ) {
+                                var strHtml = String(row[7]);
+                                return strHtml;
+                            },
+                            aTargets: [ 6 ]
+                        }
+                    ],
+                    "fnDrawCallback": function( oSettings ) {
+                        $('#table_messages').trigger('create');
+                    } 
+                });
+                
+            } else{
+                $('#div_messages').html(p_retour["strErreur"]).trigger("create");
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(retourMessages):" + er.message);
+        }
+    }
+    </script>
+	
+  </head>
+  <body onload="OnLoad();">
+    
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+         
+        <!-- navbar -->
+        <!-- /navbar -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+            
+            <!-- PopUp -->
+            <div data-role="popup" id="popup" class="ui-content">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div>
+                    <label id="label_popup"></label>
+                    <div id="div_popup"></div>
+                </div>
+            </div>
+            <!-- /PopUp -->
+
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>La liste des utilisateurs</h4>
+                <div id="div_listUtilisateurs">Anomalie code E009</div>
+            </div>
+            
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="div_content_messages">
+                <h4>Les messages</h4>
+                <div id="div_messages">Anomalie code E009</div>
+            </div>
+            
+            <div data-role="collapsible" data-collapsed="true" data-mini="true">
+                <h4>La liste de diffusion</h4>
+                <div id="div_listDiffusion">Anomalie code E009</div>
+            </div>
+            
+        </div>
+        <!-- /content -->
+        
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>

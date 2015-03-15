@@ -1,0 +1,300 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+
+    <script type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 7;
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            chargerInformations();
+            chargerTheme();
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * chargerInformations
+     */
+    function chargerInformations(){
+        try {
+            var retour = true;
+            
+            var tabSetting = { functionRetour : retourInformations };
+            var tabInput = { code_user : $.functionsLib.getUserInfo().code_user, profile : $.functionsLib.getUserInfo().profile };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getDetailsUser.php", tabSetting, tabInput); 
+            
+            return retour;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerInformations):" + er.message);
+            return null;
+        }
+    }
+    
+    /**
+     * chargerTheme
+     */
+    function chargerTheme(){
+        try {
+            var tabInput = { code_user : $.functionsLib.getUserInfo().code_user };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getListTheme.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                if(retour["data"]["themePerso"] != "notAvailable"){
+                    var strHtml = "";
+
+                    strHtml += '<ul data-role="listview" data-inset="true">';
+                    for (var indice in retour["data"]["listTheme"]) {
+                        var selected = "";
+                        var action = "";
+                        if(retour["data"]["listTheme"][indice]['nom'] == retour["data"]["themePerso"]){
+                            selected='data-theme="b"';
+                            action = ' class="ui-disabled"';
+                        }else if((retour["data"]["themePerso"] == "") && (retour["data"]["listTheme"][indice]['nom'] == retour["data"]["theme"])) {
+                            selected='data-theme="b"';
+                            action = ' class="ui-disabled"';
+                        }else if((retour["data"]["themePerso"] == "") && (retour["data"]["theme"] == "") && (retour["data"]["listTheme"][indice]['nom']=="default")) {
+                            selected='data-theme="b"';
+                            action = ' class="ui-disabled"';
+                        }else{
+                            action = ' onclick="changerTheme(\''+retour["data"]["listTheme"][indice]['nom']+'\');"';
+                        }
+
+                        strHtml += '<li '+selected+'><a href="#" '+action+'>';
+                        strHtml += '<img src="'+retour["data"]["listTheme"][indice]['path']+retour["data"]["listTheme"][indice]['nom']+'/preview.png">';
+                        strHtml += '<h4>'+retour["data"]["listTheme"][indice]['nom']+'</h4>';
+                        strHtml += '<p>'+retour["data"]["listTheme"][indice]['nom']+'</p></a>';
+                        strHtml += '</li>';
+                    }
+                    strHtml += '</ul>';
+
+                    $('#div_theme').html(strHtml).trigger('create');
+                }
+            }else{
+                $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerTheme):" + er.message);
+        }
+    }
+
+    /**
+     * updateChamps
+     * @param {type} p_obj
+     */
+    function updateChamps(p_obj){
+        try {
+            var label = "";
+            var details = "";
+            
+            details += '<div data-role="fieldcontain">';
+            details += '<label for="input_old_password">Mot de passe actuel :</label>';
+            details += '<input type="password" name="input_old_password" id="input_old_password" value="" />';
+            details += '</div>';
+            
+            switch (p_obj.id) 
+            { 
+                case "bt_ch-pass": 
+                    label = "Mise &agrave; jour du mot de passe";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_password">Nouveau mot de passe :</label>';
+                    details += '<input type="text" name="input_password" id="input_password" value="" />';
+                    details += '</div>';
+                    details += '<a id="bt_soumettreChange" onclick="soumettreChange(\'password\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                break; 
+                case "bt_ch-nom": 
+                    label = "Mise &agrave; jour du nom";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_nom">Nouveau nom :</label>';
+                    details += '<input type="text" name="input_nom" id="input_nom" value="" />';
+                    details += '</div>';
+                    details += '<a id="bt_soumettreChange" onclick="soumettreChange(\'nom\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                break;  
+                case "bt_ch-prenom": 
+                    label = "Mise &agrave; jour du prenom";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_prenom">Nouveau pr&eacute;nom :</label>';
+                    details += '<input type="text" name="input_prenom" id="input_prenom" value="" />';
+                    details += '</div>';
+                    details += '<a id="bt_soumettreChange" onclick="soumettreChange(\'prenom\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                break; 
+                case "bt_ch-mail": 
+                    label = "Mise &agrave; jour du eMail";
+                    details += '<div data-role="fieldcontain">';
+                    details += '<label for="input_mail">Nouveau eMail :</label>';
+                    details += '<input type="email" name="input_mail" id="input_mail" value="" />';
+                    details += '</div>';
+                    details += '<a id="bt_soumettreChange" onclick="soumettreChange(\'mail\');" href="#" class="ui-btn ui-icon-check ui-btn-icon-left ui-shadow ui-corner-all">Soumettre</a>';
+                break; 
+            }
+            $.functionsLib.affichePopUp(label, details);
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(updateChamps):" + er.message);
+        }
+    }
+    
+    /**
+     * soumettreChange
+     * @param {string} p_champs
+     */
+    function soumettreChange(p_champs){
+        try {
+            var mdp = $('#input_old_password').val();
+            var value = $('#input_'+p_champs).val();
+            var tabInput = { code_user : $.functionsLib.getUserInfo().code_user, mdp : mdp, champs : p_champs, value : value };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/setChangeProfile.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                $('#lab_'+p_champs).html(value);
+                $('#input_old_password').val("");
+                $('#input_'+p_champs).val("");
+                $('#popup').popup('close');
+                $.functionsLib.notification("Mise &agrave; jour r&eacute;ussi",$.functionsLib.oda_msg_color.SUCCES);
+            }else{
+                $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(soumettreChange):" + er.message);
+        }
+    }
+    
+    /**
+     * changerTheme
+     * @param {string} p_theme
+     */
+    function changerTheme(p_theme){
+        try {
+            var tabInput = { table : "api_tab_utilisateurs", set : '{"champ":"theme","valeur":"'+p_theme+'","type":"PARAM_STR"}', filtre : '{"champ":"code_user","valeur":"'+$.functionsLib.getUserInfo().code_user+'","type":"PARAM_STR"}' };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/setter.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                location.reload();
+            }else{
+                $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(changerTheme):" + er.message);
+        }
+    }
+    
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * retourInformations
+     * 
+     * @param {array} p_retour
+     */
+    function retourInformations(p_retour){
+        try {
+            if(p_retour["strErreur"] == ""){
+                var mail = p_retour["data"]["detailsUser"]["mail"];
+                var code_user = p_retour["data"]["detailsUser"]["code_user"];
+                var nom = p_retour["data"]["detailsUser"]["nom"];
+                var prenom = p_retour["data"]["detailsUser"]["prenom"];
+                var password = p_retour["data"]["detailsUser"]["password"];
+                
+                var strhtml = "<table>";
+                strhtml += '<tr><td>Code utilisateur :</td><td>'+code_user+'</label></td><td> <a id="bt_ch-pass" title="Mise &agrave; jour du mot de passe" onclick="updateChamps(this);" href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all ui-btn-inline">Mettre &agrave; jour le mot de passe</a></td></tr>';
+                strhtml += '<tr><td>Nom :</td><td><label id="lab_nom">'+nom+'</label></td><td> <a id="bt_ch-nom" title="Mise &agrave; jour du nome" href="#" onclick="updateChamps(this);" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all ui-btn-inline">Mettre &agrave; jour le nom</a></td></tr>';
+                strhtml += '<tr><td>Pr&eacute;nom :</td><td><label id="lab_prenom">'+prenom+'</label></td><td> <a id="bt_ch-prenom" title="Mise &agrave; jour du pr&eacute;nom" onclick="updateChamps(this);" href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all ui-btn-inline">Mettre &agrave; jour le pr&eacute;nom</a></td></tr>';
+                strhtml += '<tr><td>E-mail :</td><td><label id="lab_mail">'+mail+'</label></td><td> <a id="bt_ch-mail" title="Mise &agrave; jour de l\'eMail" onclick="updateChamps(this);" href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all ui-btn-inline">Mettre &agrave; jour le mail</a></td></tr>';
+                strhtml += "</table>";
+                $('#div_informations').html(strhtml);
+            } else{
+                $.functionsLib.notification("Erreur : "+p_retour["strErreur"], $.functionsLib.oda_msg_color.ERROR);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(retourInformations):" + er.message);
+        }
+    }
+</script>
+
+</head>
+<body onload="OnLoad();">
+
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+        
+        <!-- navbar -->
+        <!-- /navbar -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+            
+            <!-- PopUp -->
+            <div data-role="popup" id="popup" class="ui-content">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div>
+                    <label id="label_popup"></label>
+                    <div id="div_popup"></div>
+                </div>
+            </div>
+            <!-- /PopUp -->
+            
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>Mes informations</h4>
+                <div id="div_informations">Anomalie code EXXX</div>
+            </div> 
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>Personalisation</h4>
+                <div id="div_theme">Personalisation des th&egrave;mes non install&eacute;e.</div>
+            </div>
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>

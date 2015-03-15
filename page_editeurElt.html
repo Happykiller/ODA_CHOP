@@ -1,0 +1,247 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/js/DataTables/css/jquery.dataTables.min.css"/> 
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+    <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/DataTables/js/jquery.dataTables.min.js"></script> 
+    <script type="text/javascript" src="API/js/Ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="API/js/Ckeditor/jquery.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+    <script type="text/javascript" src="js/fonctions.js"></script>
+
+    <script type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 104;
+    var g_lang = 'EN';
+
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            var getElementKey = $.functionsLib.getParamGet("elementkey");
+            var getElementLang = $.functionsLib.getParamGet("elementLang");
+            var getElementType = $.functionsLib.getParamGet("elementType");
+            
+            if(getElementLang != null){
+                g_lang = getElementLang;
+            }
+            
+            chargerExemple();
+            
+            if((getElementKey != null)&&(getElementType != null)){
+                openEditeur(getElementKey, g_lang, getElementType);
+            }
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * @name chargerExemple
+     * @desc Hello
+     * @param {type} nom
+     * @return {boolean}
+     */
+    function chargerExemple(){
+        try {
+            var myReturn = true;
+            
+            var tabSetting = { functionRetour : retourExemple};
+            var tabInput = { test : 'ok' };
+            $.functionsLib.callRest(domaine+"phpsql/getAllElements.php", tabSetting, tabInput); 
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(chargerExemple):" + er.message);
+            return null;
+        }
+    }
+    
+    /**
+     * @name openEditeur
+     * @desc Hello
+     * @param {type} nom
+     * @return {boolean}
+     */
+    function openEditeur(p_elementKey, p_lang, p_type){
+        try {
+            var myReturn = true;
+            
+            if((p_lang != '')&&(p_lang != null)){
+                g_lang = p_lang;
+            }
+            
+            var params = {
+                key : p_elementKey,
+                lang : g_lang,
+                type : p_type,
+                previous : ''
+            };
+            
+            $.functionsChop.editElement(params);
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(openEditeur):" + er.message);
+            return null;
+        }
+    }
+
+    ///////////////////
+    //BLOCK FONCTIONS AFFICHAGE
+    ///////////////////
+    /**
+     * @name retourExemple
+     * @param {json} p_retour
+     */
+    function retourExemple(p_retour){
+        try {
+            var myReturn = true;
+            
+            if(p_retour["strErreur"] == ""){
+                var objDataTable = $.functionsLib.objDataTableFromJsonArray(p_retour["data"]["resultat"]["data"]);
+                
+                var strhtml = '<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_elements"></table></br></br>';
+                $('#div_exemple').html(strhtml).trigger('create');
+            
+                var oTable = $('#table_elements').dataTable( {
+                    "oLanguage": {
+                        "sUrl": "API/js/DataTables/i8n/lang_FR.json"
+                    },
+                    "aaSorting": [],
+                    "iDisplayLength": 25,
+                    "sPaginationType": "full_numbers",
+                    "aaData": objDataTable.data,
+                    "aoColumns": [
+                        { "sTitle": "Key","sClass": "Left", "sWidth": "400px" },
+                        { "sTitle": "Description","sClass": "Left" },
+                        { "sTitle": "Type","sClass": "center", "sWidth": "100px" },
+                        { "sTitle": "Active","sClass": "center", "sWidth": "100px" }
+                    ],
+                    "aoColumnDefs": [
+                        {
+                            "mRender": function ( data, type, row ) {
+                                if ( type == 'display' ) {
+                                    return '<a href="#" onclick="openEditeur(\''+row[objDataTable.entete["key"]]+'\', \'\', \''+row[objDataTable.entete["type"]]+'\');">'+row[objDataTable.entete["key"]]+'</a>';
+                                }
+                                return row[objDataTable.entete["key"]];
+                            },
+                            "aTargets": [ 0 ]
+                        },
+                        {
+                            "mRender": function ( data, type, row ) {
+                                return row[objDataTable.entete["description"]];
+                            },
+                            "aTargets": [ 1 ]
+                        },
+                        {
+                            "mRender": function ( data, type, row ) {
+                                return row[objDataTable.entete["type"]];
+                            },
+                            "aTargets": [ 2 ]
+                        },
+                        {
+                            "mRender": function ( data, type, row ) {
+                                if(row[objDataTable.entete["date_disable"]] != null){
+                                    return 'No';
+                                }else{
+                                    return 'Yes';
+                                }
+                            },
+                            "aTargets": [ 3 ]
+                        }
+                    ],
+                    "fnDrawCallback": function( oSettings ) {
+                        $('#table_elements').trigger('create');
+                    } 
+                });
+            } else{
+                $.functionsLib.notification("Erreur : "+p_retour["strErreur"], $.functionsLib.oda_msg_color.ERROR);
+            }
+            
+            return myReturn;
+        } catch (er) {
+            $.functionsLib.log(0, "ERROR(retourExemple):" + er.message);
+            return null;
+        }
+    }
+</script>
+
+</head>
+<body onload="OnLoad();">
+
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+        
+        <!-- navbar -->
+        <!-- /navbar -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+            
+            <!-- PopUp -->
+            <div data-role="popup" id="popup" class="ui-content">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <div>
+                    <label id="label_popup"></label>
+                    <div id="div_popup"></div>
+                </div>
+            </div>
+            <!-- /PopUp -->
+            
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>Les &eacute;l&eacute;ments</h4>
+                <div id="div_exemple" style="font-size:small;">Anomalie code EXXX</div>
+            </div>       
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>

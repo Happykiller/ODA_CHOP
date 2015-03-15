@@ -1,0 +1,228 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!--CSS-->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="API/css/mycss.css" />
+    <link rel="stylesheet" href="css/mycss.css" />
+
+    <!--JS-->
+        <script type="text/javascript" src="include/config.js"></script>
+    <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
+    <script type="text/javascript" src="API/js/Highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="API/js/Highcharts/modules/exporting.js"></script>
+    <script type="text/javascript" src="API/js/functionsLib.js"></script>
+
+    <script type="text/javascript">
+    ///////////////////
+    //BLOCK VARIABLE GLOBAL
+    ///////////////////
+    var id_page = 4;
+
+    var tab_percent_activite = new Array();
+    var tab_percent_page_activite = new Array();
+	
+    ///////////////////
+    //BLOCK FONCTIONS EVENEMENTS
+    ///////////////////
+    //Fin chargement page
+    function OnLoad() {
+        try {
+            // Init page
+            afficherActivite();
+            afficherPageActivite();
+        }
+        catch (er) {
+            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+        }
+    }
+		
+		
+    ///////////////////
+    //BLOCK FONCTIONS METIER
+    ///////////////////
+    /**
+     * afficherActivite
+     */
+    function afficherActivite() {
+        try {
+            var tabInput = {  };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getUserActivite.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                var datas = retour["data"]["resultat"]["data"];
+                
+                var pieDatas = new Array();
+                for (var indice in datas) {
+                    pieDatas[pieDatas.length] = {
+                        name : datas[indice]["code_user"],
+                        y : parseInt(datas[indice]["nombre"])
+                    };
+                }
+
+                $('#divActivitePie').highcharts({
+                    chart: {
+                        type: 'pie',
+                        backgroundColor:'rgba(255, 255, 255, 0.1)'
+                    },
+                    title: {
+                        text: 'Activité par utilisateur'
+                    },
+                    plotOptions: {
+                        pie: {
+                            shadow: true,
+                            center: ['50%', '50%']
+                        }
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            var s;
+                            s = this.point.name +' : '+$.functionsLib.arrondir(this.point.percentage,2)+"% ("+this.y+")";
+                            return s;
+                        }
+                    },
+                    series: [{
+                        name: 'Utilisateur',
+                        data: pieDatas,
+                        dataLabels: {
+                            formatter: function() {
+                                var s;
+                                if (this.point.percentage > 2) { // the pie chart
+                                    s = this.point.name +':'+$.functionsLib.arrondir(this.point.percentage,2)+"%";
+                                }
+                                return s;
+                            }
+                        }
+                    }]
+                });
+            }else{
+                $('#divActivitePie').html(retour["strErreur"]);
+            }
+            $('#divActivitePie').after('<label style="font-size:70%;color:#BDBDBD;">From:'+retour["data"]["resultat"]['nombre']+'</label>');
+        }
+        catch (er) {
+            $.functionsLib.log(0, "ERROR(afficherActivite):" + er.message);
+        }
+    }
+
+    /**
+     * afficherPageActivite
+     */
+    function afficherPageActivite() {
+        try {
+            var tabInput = {  };
+            var retour = $.functionsLib.callRest(domaine+"API/phpsql/getPageActivite.php", {}, tabInput);
+            
+            if(retour["strErreur"] == ""){
+                var datas = retour["data"]["resultat"]["data"];
+                
+                var pieDatas = new Array();
+                for (var indice in datas) {
+                    pieDatas[pieDatas.length] = {
+                        name : datas[indice]["page"],
+                        y : parseInt(datas[indice]["nombre"])
+                    };
+                }
+
+                $('#divPageActivitePie').highcharts({
+                    chart: {
+                        type: 'pie',
+                        backgroundColor:'rgba(255, 255, 255, 0.1)'
+                    },
+                    title: {
+                        text: 'Activité par page'
+                    },
+                    plotOptions: {
+                        pie: {
+                            shadow: true,
+                            center: ['50%', '50%']
+                        }
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            var s;
+                            s = this.point.name +' : '+$.functionsLib.arrondir(this.point.percentage,2)+"% ("+this.y+")";
+                            return s;
+                        }
+                    },
+                    series: [{
+                        name: 'Page',
+                        data: pieDatas,
+                        dataLabels: {
+                            formatter: function() {
+                                var s;
+                                if (this.point.percentage > 2) { // the pie chart
+                                    s = this.point.name +':'+$.functionsLib.arrondir(this.point.percentage,2)+"%";
+                                }
+                                return s;
+                            }
+                        }
+                    }]
+                });
+            }else{
+                $('#divPageActivitePie').html(retour["strErreur"]);
+            }
+            $('#divPageActivitePie').after('<label style="font-size:70%;color:#BDBDBD;">From:'+retour["data"]["resultat"]['nombre']+'</label>');
+        }
+        catch (er) {
+            $.functionsLib.log(0, "ERROR(afficherPageActivite):" + er.message);
+        }
+    }		
+			
+    </script>
+	
+</head>
+<body onload="OnLoad();">
+    <!-- page -->
+    <div data-role="page" data-title="Titre">
+
+        <!-- /panel -->
+        <div data-role="panel" id="mypanel" data-display="overlay" data-position="left">
+
+        </div>
+        <!-- /panel -->
+
+        <!-- header -->
+        <div data-role="header" data-position="fixed">
+            <a href="#mypanel" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+            <h1 id="id_titre">titre</h1>
+            <a href="javascript:window.location = ('./api_page_contact.html?mili='+$.functionsLib.getMilise());" data-role="button" data-icon="info" data-iconpos="notext">Contact</a>
+        </div>
+        <!-- /header -->
+
+        <!-- content -->
+        <div data-role="content" id="main_content">
+
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>R&eacute;partition de l'activit&eacute; par utilisateur</h4>
+                <div id="divActivitePie">Pas de r&eacute;sultat.</div>
+            </div>		
+
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+                <h4>R&eacute;partition de l'activit&eacute; par page</h4>
+                <div id="divPageActivitePie">Pas de r&eacute;sultat.</div>
+            </div>      
+        </div>
+        <!-- /content -->
+
+        <!-- footer -->
+        <div data-role="footer" data-position="fixed">
+            <a data-role="button" data-icon="search" data-iconpos="notext" class="ui-btn-left" href="javascript:window.location = ('./api_page_faq.html?mili='+$.functionsLib.getMilise());">FAQ</a>
+            <h1 id="id_affichageUser">User</h1>
+            <a data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" href="javascript:window.location = ('./api_page_sortie.html?mili='+$.functionsLib.getMilise());">Logout</a>
+        </div>
+        <!-- /footer -->
+
+    </div>
+    <!-- /page -->
+</body>
+</html>
