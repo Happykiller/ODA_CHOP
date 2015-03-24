@@ -1082,28 +1082,32 @@ var g_modeEditModule = '';
                 var input_scenarioResume = $('#input_scenarioResume').val();
                 var input_scenarioStartModule = $('#input_scenarioStartModule').val();
                 
-                var tabSetting = {
-                    type : "POST"
-                };
-                
-                var tabParams = {
-                    input_scenarioKey : input_scenarioKey,
-                    input_scenarioDescription : input_scenarioDescription,
-                    input_scenarioTitre : input_scenarioTitre,
-                    input_scenarioResume : input_scenarioResume,
-                    input_scenarioStartModule : input_scenarioStartModule,
-                    input_mode : mode
-                };
-                
-                var retour = $.functionsLib.callRest(domaine+"phpsql/editScenario.php", tabSetting, tabParams);
-                
-                if(retour["strErreur"] == ""){
-                    var params = {};
-                    $.functionsChop.chargerListScenario(params);
-                    
-                    $('#popup').popup('close');
+                if((!$.functionsLib.isUndefined(input_scenarioKey))&&(input_scenarioKey != "")){
+                    var tabSetting = {
+                        type : "POST"
+                    };
+
+                    var tabParams = {
+                        input_scenarioKey : input_scenarioKey,
+                        input_scenarioDescription : input_scenarioDescription,
+                        input_scenarioTitre : input_scenarioTitre,
+                        input_scenarioResume : input_scenarioResume,
+                        input_scenarioStartModule : input_scenarioStartModule,
+                        input_mode : mode
+                    };
+
+                    var retour = $.functionsLib.callRest(domaine+"phpsql/editScenario.php", tabSetting, tabParams);
+
+                    if(retour["strErreur"] == ""){
+                        var params = {};
+                        $.functionsChop.chargerListScenario(params);
+
+                        $('#popup').popup('close');
+                    }else{
+                        $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+                    }
                 }else{
-                    $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+                    $.functionsLib.notification("Field scenario key mandatory",$.functionsLib.oda_msg_color.WARNING);
                 }
                 
                 return true;
