@@ -1,0 +1,11 @@
+[
+    {
+        "groupName" : "project"
+        , "fr" : {
+            "msgFieldScenarioEmpty" : "Le champs scenario doit être rempli." 
+        }
+        , "en" : {
+            "msgFieldScenarioEmpty" : "Field scenario key mandatory"
+        }
+    }
+]

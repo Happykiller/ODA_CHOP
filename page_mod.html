@@ -35,7 +35,7 @@
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
     //Fin chargement page
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             g_scenarioCurrent = $.functionsLib.getParamGet("scenarioKey");
             g_lang = $.functionsLib.getParamGet("lang");
@@ -70,7 +70,7 @@
         } catch (er) {
             $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
         }
-    }
+    };
     
     function changeLang(p_value) {
         try {
@@ -166,7 +166,7 @@
 </style>
 
 </head>
-<body onload="OnLoad();">
+<body>
 
     <!-- page -->
     <div data-role="page" data-title="Titre">

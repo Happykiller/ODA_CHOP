@@ -128,7 +128,7 @@ $params->sql = "UPDATE `coucou`
     AND `idElem` = 99
 ;";
 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
-$params->debug = true;
+$params->debug = false;
 $retour = $INTERFACE->BD_ENGINE->reqODASQL($params);
 
 $params = new stdClass();

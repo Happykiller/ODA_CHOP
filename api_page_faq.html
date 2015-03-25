@@ -30,7 +30,7 @@
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
     //Fin chargement page
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             // Init page
             var html = $.functionsLib.afficheAideIhm('');
@@ -57,7 +57,7 @@
     </script>
     
   </head>
-  <body onload="OnLoad();">
+  <body>
     
     <!-- page -->
     <div data-role="page" data-title="Titre">

@@ -11,67 +11,56 @@
     <!--CSS-->
     <link rel="shortcut icon" href="img/favicon.png">
     <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
-    <link rel="stylesheet" href="API/css/mycss.css" />
-    <link rel="stylesheet" href="css/mycss.css" />
 
     <!--JS-->
-    <script type="text/javascript" src="include/config.js"></script>
     <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
     <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
     <script type="text/javascript" src="API/js/functionsLib.js"></script>
-    <script type="text/javascript" src="js/fonctions.js"></script>
-
     <script type="text/javascript">
-    ///////////////////
-    //BLOCK VARIABLE GLOBAL
-    ///////////////////
-    var id_page = 1;
+        ///////////////////
+        //BLOCK VARIABLE GLOBAL
+        ///////////////////
+        var id_page = 1;
 
-    ///////////////////
-    //BLOCK FONCTIONS EVENEMENTS
-    ///////////////////
-    /**
-     * @name onBodyLoad
-     * @desc this function is execute when the page is ready
-     * @return {boolean}
-     */
-    function onBodyLoad(){
-        try {
-            var myReturn = true;
-            
-            if($.functionsLib.getUserInfo().profile <= 10){
-                $('#div_bt_edit').html('<button onclick="changeMode();" id="bt_changeMode" class="ui-btn ui-btn-inline ui-mini">Edition</button>').trigger('create');
-            }
-            
-            var params = {};
-            $.functionsChop.chargerListScenario(params);
-            
-            return myReturn;
-        } catch (er) {
-            $.functionsLib.log(0, "ERROR(onBodyLoad):" + er.message);
-            return null;
-        }
-    }
-    
-    function changeMode() {
-        try {
-            if(g_mode == 'read'){
-                g_mode = 'edit';
-                $('#bt_changeMode').buttonMarkup({theme: 'b'});
-            }else{
-                g_mode = 'read';
-                $('#bt_changeMode').buttonMarkup({theme: 'a'});
-            }
-            
-            $.functionsChop.chargerListScenario({});
-        } catch (er) {
-            $.functionsLib.log(0, "ERROR(ChangeMode):" + er.message);
-        }
-    }
-</script>
+        ///////////////////
+        //BLOCK FONCTIONS EVENEMENTS
+        ///////////////////   
+        $.functionsLib.ready = function(){
+            try {
+                var myReturn = true;
 
+                if($.functionsLib.getUserInfo().profile <= 10){
+                    $('#div_bt_edit').html('<button onclick="changeMode();" id="bt_changeMode" class="ui-btn ui-btn-inline ui-mini">Edition</button>').trigger('create');
+                }
+
+                var params = {};
+                $.functionsChop.chargerListScenario(params);
+
+                return myReturn;
+            } catch (er) {
+                $.functionsLib.log(0, "ERROR(onBodyLoad):" + er.message);
+                return null;
+            }
+        };
+
+        function changeMode() {
+            try {
+                if(g_mode == 'read'){
+                    g_mode = 'edit';
+                    $('#bt_changeMode').buttonMarkup({theme: 'b'});
+                }else{
+                    g_mode = 'read';
+                    $('#bt_changeMode').buttonMarkup({theme: 'a'});
+                }
+
+                $.functionsChop.chargerListScenario({});
+            } catch (er) {
+                $.functionsLib.log(0, "ERROR(ChangeMode):" + er.message);
+            }
+        }
+    </script>
 </head>
-<body onload="onBodyLoad();">
+<body>
 
     <!-- page -->
     <div data-role="page" data-title="Titre">

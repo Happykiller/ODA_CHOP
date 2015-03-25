@@ -1,4 +1,4 @@
-// Library of tools for the exemple
+//# sourceURL=ChopLibs.js
 var g_lang = "EN";
 var g_mode = 'read';
 var g_scenarioCurrent = "";
@@ -1107,7 +1107,7 @@ var g_modeEditModule = '';
                         $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
                     }
                 }else{
-                    $.functionsLib.notification("Field scenario key mandatory",$.functionsLib.oda_msg_color.WARNING);
+                    $.functionsLib.notification($.functionsLib.getI8n('project','msgFieldScenarioEmpty'),$.functionsLib.oda_msg_color.WARNING);
                 }
                 
                 return true;

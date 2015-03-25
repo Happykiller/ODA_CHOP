@@ -32,7 +32,7 @@
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
     //Fin chargement page
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             chargerMetricsInterface();
             chargerMaintenance(false);
@@ -199,7 +199,7 @@
 </script>
 
 </head>
-<body onload="OnLoad();">
+<body>
 
     <!-- page -->
     <div data-role="page" data-title="Titre">

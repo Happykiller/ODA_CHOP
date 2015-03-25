@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="css/mycss.css" />
 
     <!--JS-->
-    <script type="text/javascript" src="include/config.js"></script>
     <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
     <script type="text/javascript" src="API/js/JqueryMobile/jquery.mobile.min.js"></script>
     <!--<script type="text/javascript" src="API/js/Highcharts/highcharts.js"></script>-->
@@ -25,7 +24,6 @@
     <!--<script type="text/javascript" src="API/js/Ckeditor/ckeditor.js"></script>--> 
     <!--<script type="text/javascript" src="API/js/Ckeditor/jquery.js"></script>--> 
     <script type="text/javascript" src="API/js/functionsLib.js"></script>
-    <script type="text/javascript" src="js/fonctions.js"></script>
 
     <script type="text/javascript">
     ///////////////////
@@ -41,7 +39,7 @@
      * @desc this function is execute when all is ready
      * @return {boolean}
      */
-    function OnLoad(){
+    $.functionsLib.ready = function(){
         try {
             var myReturn = true;
             
@@ -52,7 +50,7 @@
             $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
             return null;
         }
-    }
+    };
 
     ///////////////////
     //BLOCK FONCTIONS METIER
@@ -69,7 +67,7 @@
             
             $.functionsLib.notification("Merci de patienter ...", $.functionsLib.INFO);
             var tabSetting = { functionRetour : retourExemple};
-            var tabInput = { test : 'ok' };
+            var tabInput = { "param_name" : "nom_site" };
             $.functionsLib.callRest(domaine+"phpsql/exemple.php", tabSetting, tabInput); 
             
             return myReturn;
@@ -107,7 +105,7 @@
 </script>
 
 </head>
-<body onload="OnLoad();">
+<body>
 
     <!-- page -->
     <div data-role="page" data-title="Titre">

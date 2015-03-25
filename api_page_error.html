@@ -29,7 +29,7 @@
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
     //Fin chargement page
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             var msg = $.functionsLib.getParamGet("msg");
             $.functionsLib.notification(msg, $.functionsLib.oda_msg_color.ERROR);
@@ -42,7 +42,7 @@
 	
 </head> 
 
-<body onload="OnLoad();"> 
+<body> 
     <!-- page -->
     <div data-role="page" data-title="Erreur">
         <!-- header -->

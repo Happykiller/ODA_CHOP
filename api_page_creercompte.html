@@ -29,7 +29,7 @@
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
     //Fin chargement page
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             
         } catch (er) {
@@ -104,7 +104,7 @@
     </script>
 </head> 
 
-<body onload="OnLoad();" ng-app="odaApp"> 
+<body ng-app="odaApp"> 
 
     <!-- page -->
     <div data-role="page" data-title="Cr&eacute;er un compte">

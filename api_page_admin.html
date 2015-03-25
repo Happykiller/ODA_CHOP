@@ -38,7 +38,7 @@
      * Fin chargement page
      *
      */    
-    function OnLoad() {
+    $.functionsLib.ready = function(){
         try {
             afficheListUtilisateur();
             afficheListDiffusion();
@@ -520,7 +520,7 @@
     </script>
 	
   </head>
-  <body onload="OnLoad();">
+  <body>
     
     <!-- page -->
     <div data-role="page" data-title="Titre">

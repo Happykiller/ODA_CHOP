@@ -20,7 +20,6 @@
     <script type="text/javascript" src="include/config.js"></script>
     <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
     <script type="text/javascript" src="API/js/functionsLib.js"></script>
-    <script type="text/javascript" src="js/fonctions.js"></script>
     <script data-main="js/HtmlSlide/js/slides" src="js/HtmlSlide/js/require-1.0.8.min.js"></script>
 
     <!--
@@ -42,13 +41,13 @@
     ///////////////////
     //BLOCK FONCTIONS EVENEMENTS
     ///////////////////
-    $(document).ready(function() {
+    $.functionsLib.ready = function(){
         try {
             var myTimer=setTimeout(function(){lunchIntercom();},1000);
         } catch (er) {
             $.functionsLib.log(0, "ERROR(document.ready):" + er.message);
         }
-    });
+    };
     
     function loadSlide(p_datas) {
         try {
