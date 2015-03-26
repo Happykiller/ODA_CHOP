@@ -370,16 +370,21 @@ var g_modeEditModule = '';
             }
         },
         
-        openTabPreview: function() {
+        openTabPreview: function(p_type) {
             try {
                 $('#divPopupEdit').hide();
                 $('#divPopupPreview').show();
+                
+                var source = $('#inputPopupCode').val();
+                if(p_type == "IMG"){
+                    source = '<img src="'+resources+'img/'+$('#inputPopupCode').val()+'" style="max-width: 100%;">';
+                }
                 
                 var params = {
                     lang : g_lang, 
                     mode : 'read',
                     key : '',
-                    divContent : $('#inputPopupCode').val(),
+                    divContent : source,
                     divId : 'divPopupPreview'
                 };
                 $.functionsChop.chargerElement(params);
@@ -1329,7 +1334,7 @@ var g_modeEditModule = '';
                 strhtml += '<fieldset data-role="controlgroup">';
                 strhtml += '<div data-role="navbar">';
                     strhtml += '<ul>';
-                        strhtml += '<li><a href="#" onclick="$.functionsChop.openTabPreview();" class="ui-btn-active">Preview</a></li>';
+                        strhtml += '<li><a href="#" onclick="$.functionsChop.openTabPreview(\''+params.type+'\');" class="ui-btn-active">Preview</a></li>';
                         strhtml += '<li><a href="#" onclick="$.functionsChop.openTabCode(\''+params.type+'\');">Code</a></li>';
                     strhtml += '</ul>';
                 strhtml += '</div>';
