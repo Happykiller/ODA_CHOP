@@ -25,5 +25,5 @@ $retour = $CHOP_INTERFACE->BD_ENGINE->getSingleObject($params);
 //---------------------------------------------------------------------------
 $params = new stdClass();
 $params->label = "resultat";
-$params->retourSql = $retour;
-$CHOP_INTERFACE->addDataReqSQL($params);
+$params->value = $retour;
+$CHOP_INTERFACE->addDataObject($params);

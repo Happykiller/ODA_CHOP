@@ -9,24 +9,24 @@ require("../php/ChopInterface.php");
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new \Oda\OdaPrepareInterface();
-$params->arrayInput = array("scenario");
+$params->arrayInput = array("scenarioKey");
 $CHOP_INTERFACE = new ChopInterface($params);
 
 //--------------------------------------------------------------------------
-// phpsql/removeScenario.php?milis=123450&scenario=SCENARIO_START
+// phpsql/removeScenario.php?milis=123450&scenarioKey=SCENARIO_START
 
 //--------------------------------------------------------------------------
 $params = new OdaPrepareReqSql();
 $params->sql = "UPDATE `tab_scenario_def` scenarioDef
     SET 
-    scenarioDef.`date_disable` = NOW()
-    , scenarioDef.`user_id_disable` = 1
+    `scenarioDef`.`date_disable` = NOW()
+    , `scenarioDef`.`user_id_disable` = 1
     WHERE 1=1
-    AND scenarioDef.`key` = :scenario
+    AND `scenarioDef`.`key` = :scenarioKey
 ;";
 $params->typeSQL = OdaLibBd::SQL_SCRIPT;
 $params->bindsValue = [
-    "scenario" => $CHOP_INTERFACE->inputs["scenario"]
+    "scenarioKey" => $CHOP_INTERFACE->inputs["scenarioKey"]
 ];
 $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);
 

@@ -11,7 +11,7 @@ require("../php/ChopInterface.php");
 $params = new \Oda\OdaPrepareInterface();
 $params->interface = "phpsql/editModule";
 $params->arrayInput = array("input_scenarioKey");
-$params->arrayInputOpt = array("input_scenarioKey","input_scenarioDescription","input_scenarioTitre","input_scenarioStartModule","input_scenarioResume","input_mode");
+$params->arrayInputOpt = array("input_scenarioDescription" => null,"input_scenarioTitre" => null,"input_scenarioStartModule" => null,"input_scenarioResume" => null,"input_mode" => null);
 $CHOP_INTERFACE = new ChopInterface($params);
 
 //--------------------------------------------------------------------------

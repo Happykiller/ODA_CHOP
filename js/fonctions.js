@@ -511,13 +511,13 @@ var g_modeEditModule = '';
             }
         },
         
-        chargerListScenario: function(p_params) {
+        chargerListScenario: function() {
             try {
                 var tabSetting = {
                     functionRetour : this.retourListScenario
                 };
                 
-                var retour = $.functionsLib.callRest(domaine+"phpsql/getListScenario.php", tabSetting, p_params);
+                var retour = $.functionsLib.callRest(domaine+"phpsql/getListScenario.php", tabSetting, {});
                 
                 return true;
             } catch (er) {
@@ -556,7 +556,7 @@ var g_modeEditModule = '';
                             strHtml += '<a href="#" onclick="$.functionsChop.openPdfScenario(\''+scenarios[indice]['key']+'\')" class="ui-btn ui-corner-all ui-icon-action ui-btn-icon-right">PDF</a>';
                             if(g_mode == 'edit'){
                                 strHtml += '<a href="#" onclick="$.functionsChop.editScenario({mode:\'edit\', scenario:\''+scenarios[indice]['key']+'\'});" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-right">Modif</a>';
-                                strHtml += '<a href="#" onclick="$.functionsChop.removeScenario({scenario:\''+scenarios[indice]['key']+'\'});" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Delete</a>';
+                                strHtml += '<a href="#" onclick="$.functionsChop.removeScenario({scenarioKey:\''+scenarios[indice]['key']+'\'});" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Delete</a>';
                             }
                             strHtml += '</div><br>';
                         }else{
@@ -802,6 +802,31 @@ var g_modeEditModule = '';
         },
         
         /**
+         * @name removeScenario
+         * @param {json} p_params
+         */
+        removeScenario : function(p_params) {
+            try {
+                var tabParams = {
+                    "scenarioKey" : p_params.scenarioKey
+                };
+                
+                var retour = $.functionsLib.callRest(domaine+"phpsql/removeScenario.php", {}, tabParams);
+                
+                if(retour["strErreur"] == ""){
+                    $.functionsChop.chargerListScenario();
+                }else{
+                    $.functionsLib.notification(retour["strErreur"],$.functionsLib.oda_msg_color.ERROR);
+                }
+                
+                return true;
+            } catch (er) {
+                $.functionsLib.log(0, "ERROR($.functionsChop.removeScenario):" + er.message);
+                return null;
+            }
+        },
+        
+        /**
          * @name submitEditPage
          * @desc Hello
          * @param {json} p_params
@@ -1028,7 +1053,7 @@ var g_modeEditModule = '';
                     strhtml += '<label for="input_scenarioResume">Item resume:</label>';
                     strhtml += '<input type="text" id="input_scenarioResume" value="'+retourScenario["data"]["resultat"]["resume_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
                     strhtml += '<label for="input_scenarioStartModule">Item start module :</label>';
-                    strhtml += '<input type="text" id="input_scenarioStartModule" value="'+retourScenario["data"]["resultat"]["data"]["startModule_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
+                    strhtml += '<input type="text" id="input_scenarioStartModule" value="'+retourScenario["data"]["resultat"]["startModule_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
                     strhtml += '<div data-role="controlgroup" data-type="horizontal" data-mini="true">';
                     strhtml += '<a href="#" onclick="$.functionsChop.submitEditScenario({scenario:\''+p_params.scenario+'\'});" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b ui-mini">Submit</a>';
                     strhtml += '<a href="#" onclick="$(\'#popup\').popup(\'close\');" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-btn-b ui-mini">Cancel</a>';
@@ -1100,7 +1125,7 @@ var g_modeEditModule = '';
 
                     if(retour["strErreur"] == ""){
                         var params = {};
-                        $.functionsChop.chargerListScenario(params);
+                        $.functionsChop.chargerListScenario();
 
                         $('#popup').popup('close');
                     }else{

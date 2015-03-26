@@ -339,89 +339,93 @@ class ChopInterface extends \Oda\OdaLibInterface {
                         $objParam->key = $obj->key;
                         $objParam->lang = $p_var->lang;
                         $retour = $this->functionTrad($objParam);
-                        $typeElt = $retour->data->type;
-
-                        switch ($p_var->mode) {
-                            case "read":
-                                $rendu = "";
-                                switch ($retour->data->type) {
-                                    case "HTML":
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    case "CST":
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    case "IMG":
-                                        $path = self::$config->resourcesPath.'img/'.$retour->data->data;
-                                        if(file_exists($path)) {
-                                            $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="max-width: 100%;">';
-                                        }else{
-                                            $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png" style="max-width: 100%;">';
-                                        }
-                                        break;
-                                    case "TEXT" :
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    default :
-                                        $rendu = $retour->data->data;
-                                        break;
-                                }
-
-                                if($retour->strErreur == ""){
-                                    $obj->trad = $rendu; 
-                                }else{
-                                    $obj->trad = $retour->strErreur;
-                                }
-                                break;
-                            case "pdf":
-                                $rendu = "";
-                                switch ($retour->data->type) {
-                                    case "HTML":
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    case "CST":
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    case "IMG":
-                                        $path = self::$config->resourcesPath.'img/'.$retour->data->data;
-                                        if(file_exists($path)) {
-                                            list($width, $height, $type, $attr) = getimagesize($path);
-                                            if($width > 800){
-                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="width:120mm;">';
+                        
+                        if(isset($retour->data->type)){
+                            $typeElt = $retour->data->type;
+                            switch ($p_var->mode) {
+                                case "read":
+                                    $rendu = "";
+                                    switch ($retour->data->type) {
+                                        case "HTML":
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        case "CST":
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        case "IMG":
+                                            $path = self::$config->resourcesPath.'img/'.$retour->data->data;
+                                            if(file_exists($path)) {
+                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="max-width: 100%;">';
                                             }else{
-                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'">';
+                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png" style="max-width: 100%;">';
                                             }
-                                        }else{
-                                            $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png">';
-                                        }
-                                        break;
-                                    case "TEXT" :
-                                        $rendu = $retour->data->data;
-                                        break;
-                                    default :
-                                        $rendu = $retour->data->data;
-                                        break;
-                                }
+                                            break;
+                                        case "TEXT" :
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        default :
+                                            $rendu = $retour->data->data;
+                                            break;
+                                    }
 
-                                if($retour->strErreur == ""){
-                                    $obj->trad = $rendu; 
-                                }else{
-                                    $obj->trad = $retour->strErreur;
-                                }
-                                break;
-                            case "edit":
-                                $obj->trad = '<span onclick="$.functionsChop.editElement({key:\''.$justeKey.'\', lang:\''.$p_var->lang.'\', type:\''.$retour->data["type"].'\', previous:\'\'});" style="color:'.self::$colorType[$typeElt].';cursor: pointer;" title="Tag type : '.$typeElt.'">'.$value.'</span>';
-                                break;
-                            case "code":
-                                if($retour->strErreur == ""){
-                                    $obj->trad = $retour->data->data; 
-                                }else{
-                                    $obj->trad = $retour->strErreur;
-                                }
-                                break;
-                            default :
-                                $obj->trad = $value;
-                                break;
+                                    if($retour->strErreur == ""){
+                                        $obj->trad = $rendu; 
+                                    }else{
+                                        $obj->trad = $retour->strErreur;
+                                    }
+                                    break;
+                                case "pdf":
+                                    $rendu = "";
+                                    switch ($retour->data->type) {
+                                        case "HTML":
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        case "CST":
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        case "IMG":
+                                            $path = self::$config->resourcesPath.'img/'.$retour->data->data;
+                                            if(file_exists($path)) {
+                                                list($width, $height, $type, $attr) = getimagesize($path);
+                                                if($width > 800){
+                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="width:120mm;">';
+                                                }else{
+                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'">';
+                                                }
+                                            }else{
+                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png">';
+                                            }
+                                            break;
+                                        case "TEXT" :
+                                            $rendu = $retour->data->data;
+                                            break;
+                                        default :
+                                            $rendu = $retour->data->data;
+                                            break;
+                                    }
+
+                                    if($retour->strErreur == ""){
+                                        $obj->trad = $rendu; 
+                                    }else{
+                                        $obj->trad = $retour->strErreur;
+                                    }
+                                    break;
+                                case "edit":
+                                    $obj->trad = '<span onclick="$.functionsChop.editElement({key:\''.$justeKey.'\', lang:\''.$p_var->lang.'\', type:\''.$retour->data->type.'\', previous:\'\'});" style="color:'.self::$colorType[$typeElt].';cursor: pointer;" title="Tag type : '.$typeElt.'">'.$value.'</span>';
+                                    break;
+                                case "code":
+                                    if($retour->strErreur == ""){
+                                        $obj->trad = $retour->data->data; 
+                                    }else{
+                                        $obj->trad = $retour->strErreur;
+                                    }
+                                    break;
+                                default :
+                                    $obj->trad = $value;
+                                    break;
+                            }
+                        }else{
+                            $obj->trad = $obj->key;
                         }
 
                         $mapping[$value] = $obj;
@@ -1287,6 +1291,33 @@ class ChopInterface extends \Oda\OdaLibInterface {
         try {
             $params = new OdaPrepareReqSql();
             $params->sql = "Select a.`id` from `tab_scenario_def` a
+                WHERE 1=1
+                AND a.`key` = :key
+                AND a.`date_disable` is null
+            ;";
+            $params->bindsValue = [
+                "key"  => $key
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $id = (empty($retour->data))?null:$retour->data->id;
+
+            return $id;
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+    /**
+    * getModuleId
+    * @param string $key
+    * @return int $id
+    */
+    function getModuleId($key) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "Select a.`id` from `tab_module_def` a
                 WHERE 1=1
                 AND a.`key` = :key
                 AND a.`date_disable` is null

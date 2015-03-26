@@ -12,8 +12,6 @@
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="stylesheet" href="API/css/themes/default/jquery.mobile.min.css" />
     <!--<link rel="stylesheet" href="API/js/DataTables/css/jquery.dataTables.min.css"/>--> 
-    <link rel="stylesheet" href="API/css/mycss.css" />
-    <link rel="stylesheet" href="css/mycss.css" />
 
     <!--JS-->
     <script type="text/javascript" src="API/js/Jquery/jquery.min.js"></script>
@@ -67,7 +65,7 @@
             
             $.functionsLib.notification("Merci de patienter ...", $.functionsLib.INFO);
             var tabSetting = { functionRetour : retourExemple};
-            var tabInput = { "param_name" : "nom_site" };
+            var tabInput = { test : 'ok' };
             $.functionsLib.callRest(domaine+"phpsql/exemple.php", tabSetting, tabInput); 
             
             return myReturn;

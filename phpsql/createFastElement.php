@@ -25,11 +25,8 @@ $params->sql = "Select count(c.`key`) as 'nbIte'
         SELECT b.`key` FROM `tab_preelementkey` b
     ) c
     WHERE 1=1
-    AND c.`key` like :elementKey
+    AND c.`key` like '".$CHOP_INTERFACE->inputs["elementKey"]."%'
 ;";
-$params->bindsValue = [
-    "elementKey" => $CHOP_INTERFACE->inputs["elementKey"]
-];
 $params->typeSQL = \Oda\OdaLibBd::SQL_GET_ONE;
 $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);
 $nbIte = $retour->data->nbIte;
@@ -54,4 +51,4 @@ $params->typeSQL = \Oda\OdaLibBd::SQL_INSERT_ONE;
 $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);
 
 //--------------------------------------------------------------------------
-$CHOP_INTERFACE->addDataStr($retour->data);
+$CHOP_INTERFACE->addDataStr($newEletKey);
