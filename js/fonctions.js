@@ -129,7 +129,7 @@ var g_modeEditModule = '';
                         
                         for(var indice0 in arrayModules[indice]["pages"]){
                             if(g_mode == "edit"){
-                                strHtml += '<li ><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">Add module</a></li>';
+                                strHtml += '<li ><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">Choose this page</a></li>';
                             }else{
                                 strHtml += '<li ><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a></li>';
                             }
