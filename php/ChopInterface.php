@@ -494,6 +494,8 @@ class ChopInterface extends \Oda\OdaLibInterface {
      */
     function functionTrad($p_var) {
         try {
+            $service = null;
+            
             $params = new OdaPrepareReqSql();
             $params->sql = "SELECT IFNULL(b.`data`,'NO_DATA') as 'data', a.`type`
                 FROM `tab_elements` a
@@ -512,7 +514,7 @@ class ChopInterface extends \Oda\OdaLibInterface {
             $params->typeSQL = \Oda\OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);
 
-            if($retour->data == 'NO_DATA'){
+            if($retour->data->data == 'NO_DATA'){
 
                 $params = new OdaPrepareReqSql();
                 $params->sql = "SELECT  tmpTrad.`lang`, tmpTrad.`data`
@@ -557,9 +559,45 @@ class ChopInterface extends \Oda\OdaLibInterface {
                         "target" => strtolower($p_var->lang)
                     ];
 
-                    $retourTranslate = OdaLib::CallRest(self::$config->domaine."phpsql/mokupGoogleTranslate.php", $params, $input);
+                    $trad = "TRAD SERVICE OFFLINE";
+                    switch ($service) {
+                        case "mokup":
+                            //{"translations": [{"translatedText": "Bonjour tout le monde"}]}
+                            $retourTranslate = OdaLib::CallRest(self::$config->domaine."phpsql/mokupGoogleTranslate.php", $params, $input);
+                            $jsonRetour = json_decode($retourTranslate->data);
+                            $trad = $jsonRetour->translations[0]->translatedText;
+                            break;
+                        case "bing":
+                            $ClientID="oda_chop";
+                            $ClientSecret="c6u1+QaSMQXnkUiCK+txqQUe9UfijKwvXYcq64QncD8=";
 
-                    $retour->data->data = $retourTranslate->data->translations[0]->translatedText;
+                            $ClientSecret = urlencode ($ClientSecret);
+                            $ClientID = urlencode($ClientID);
+
+                            // Get a 10-minute access token for Microsoft Translator API.
+                            $url = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+                            $postParams = "grant_type=client_credentials&client_id=$ClientID&client_secret=$ClientSecret&scope=http://api.microsofttranslator.com";
+
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $url); 
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);  
+                            $rsp = curl_exec($ch); 
+                            if($rsp){
+                                $params = new stdClass();
+                                $input = [
+                                    "oncomplete" => "doneCallback",
+                                    "appId" =>  "oda_chop"." ".$rsp->access_token,
+                                    "from" => strtolower($sourceLang),
+                                    "to" => strtolower($p_var->lang),
+                                    "text" => $sourceData
+                                ];
+                                $retourTranslate = OdaLib::CallRest("http://api.microsofttranslator.com/V2/Ajax.svc/Translate", $params, $input);
+                            }
+                            break;
+                    }
+
+                    $retour->data->data = $trad;
                 }
             }
 
