@@ -35,8 +35,19 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
-            g_scenarioCurrent = $.functionsLib.getParamGet("scenarioKey");
-            g_lang = $.functionsLib.getParamGet("lang");
+            var getScenario = $.functionsLib.getParamGet("scenarioKey");
+            var getLang = $.functionsLib.getParamGet("lang");
+            
+            if(getScenario != ''){
+                $.functionsChop.setContext.setScenario(getScenario);
+            }
+            
+            if(getLang != ''){
+                $.functionsChop.setContext.setLang(getLang);
+            }
+            
+            g_scenarioCurrent = getScenario;
+            g_lang = getLang;
             if(g_scenarioCurrent != ''){
                 var params = {
                     keyScenar : g_scenarioCurrent
@@ -73,6 +84,7 @@
     function changeLang(p_value) {
         try {
             g_lang = p_value;
+            $.functionsChop.setContext.setLang(p_value);
             
             reload();
         } catch (er) {
@@ -84,9 +96,11 @@
         try {
             if(g_mode == 'read'){
                 g_mode = 'edit';
+                $.functionsChop.setContext.setMode('edit');
                 $('#bt_changeMode').buttonMarkup({theme: 'b'});
             }else{
                 g_mode = 'read';
+                $.functionsChop.setContext.setMode('read');
                 $('#bt_changeMode').buttonMarkup({theme: 'a'});
             }
             

@@ -30,7 +30,6 @@ var g_modeEditModule = '';
             "CST" : "#FF0000",
             "NEW" : "#424242"
         }
-        
     ;
 
     ////////////////////////// PRIVATE METHODS ////////////////////////
@@ -111,27 +110,45 @@ var g_modeEditModule = '';
                     var arrayModules = p_retour["data"]["resultat"]["modules"];
                     var ite = 0;
                     for(var indice in arrayModules){
+                        
+                        if($.functionsChop.getContext().currentModule == ""){
+                            $.functionsChop.setContext.setModule(indice);
+                        }
+                        
                         ite++;
                         if(ite != 1){
                             strHtml += "</ul>";
                             strHtml += "</div>";
                         }
                         
+                        var openModule = '';
+                        if($.functionsChop.getContext().currentModule == indice){
+                            var openModule = ' data-collapsed="false"';
+                        }
+                        
                         if(g_mode == "edit"){
-                            strHtml += "<div data-role=\"collapsible\">";
+                            strHtml += "<div data-role=\"collapsible\" data-mini=\"true\" "+openModule+">";
                             strHtml += '<h4>[['+arrayModules[indice]["titre_key"]+']] <a href="#" onclick="$.functionsChop.editModule({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',moduleBefore:\'\'});">Edit module</a></h4>';
                             strHtml += "<ul data-role=\"listview\">";
                         }else{
-                            strHtml += "<div data-role=\"collapsible\">";
+                            strHtml += "<div data-role=\"collapsible\" data-mini=\"true\" "+openModule+">";
                             strHtml += '<h4>[['+arrayModules[indice]["titre_key"]+']]</h4>';
                             strHtml += "<ul data-role=\"listview\">";
                         }
                         
                         for(var indice0 in arrayModules[indice]["pages"]){
+                            if(($.functionsChop.getContext().currentModule == indice)&&($.functionsChop.getContext().currentPage == "")){
+                                $.functionsChop.setContext.setPage(indice0);
+                            }
+                            
+                            if(($.functionsChop.getContext().currentModule == indice)&&($.functionsChop.getContext().currentPage == indice0)){
+                                $.functionsChop.chargerPage({scenario:g_scenarioCurrent,module:indice,page:indice0});
+                            }
+                            
                             if(g_mode == "edit"){
-                                strHtml += '<li ><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">Choose this page</a></li>';
+                                strHtml += '<li data-mini="true"><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">Choose this page</a></li>';
                             }else{
-                                strHtml += '<li ><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a></li>';
+                                strHtml += '<li data-mini="true"><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a></li>';
                             }
                         }
                         
@@ -180,6 +197,12 @@ var g_modeEditModule = '';
                 g_scenarioCurrent = p_params.scenario;
                 g_moduleCurrent = p_params.module;
                 g_pageCurrent = p_params.page;
+                
+                var contextNav = $.functionsChop.getContext();
+                contextNav.currentScenario = p_params.scenario;
+                contextNav.currentModule = p_params.module;
+                contextNav.currentPage = p_params.page;
+                $.functionsChop.setContext.setAll(contextNav);
                 
                 var tabParams = {
                     module : g_moduleCurrent,
@@ -647,6 +670,99 @@ var g_modeEditModule = '';
         },
         
         /**
+         * @name getEContext
+         * @returns {json}
+         */
+        getContext : function() {
+            try {
+                var contextNav = $.functionsStorage.get($.functionsLib.getUserInfo().code_user+"_CONTEXT_NAV",{
+                    "currentScenario" : "",
+                    "currentModule" : "",
+                    "currentPage" : "",
+                    "lang" : "EN",
+                    "mode" : "read"
+                });
+                
+                return contextNav;
+            } catch (er) {
+                $.functionsLib.log(0, "ERROR($.functionsChop.getContext):" + er.message);
+                return null;
+            }
+        },
+        
+        /**
+         * @name setContext
+         * @pparam {json} p_contextNav
+         * @returns {json}
+         */
+        setContext : {
+            setAll : function(p_contextNav) {
+                try {
+                    $.functionsStorage.set($.functionsLib.getUserInfo().code_user+"_CONTEXT_NAV",p_contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setAll):" + er.message);
+                    return null;
+                }
+            },
+            setScenario : function(p_scenario) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.currentScenario = p_scenario;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setScenario):" + er.message);
+                    return null;
+                }
+            },
+            setModule : function(p_module) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.currentModule = p_module;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setModule):" + er.message);
+                    return null;
+                }
+            },
+            setPage : function(p_page) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.currentPage = p_page;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setPage):" + er.message);
+                    return null;
+                }
+            },
+            setLang : function(p_lang) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.lang = p_lang;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setLang):" + er.message);
+                    return null;
+                }
+            },
+            setMode : function(p_Mode) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.mode = p_Mode;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setMode):" + er.message);
+                    return null;
+                }
+            }
+        },
+        
+        /**
          * @name getElement
          * @desc Hello
          * @param {json} p_params
@@ -683,6 +799,13 @@ var g_modeEditModule = '';
                 g_scenarioCurrent = p_params.scenario;
                 g_moduleCurrent = p_params.module;
                 g_pageCurrent = p_params.page;
+                
+                var contextNav = $.functionsChop.getContext();
+                contextNav.currentScenario = p_params.scenario;
+                contextNav.currentModule = p_params.module;
+                contextNav.currentPage = p_params.page;
+                $.functionsChop.setContext.setAll(contextNav);
+                
                 var pageBefore = p_params.pageBefore;
                 
                 if(g_pageCurrent != ''){
@@ -866,6 +989,7 @@ var g_modeEditModule = '';
                 var retour = $.functionsLib.callRest(domaine+"phpsql/editPage.php", tabSetting, tabParams);
                 
                 if(retour["strErreur"] == ""){
+                    $.functionsChop.setContext.setPage(input_pageKey);
                     var params = {
                         keyScenar : p_params.scenario
                     };
@@ -894,6 +1018,11 @@ var g_modeEditModule = '';
                 g_scenarioCurrent = p_params.scenario;
                 g_moduleCurrent = p_params.module;
                 var moduleBefore = p_params.moduleBefore;
+                
+                var contextNav = $.functionsChop.getContext();
+                contextNav.currentScenario = p_params.scenario;
+                contextNav.currentModule = p_params.module;
+                $.functionsChop.setContext.setAll(contextNav);
                 
                 if(g_moduleCurrent != ''){
                     g_modeEditModule = 'edit';
@@ -1013,6 +1142,8 @@ var g_modeEditModule = '';
                 var retour = $.functionsLib.callRest(domaine+"phpsql/editModule.php", tabSetting, tabParams);
                 
                 if(retour["strErreur"] == ""){
+                    $.functionsChop.setContext.setModule(input_moduleKey);
+                    $.functionsChop.setContext.setPage(input_moduleStartPage);
                     var params = {
                         keyScenar : p_params.scenario
                     };
