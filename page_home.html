@@ -27,6 +27,7 @@
         ///////////////////   
         $.functionsLib.ready = function(){
             try {
+                $( "#content_page" ).collapsible( "disable" );
                 var myReturn = true;
 
                 if($.functionsLib.getUserInfo().profile <= 10){

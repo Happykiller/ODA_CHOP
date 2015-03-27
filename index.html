@@ -29,6 +29,7 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
+            $( "#content_log" ).collapsible( "disable" );
             chargerSiteLabel();
         } catch (er) {
             $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
@@ -88,7 +89,7 @@
             
             <label id="label_site_label"></label>
 
-            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="div_form">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="content_log">
                 <h4>Authentification</h4>
                 <div class="ui-grid-b ui-responsive">
                     <div class="ui-block-a">

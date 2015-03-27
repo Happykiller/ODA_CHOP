@@ -35,6 +35,9 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
+            $( "#content_sommaire" ).collapsible( "disable" );
+            $( "#content_page" ).collapsible( "disable" );
+            
             var getScenario = $.functionsLib.getParamGet("scenarioKey");
             var getLang = $.functionsLib.getParamGet("lang");
             

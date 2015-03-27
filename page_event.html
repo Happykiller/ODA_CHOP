@@ -32,6 +32,7 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
+            $( "#content_page" ).collapsible( "disable" );
             chargerEvents();
         } catch (er) {
             $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
@@ -312,7 +313,7 @@
             </div>
             <!-- /PopUp -->
             
-            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="content_page">
                 <h4>Events</h4>
                 <div id="div_exemple" style="font-size:small;">Anomalie code EXXX</div>
             </div>       

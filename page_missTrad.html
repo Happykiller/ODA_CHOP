@@ -33,6 +33,7 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
+            $( "#content_page" ).collapsible( "disable" );
             chargerRapportMissTrad();
         } catch (er) {
             $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
@@ -158,7 +159,7 @@
 
         <!-- content -->
         <div data-role="content" id="main_content">
-            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="content_page">
                 <h4>Les traductions</h4>
                 <div id="div_exemple" style="font-size:small;">Anomalie code EXXX</div>
             </div>       
