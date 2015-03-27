@@ -405,14 +405,18 @@ var g_modeEditModule = '';
                     source = '<img src="'+resources+'img/'+$('#inputPopupCode').val()+'?'+$.functionsLib.getMilise()+'" style="max-width: 100%;">';
                 }
                 
-                var params = {
-                    lang : g_lang, 
-                    mode : 'read',
-                    key : '',
-                    divContent : source,
-                    divId : 'divPopupPreview'
-                };
-                $.functionsChop.chargerElement(params);
+                if(source == ""){
+                    $('#divPopupPreview').text('NO_DATA');
+                }else{
+                    var params = {
+                        lang : g_lang, 
+                        mode : 'read',
+                        key : '',
+                        divContent : source,
+                        divId : 'divPopupPreview'
+                    };
+                    $.functionsChop.chargerElement(params);
+                }
                 
                 return true;
             } catch (er) {
@@ -466,6 +470,7 @@ var g_modeEditModule = '';
                 
                 $('#divPopupPreview').hide();
                 $('#divPopupEdit').show();
+                $( "#inputPopupCode" ).focus();
                 
                 return true;
             } catch (er) {
@@ -1402,7 +1407,7 @@ var g_modeEditModule = '';
                 strhtml += '<table style="width:100%"><tr>';
                 strhtml += '<td><label for="newElementDescription">Type :</label>';
                 strhtml += '<select id="newElementType" data-inline="true" data-mini="true">';
-                strhtml += '<option>HTML</option><option>TEXT</option><option>CST</option><option>IMG</option>';
+                strhtml += '<option>HTML</option><option selected>TEXT</option><option>CST</option><option>IMG</option>';
                 strhtml += '</select></td>';
                 strhtml += '<td><label for="newElementDescription">Description :</label>';
                 strhtml += '<input type="text" id="newElementDescription"></td>';

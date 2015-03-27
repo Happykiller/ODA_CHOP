@@ -415,7 +415,11 @@ class ChopInterface extends \Oda\OdaLibInterface {
                                     break;
                                 case "code":
                                     if($retour->strErreur == ""){
-                                        $obj->trad = $retour->data->data; 
+                                        if($retour->data->data == "NO_DATA"){
+                                            $obj->trad = "";
+                                        }else{
+                                            $obj->trad = $retour->data->data; 
+                                        }
                                     }else{
                                         $obj->trad = $retour->strErreur;
                                     }
@@ -513,9 +517,12 @@ class ChopInterface extends \Oda\OdaLibInterface {
             ];
             $params->typeSQL = \Oda\OdaLibBd::SQL_GET_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-
-            if($retour->data->data == 'NO_DATA'){
-
+            
+            if(!$retour->data){
+                $retour->data = new stdClass();
+                $retour->data->data = "NO_DATA";
+                $retour->data->type = "NEW";
+            } else if(($retour->data->data == 'NO_DATA') && $retour->data->type != "NEW"){
                 $params = new OdaPrepareReqSql();
                 $params->sql = "SELECT  tmpTrad.`lang`, tmpTrad.`data`
                     FROM (
