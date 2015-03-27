@@ -355,7 +355,7 @@ class ChopInterface extends \Oda\OdaLibInterface {
                                         case "IMG":
                                             $path = self::$config->resourcesPath.'img/'.$retour->data->data;
                                             if(file_exists($path)) {
-                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="max-width: 100%;">';
+                                                $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'?'. OdaDate::getMicro() .'" style="max-width: 100%;">';
                                             }else{
                                                 $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png" style="max-width: 100%;">';
                                             }

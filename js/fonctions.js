@@ -402,7 +402,7 @@ var g_modeEditModule = '';
                 
                 var source = $('#inputPopupCode').val();
                 if(p_type == "IMG"){
-                    source = '<img src="'+resources+'img/'+$('#inputPopupCode').val()+'" style="max-width: 100%;">';
+                    source = '<img src="'+resources+'img/'+$('#inputPopupCode').val()+'?'+$.functionsLib.getMilise()+'" style="max-width: 100%;">';
                 }
                 
                 var params = {
