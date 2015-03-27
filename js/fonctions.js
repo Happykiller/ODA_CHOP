@@ -128,7 +128,9 @@ var g_modeEditModule = '';
                         
                         if(g_mode == "edit"){
                             strHtml += "<div data-role=\"collapsible\" data-mini=\"true\" "+openModule+">";
-                            strHtml += '<h4>[['+arrayModules[indice]["titre_key"]+']] <a href="#" onclick="$.functionsChop.editModule({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',moduleBefore:\'\'});">Edit module</a></h4>';
+                            strHtml += '<h4>'+indice+'</h4>';
+                            strHtml += '[['+arrayModules[indice]["titre_key"]+']]<br><br>';
+                            strHtml += '<a href="#" onclick="$.functionsChop.editModule({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',moduleBefore:\'\'});">Edit module</a><br><br>';
                             strHtml += "<ul data-role=\"listview\">";
                         }else{
                             strHtml += "<div data-role=\"collapsible\" data-mini=\"true\" "+openModule+">";
@@ -146,7 +148,7 @@ var g_modeEditModule = '';
                             }
                             
                             if(g_mode == "edit"){
-                                strHtml += '<li data-mini="true"><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">Choose this page</a></li>';
+                                strHtml += '<li data-mini="true"><a href="#" onclick="$.functionsChop.editPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',pageBefore:\'\',page:\''+indice0+'\'});">'+indice0+'</a><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">Choose this page</a></li>';
                             }else{
                                 strHtml += '<li data-mini="true"><a href="#" onclick="$.functionsChop.chargerPage({scenario:\''+g_scenarioCurrent+'\',module:\''+indice+'\',page:\''+indice0+'\'});">[['+arrayModules[indice]["pages"][indice0]["titre_key"]+']]</a></li>';
                             }
@@ -1048,19 +1050,19 @@ var g_modeEditModule = '';
                     strhtml += '<label for="input_moduleKey">Module key:</label>';
                     strhtml += '<input disabled="disabled" type="text" id="input_moduleKey" value="'+g_moduleCurrent+'" data-clear-btn="true" placeholder="Upper, no space" ui-mini>';
                     strhtml += '<label for="input_moduleDescription">Module description:</label>';
-                    strhtml += '<input type="text" id="input_moduleDescription" value="'+retourModule["data"]["resultat"]["data"]["description"]+'" data-clear-btn="true" placeholder="Description" ui-mini>';
+                    strhtml += '<input type="text" id="input_moduleDescription" value="'+retourModule["data"]["resultat"]["description"]+'" data-clear-btn="true" placeholder="Description" ui-mini>';
                     strhtml += '<label for="input_moduleTitre">Item titre:</label>';
-                    strhtml += '<input type="text" id="input_moduleTitre" value="'+retourModule["data"]["resultat"]["data"]["titre_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
+                    strhtml += '<input type="text" id="input_moduleTitre" value="'+retourModule["data"]["resultat"]["titre_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
                     strhtml += '<label for="input_moduleContent">Item resume:</label>';
-                    strhtml += '<input type="text" id="input_moduleResume" value="'+retourModule["data"]["resultat"]["data"]["resume_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
+                    strhtml += '<input type="text" id="input_moduleResume" value="'+retourModule["data"]["resultat"]["resume_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
                     strhtml += '<label for="input_moduleTips">Item start page:</label>';
-                    strhtml += '<input type="text" id="input_moduleStartPage" value="'+retourModule["data"]["resultat"]["data"]["startPage_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
+                    strhtml += '<input type="text" id="input_moduleStartPage" value="'+retourModule["data"]["resultat"]["startPage_key"]+'" data-clear-btn="true" placeholder="Empty for auto name" ui-mini>';
                     strhtml += '<h2 id="moduleDefinition">Module implementation</h2>';
                     strhtml += '<table style="wight:100%"><tr>';
                     strhtml += '<td><label for="input_moduleBefore">Module before:</label>';
-                    strhtml += '<input type="text" id="input_moduleBefore" value="'+retourMapping["data"]["resultat"]["data"]["moduleBefore"]+'" data-clear-btn="true" placeholder="Empty for auto design" ui-mini></td>';
+                    strhtml += '<input type="text" id="input_moduleBefore" value="'+retourMapping["data"]["resultat"]["moduleBefore"]+'" data-clear-btn="true" placeholder="Empty for auto design" ui-mini></td>';
                     strhtml += '<td><label for="input_moduleAfter">Module after:</label>';
-                    strhtml += '<input type="text" id="input_moduleAfter" value="'+retourMapping["data"]["resultat"]["data"]["moduleAfter"]+'" data-clear-btn="true" placeholder="Empty for auto design" ui-mini></td>';
+                    strhtml += '<input type="text" id="input_moduleAfter" value="'+retourMapping["data"]["resultat"]["moduleAfter"]+'" data-clear-btn="true" placeholder="Empty for auto design" ui-mini></td>';
                     strhtml += '<td><a href="#" onclick="$.functionsChop.removeModuleModule({scenario:\''+g_scenarioCurrent+'\',module:\''+g_moduleCurrent+'\'});" class="ui-btn ui-icon-delete ui-corner-all ui-mini">Remove from mapping</a></td>';
                     strhtml += '</table></tr>';
                     strhtml += '<div data-role="controlgroup" data-type="horizontal" data-mini="true">';
