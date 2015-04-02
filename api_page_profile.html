@@ -3,6 +3,7 @@
   <head>
     <!--META-->
     <meta charset="utf-8">
+    <title>profile</title>
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -29,10 +30,12 @@
     //Fin chargement page
     $.functionsLib.ready = function(){
         try {
+            $( "#content_info" ).collapsible( "disable" );
+            $( "#content_perso" ).collapsible( "disable" );
             chargerInformations();
             chargerTheme();
         } catch (er) {
-            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+            $.functionsLib.log(0, "ERROR(ready):" + er.message);
         }
     };
 
@@ -272,11 +275,12 @@
             </div>
             <!-- /PopUp -->
             
-            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="content_info">
                 <h4>Mes informations</h4>
                 <div id="div_informations">Anomalie code EXXX</div>
             </div> 
-            <div data-role="collapsible" data-collapsed="false" data-mini="true">
+            
+            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="content_perso">
                 <h4>Personalisation</h4>
                 <div id="div_theme">Personalisation des th&egrave;mes non install&eacute;e.</div>
             </div>

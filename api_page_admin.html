@@ -3,6 +3,7 @@
   <head>
     <!--META-->
     <meta charset="utf-8">
+    <title>administration</title>
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -41,7 +42,7 @@
             afficheListDiffusion();
             chargerMessages();
         } catch (er) {
-            $.functionsLib.log(0, "ERROR(OnLoad):" + er.message);
+            $.functionsLib.log(0, "ERROR(ready):" + er.message);
         }
     };
 		
@@ -332,8 +333,20 @@
                 
             var strHtml = "";
             strHtml += 'Message : <textarea id="input_message" style="font-size:small;family-name:arial;height:'+sizeTextArea+'px"></textarea>';
-            strHtml += 'Niveau d\'alerte : <input type="text" name="input_niveau" id="input_niveau"  />';
-            strHtml += 'Profile minimum : <input type="number" name="input_profile" id="input_profile"  />';
+            
+            strHtml += 'Niveau d\'alerte : <select id="input_niveau">';
+            for(var color in $.functionsLib.oda_msg_color){
+                strHtml += '<option value="'+color+'">'+color+'</option>';
+            }
+            strHtml += '</select>';
+            
+            var rangs = $.functionsLib.geRangs();
+            strHtml += 'Profile minimum : <select id="input_profile">';
+            for(var indice in rangs){
+                strHtml += '<option value="'+rangs[indice].indice+'">'+rangs[indice].labelle+'</option>';
+            }
+            strHtml += '</select>';
+            
             strHtml += 'Date d\'expiration (7J par defaut) : <input type="date" name="input_date_expiration" id="input_date_expiration"  />';
             strHtml += '<a href="javascript:creeMessage()" data-role="button" data-icon="check" id="bt_cree_message" data-mini="true" data-inline="true">Soumettre</a>';
             strHtml += '<a href="javascript:annulerMessage()" data-role="button" data-icon="delete" id="bt_annuler_user" data-mini="true" data-inline="true">Annuler</a>';
@@ -443,60 +456,64 @@
                     "aaData": objDataTable.data,
                     "aaSorting": [[6,'desc']],
                     "aoColumns": [
-                        { sTitle: "actif", sClass: "left"  },
-                        { sTitle: "message", sClass: "left"  },
-                        { sTitle: "profile", sClass: "left"  },
-                        { sTitle: "niveau", sClass: "left"  },
-                        { sTitle: "date_expiration", sClass: "left"  },
-                        { sTitle: "code_user_creation", sClass: "left"  },
-                        { sTitle: "date_creation", sClass: "left"  }
+                        { sTitle: "Actif", sClass: "dataTable_center"  },
+                        { sTitle: "Message", sClass: "dataTable_left"  },
+                        { sTitle: "Profile", sClass: "dataTable_left"  },
+                        { sTitle: "Niveau", sClass: "dataTable_left"  },
+                        { sTitle: "Date expiration", sClass: "dataTable_center"  },
+                        { sTitle: "By", sClass: "dataTable_left"  },
+                        { sTitle: "Date creation", sClass: "dataTable_center"  }
                     ],
                    aoColumnDefs: [
                         {//actif
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[1]);
+                                var strHtml = row[objDataTable.entete["actif"]];
                                 return strHtml;
                             },
                             aTargets: [ 0 ]
                         },
                         {//message
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[2]);
+                                var strHtml = row[objDataTable.entete["message"]].substring(0, 25);
                                 return strHtml;
                             },
                             aTargets: [ 1 ]
                         },
                         {//profile
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[3]);
-                                return strHtml;
+                                var leProfile = row[objDataTable.entete["profile"]];
+                                return leProfile;
                             },
                             aTargets: [ 2 ]
                         },
                         {//niveau
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[4]);
+                                var strHtml = row[objDataTable.entete["niveau"]];
                                 return strHtml;
                             },
                             aTargets: [ 3 ]
                         },
                         {//date_expiration
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[5]);
+                                var date_expiration = row[objDataTable.entete["date_expiration"]];
+                                if(date_expiration == "0000-00-00"){
+                                    date_expiration = "";
+                                }
+                                var strHtml = date_expiration;
                                 return strHtml;
                             },
                             aTargets: [ 4 ]
                         },
                         {//code_user_creation
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[6]);
-                                return strHtml;
+                                var strHtml = row[objDataTable.entete["code_user_creation"]];
+                                return strHtml
                             },
                             aTargets: [ 5 ]
                         },
                         {//date_creation
                             mRender: function ( data, type, row ) {
-                                var strHtml = String(row[7]);
+                                var strHtml = row[objDataTable.entete["date_creation"]];
                                 return strHtml;
                             },
                             aTargets: [ 6 ]
@@ -540,7 +557,7 @@
         <!-- /navbar -->
 
         <!-- content -->
-        <div data-role="content" id="main_content">
+        <div data-role="content">
             
             <!-- PopUp -->
             <div data-role="popup" id="popup" class="ui-content">
@@ -557,7 +574,7 @@
                 <div id="div_listUtilisateurs">Anomalie code E009</div>
             </div>
             
-            <div data-role="collapsible" data-collapsed="false" data-mini="true" id="div_content_messages">
+            <div data-role="collapsible" data-collapsed="false" data-mini="true">
                 <h4>Les messages</h4>
                 <div id="div_messages">Anomalie code E009</div>
             </div>
