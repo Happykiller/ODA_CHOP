@@ -388,9 +388,9 @@ class ChopInterface extends \Oda\OdaLibInterface {
                                             if(file_exists($path)) {
                                                 list($width, $height, $type, $attr) = getimagesize($path);
                                                 if($width > 800){
-                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'" style="width:120mm;">';
+                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'?'. OdaDate::getMicro() .'" style="width:120mm;">';
                                                 }else{
-                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'">';
+                                                    $rendu = '<img src="'.self::$config->resourcesLink.'img/'.$retour->data->data.'?'. OdaDate::getMicro() .'">';
                                                 }
                                             }else{
                                                 $rendu = '<img src="'.self::$config->resourcesLink.'img/no_image.png">';

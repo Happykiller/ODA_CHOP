@@ -382,6 +382,8 @@ var g_modeEditModule = '';
          */
         editElement: function(p_params) {
             try {
+                $.functionsChop.setContext.setElement(p_params.key);
+                
                 if(p_params.type == "NEW"){
                     $.functionsChopView.editElementNew(p_params);
                 }else{
@@ -402,7 +404,8 @@ var g_modeEditModule = '';
                 
                 var source = $('#inputPopupCode').val();
                 if(p_type == "IMG"){
-                    source = '<img src="'+resources+'img/'+$('#inputPopupCode').val()+'?'+$.functionsLib.getMilise()+'" style="max-width: 100%;">';
+                    var contextNav = $.functionsChop.getContext();
+                    source = '[['+contextNav.currentElement+']]';
                 }
                 
                 if(source == ""){
@@ -686,6 +689,7 @@ var g_modeEditModule = '';
                     "currentScenario" : "",
                     "currentModule" : "",
                     "currentPage" : "",
+                    "currentElement" : "",
                     "lang" : "EN",
                     "mode" : "read"
                 });
@@ -764,6 +768,17 @@ var g_modeEditModule = '';
                     return true;
                 } catch (er) {
                     $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setMode):" + er.message);
+                    return null;
+                }
+            },
+            setElement : function(p_Element) {
+                try {
+                    var contextNav = $.functionsChop.getContext();
+                    contextNav.currentElement = p_Element;
+                    $.functionsChop.setContext.setAll(contextNav);
+                    return true;
+                } catch (er) {
+                    $.functionsLib.log(0, "ERROR($.functionsChop.setContext.setElement):" + er.message);
                     return null;
                 }
             }
@@ -1365,10 +1380,28 @@ var g_modeEditModule = '';
          */
         uploadFile: function(p_params) {
             try {
-                if(p_params.name != "NO_DATA"){
+                var inputElement = $("#"+p_params.idInput);
+                var key = p_params.name;
+
+                if(inputElement[0].files.length > 0){
+                    var data = new FormData();
+                    $.each(inputElement[0].files, function(i, file) {
+                        var ext = file.type.split("/")[1];
+                        p_params.name += "."+ext;
+                    });
+                }
+                
+                var params = {
+                    key : key, 
+                    lang : "",
+                    userId : $.functionsLib.getUserInfo().code_user,
+                    content : p_params.name
+                };
+                
+                var retour = $.functionsLib.callRest(domaine+"phpsql/saveElement.php", {}, params);
+                
+                if(retour["data"]["id"] != null){
                     $.functionsLib.uploadFile(p_params);
-                }else{
-                    $.functionsLib.notification("Merci de soumettre un nom de l'image avant.",$.functionsLib.oda_msg_color.ERROR);
                 }
                 return true;
             } catch (er) {
@@ -1407,7 +1440,7 @@ var g_modeEditModule = '';
                 strhtml += '<table style="width:100%"><tr>';
                 strhtml += '<td><label for="newElementDescription">Type :</label>';
                 strhtml += '<select id="newElementType" data-inline="true" data-mini="true">';
-                strhtml += '<option>HTML</option><option selected>TEXT</option><option>CST</option><option>IMG</option>';
+                strhtml += '<option selected>TEXT</option><option>IMG</option><option>HTML</option><option>CST</option>';
                 strhtml += '</select></td>';
                 strhtml += '<td><label for="newElementDescription">Description :</label>';
                 strhtml += '<input type="text" id="newElementDescription"></td>';
@@ -1471,10 +1504,10 @@ var g_modeEditModule = '';
                 var strhtml = "";
                 strhtml += '<fieldset data-role="controlgroup">';
                 strhtml += '<div data-role="navbar">';
-                    strhtml += '<ul>';
-                        strhtml += '<li><a href="#" onclick="$.functionsChop.openTabPreview(\''+params.type+'\');" class="ui-btn-active">Preview</a></li>';
-                        strhtml += '<li><a href="#" onclick="$.functionsChop.openTabCode(\''+params.type+'\');">Code</a></li>';
-                    strhtml += '</ul>';
+                strhtml += '<ul>';
+                strhtml += '<li><a href="#" onclick="$.functionsChop.openTabPreview(\''+params.type+'\');" class="ui-btn-active">Preview</a></li>';
+                strhtml += '<li><a href="#" onclick="$.functionsChop.openTabCode(\''+params.type+'\');">Code</a></li>';
+                strhtml += '</ul>';
                 strhtml += '</div>';
                 strhtml += '</fieldset>';
                 
@@ -1486,25 +1519,27 @@ var g_modeEditModule = '';
 
                 //TAB CODE
                 strhtml += '<div id="divPopupEdit" style="display:none;"><table style="width:100%">';
-                    strhtml += '<tr>';
-                        strhtml += '<td width="70%" style="vertical-align:top;">';
-                            strhtml += '<div id="divPopupCode" style="width:98%">Error2</div>';
-                            strhtml += '<p style="text-align:center"><a href="#" class="ui-btn ui-btn-inline ui-mini" onclick="$.functionsChop.sauvElement({key:\''+params.key+'\',lang:\''+params.lang+'\'});">Submit</a></p>';
-                        strhtml += '</td>';
-                        strhtml += '<td width="30%" style="vertical-align:top;font-size:small;">';
-                            switch(params.type) {
-                                case 'TEXT':
-                                case 'HTML' :
-                                    strhtml += '<p style="text-align:center"><a href="#" onclick="$.functionsChop.addNewElet({key:\''+params.key+'\'});" class="ui-btn ui-mini ui-btn-inline">Add new tag</a></p>';
-                                    strhtml += '<center><b>Import tag</b></center><div id="divTabElts">Error3</div>';
-                                    break;
-                                case 'CST' :
-                                case 'IMG' :
-                                default:
-                                    break;
-                            }
-                        strhtml += '</td>';
-                    strhtml += '</tr>';
+                strhtml += '<tr>';
+                strhtml += '<td width="70%" style="vertical-align:top;">';
+                strhtml += '<div id="divPopupCode" style="width:98%">Error2</div>';
+                if(params.type != "IMG"){
+                    strhtml += '<p style="text-align:center"><a href="#" class="ui-btn ui-btn-inline ui-mini" onclick="$.functionsChop.sauvElement({key:\''+params.key+'\',lang:\''+params.lang+'\'});">Submit</a></p>';
+                }
+                strhtml += '</td>';
+                strhtml += '<td width="30%" style="vertical-align:top;font-size:small;">';
+                switch(params.type) {
+                    case 'TEXT':
+                    case 'HTML' :
+                        strhtml += '<p style="text-align:center"><a href="#" onclick="$.functionsChop.addNewElet({key:\''+params.key+'\'});" class="ui-btn ui-mini ui-btn-inline">Add new tag</a></p>';
+                        strhtml += '<center><b>Import tag</b></center><div id="divTabElts">Error3</div>';
+                        break;
+                    case 'CST' :
+                    case 'IMG' :
+                    default:
+                        break;
+                }
+                strhtml += '</td>';
+                strhtml += '</tr>';
                 strhtml += '</table></div>';
                 
                 var paramsPreview = {
@@ -1540,15 +1575,11 @@ var g_modeEditModule = '';
                         };
                         break;
                     case 'IMG' :
-                        var strHtmlBtUpload = '';
-                        strHtmlBtUpload += '<label for="file_up">Change updated file ([['+params.key+']]) : </label>';
-                        strHtmlBtUpload += '<input type="file" name="file_up" id="file_up" value="" data-clear-btn="true" onchange="javascript:$.functionsChop.uploadFile({idInput:\'file_up\',name:\'[['+params.key+']]\',folder:\'img/\'});" />';
-                        
-                        var paramsCode = {
+                       var paramsCode = {
                             lang : params.lang, 
                             mode : 'code',
                             key : params.key,
-                            divContent : 'Name of image : <input type="text" id="inputPopupCode" value="[['+params.key+']]">'+strHtmlBtUpload,
+                            divContent : '<input type="file" name="file_up" id="file_up" value="" data-clear-btn="true" onchange="javascript:$.functionsChop.uploadFile({idInput:\'file_up\',name:\''+params.key+'\',folder:\'img/\'});" />',
                             divId : 'divPopupCode'
                         };
                         break;
