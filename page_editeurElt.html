@@ -136,14 +136,14 @@
                     "aoColumns": [
                         { "sTitle": "Key","sClass": "Left", "sWidth": "400px" },
                         { "sTitle": "Description","sClass": "Left" },
-                        { "sTitle": "Type","sClass": "center", "sWidth": "100px" },
                         { "sTitle": "Active","sClass": "center", "sWidth": "100px" }
                     ],
                     "aoColumnDefs": [
                         {
                             "mRender": function ( data, type, row ) {
                                 if ( type == 'display' ) {
-                                    return '<a href="#" onclick="openEditeur(\''+row[objDataTable.entete["key"]]+'\', \'\', \''+row[objDataTable.entete["type"]]+'\');">'+row[objDataTable.entete["key"]]+'</a>';
+                                    var strHtml = '<span onclick="openEditeur(\''+row[objDataTable.entete["key"]]+'\', \'\', \''+row[objDataTable.entete["type"]]+'\');" style="color:'+$.functionsChop.getColorType()[row[objDataTable.entete["type"]]]+';font-weight: bold;cursor: pointer;" title="Tag type : '+row[objDataTable.entete["type"]]+'">'+row[objDataTable.entete["key"]]+'</span>';
+                                    return strHtml;
                                 }
                                 return row[objDataTable.entete["key"]];
                             },
@@ -157,19 +157,13 @@
                         },
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["type"]];
-                            },
-                            "aTargets": [ 2 ]
-                        },
-                        {
-                            "mRender": function ( data, type, row ) {
                                 if(row[objDataTable.entete["date_disable"]] != null){
                                     return 'No';
                                 }else{
                                     return 'Yes';
                                 }
                             },
-                            "aTargets": [ 3 ]
+                            "aTargets": [ 2 ]
                         }
                     ],
                     "fnDrawCallback": function( oSettings ) {

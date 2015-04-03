@@ -486,7 +486,7 @@ var g_modeEditModule = '';
             try {
                 var key = p_params.key;
                 var lang = p_params.lang;
-                var userId = $.functionsLib.getUserInfo().id;
+                var userId = $.functionsLib.getUserInfo().id_user;
                 var content = $('#inputPopupCode').val();
                  
                 var tabSetting = {
@@ -521,7 +521,7 @@ var g_modeEditModule = '';
         createElement: function(p_params) {
             try {
                 var key = p_params.key;
-                var userId = $.functionsLib.getUserInfo().id;
+                var userId = $.functionsLib.getUserInfo().id_user;
                 var type = $('#newElementType').val();
                 var description = $('#newElementDescription').val();
                  
@@ -697,6 +697,19 @@ var g_modeEditModule = '';
                 return contextNav;
             } catch (er) {
                 $.functionsLib.log(0, "ERROR($.functionsChop.getContext):" + er.message);
+                return null;
+            }
+        },
+        
+        /**
+         * @name getColorType
+         * @returns {json}
+         */
+        getColorType : function() {
+            try {
+                return _colorType;
+            } catch (er) {
+                $.functionsLib.log(0, "ERROR($.functionsChop.getColorType):" + er.message);
                 return null;
             }
         },
@@ -1394,7 +1407,7 @@ var g_modeEditModule = '';
                 var params = {
                     key : key, 
                     lang : "",
-                    userId : $.functionsLib.getUserInfo().code_user,
+                    userId : $.functionsLib.getUserInfo().id_user,
                     content : p_params.name
                 };
                 

@@ -49,42 +49,38 @@
             var popUpWidth = $( document ).width() * 0.80;
             $('#popup').width(popUpWidth).addClass( "mod" );
             
-            var tabSetting = {
-            };
-            
             var params = {
-                key : p_params.key,
-                lang : p_params.lang,
-                date_record : p_params.date_update_data
+                id : p_params.id_data_new
             };
                 
-            var retourCurrent = $.functionsLib.callRest(domaine+"phpsql/getElementDetails.php", tabSetting, params);
+            var retourCurrent = $.functionsLib.callRest(domaine+"phpsql/getElementDetails.php", {}, params);
             
             var params = {
                 key : p_params.key,
                 lang : p_params.lang,
-                date_update_data : p_params.date_update_data
+                date_update_data : p_params.date_update_data,
+                type : retourCurrent["data"]["resultat"]["type"]
             };
-            var arboElements = $.functionsLib.callRest(domaine+"phpsql/getElementArbo.php", tabSetting, params);
+            var arboElements = $.functionsLib.callRest(domaine+"phpsql/getElementArbo.php", {}, params);
             
             var strhtml = "";
-            strhtml += '<table style="width:100%">';
+            if(retourCurrent["data"]["resultat"]["description"] != ""){
+                strhtml += 'Description : '+retourCurrent["data"]["resultat"]["description"]+'<br>';
+            }
+            strhtml += 'Create by : '+retourCurrent["data"]["resultat"]["user_creation"]+'<br>';
+            strhtml += 'Create when : '+retourCurrent["data"]["resultat"]["date_creation"]+'<br>';
             
+            strhtml += '<table style="width:100%">';
             strhtml += '<tr>';
-            strhtml += '<td style="width:50%">Version : <br>'+p_params.lang+', '+p_params.date_update_data+'</td>';
+            var thelang = (p_params.lang == "")?("IMG"):p_params.lang;
+            strhtml += '<td style="width:50%">Version : <br>'+retourCurrent["data"]["resultat"]["user_record"]+', '+thelang+', '+p_params.date_update_data+'</td>';
             strhtml += '<td style="width:50%">Compare version : ';
             strhtml += '<div data-role="controlgroup" data-type="horizontal" data-mini="true">';
             strhtml += '<select name="select-element" id="select-element" onChange="openCompareElement(this.value);">';
             strhtml += '<option>Select an element</option>';
-            var i=0;
             for(var lang in arboElements["data"]){
-                for(var indice in arboElements["data"][lang]){
-                    g_compareElement[i] = {
-                        key : p_params.key
-                        , lang : lang
-                        , date_record : arboElements["data"][lang][indice]["date_record"]
-                    };
-                    strhtml += '<option value="'+i+'">'+lang+' - '+arboElements["data"][lang][indice]["date_record"]+'</option>';
+                for(var indice in arboElements["data"][lang]["data"]){
+                    strhtml += '<option value="'+arboElements["data"][lang]["data"][indice]["id"]+'">'+lang+' - '+arboElements["data"][lang]["data"][indice]["code_user"]+' - '+arboElements["data"][lang]["data"][indice]["date_record"]+'</option>';
                 }
             }
             
@@ -94,14 +90,16 @@
             strhtml += '</tr>';
             
             strhtml += '<tr>';
-            strhtml += '<td style="vertical-align:top;"><textarea id="inputCurrentCode" style="font-size:small;family-name:arial;min-height:300px;">'+retourCurrent["data"]["resultat"]["data"]+'</textarea></td>';
+            strhtml += '<td style="vertical-align:top;"><textarea id="inputCurrentCode" style="font-size:small;family-name:arial;min-height:300px;" readonly>'+retourCurrent["data"]["resultat"]["data"]+'</textarea></td>';
             strhtml += '<td style="vertical-align:top;"><textarea id="inputCompareCode" style="font-size:small;family-name:arial;min-height:300px;"></textarea></td>';
             strhtml += '</tr>';
             
             strhtml += '</table>';
-            strhtml += '<p style="text-align:center"><a href="#" onClick="markReadEvent('+p_params.id+')" class="ui-link ui-btn ui-icon-check ui-btn-icon-left ui-btn-inline ui-shadow ui-corner-all ui-mini">Mark as read</a></p>';
+            strhtml += '<p style="text-align:center"><a href="#" onClick="markReadEvent('+p_params.id_event+')" class="ui-link ui-btn ui-icon-check ui-btn-icon-left ui-btn-inline ui-shadow ui-corner-all ui-mini">Mark as read</a></p>';
             
-            $.functionsLib.affichePopUp('Details for item : '+p_params.key, strhtml);
+            var strFormatKey = '<span style="color:'+$.functionsChop.getColorType()[retourCurrent["data"]["resultat"]["type"]]+';" title="Tag type : '+retourCurrent["data"]["resultat"]["type"]+'">'+p_params.key+'</span>';
+            
+            $.functionsLib.affichePopUp('Details for item : '+strFormatKey, strhtml);
             
             return true;
         } catch (er) {
@@ -115,14 +113,13 @@
      * @param {json} p_params
      * @returns {Boolean}
      */
-    function openCompareElement(p_i) {
+    function openCompareElement(p_id) {
         try {
-            var tabSetting = {
+            var params = {
+                "id" : p_id
             };
-            
-            var params = g_compareElement[p_i];
                 
-            var retour = $.functionsLib.callRest(domaine+"phpsql/getElementDetails.php", tabSetting, params);
+            var retour = $.functionsLib.callRest(domaine+"phpsql/getElementDetails.php", {}, params);
             
             $('#inputCompareCode').val(retour["data"]["resultat"]["data"]);
             
@@ -178,9 +175,8 @@
                     "aaData": objDataTable.data,
                     "bSort": false,
                     "aoColumns": [
-                        { "sTitle": "Key","sClass": "Left" },
-                        { "sTitle": "Description","sClass": "Left", "sWidth": "200px" },
-                        { "sTitle": "Type","sClass": "center", "sWidth": "50px" },
+                        { "sTitle": "Key","sClass": "Left", "sWidth": "200px" },
+                        { "sTitle": "Description","sClass": "Left" },
                         { "sTitle": "Lang","sClass": "center", "sWidth": "50px" },
                         { "sTitle": "Date event","sClass": "Left", "sWidth": "150px" },
                         { "sTitle": "Auteur","sClass": "center", "sWidth": "80px" },
@@ -189,7 +185,8 @@
                     "aoColumnDefs": [
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["key"]];
+                                var strHtml = '<span style="color:'+$.functionsChop.getColorType()[row[objDataTable.entete["type"]]]+';font-weight: bold;" title="Tag type : '+row[objDataTable.entete["type"]]+'">'+row[objDataTable.entete["key"]]+'</span>';
+                                return strHtml;
                             },
                             "aTargets": [ 0 ]
                         },
@@ -201,35 +198,29 @@
                         },
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["type"]];
+                                return row[objDataTable.entete["lang"]];
                             },
                             "aTargets": [ 2 ]
                         },
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["lang"]];
+                                return row[objDataTable.entete["date_update_data"]];
                             },
                             "aTargets": [ 3 ]
                         },
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["date_update_data"]];
+                                return row[objDataTable.entete["nom_updator"]];
                             },
                             "aTargets": [ 4 ]
                         },
                         {
                             "mRender": function ( data, type, row ) {
-                                return row[objDataTable.entete["nom_updator"]];
-                            },
-                            "aTargets": [ 5 ]
-                        },
-                        {
-                            "mRender": function ( data, type, row ) {
                                 var strHtml = "";
-                                strHtml += '<a data-mini="true" href="javascript:popUpDetails({id:'+row[objDataTable.entete["id"]]+',key:\''+row[objDataTable.entete["key"]]+'\',lang:\''+row[objDataTable.entete["lang"]]+'\',date_update_data:\''+row[objDataTable.entete["date_update_data"]]+'\'})" data-role="button" data-icon="gear" data-inline="true" id="bt_edit_'+row[0]+'" data-mini="true">Details</a>';
+                                strHtml += '<a data-mini="true" href="javascript:popUpDetails({id_data_new:'+row[objDataTable.entete["id_data_new"]]+',id_event:'+row[objDataTable.entete["id_event"]]+',key:\''+row[objDataTable.entete["key"]]+'\',lang:\''+row[objDataTable.entete["lang"]]+'\',date_update_data:\''+row[objDataTable.entete["date_update_data"]]+'\'})" data-role="button" data-icon="gear" data-inline="true" id="bt_edit_'+row[0]+'" data-mini="true">Details</a>';
                                 return strHtml;
                             },
-                            "aTargets": [ 6 ]
+                            "aTargets": [ 5 ]
                         }
                     ],
                     "fnDrawCallback": function( oSettings ) {
@@ -260,7 +251,7 @@
             
             var tab_data = {
                 idEvent : p_id_event,
-                idUser : $.functionsLib.getUserInfo().id
+                idUser : $.functionsLib.getUserInfo().id_user
             };
             
             $.functionsLib.callRest(domaine+"phpsql/setEventRead.php", tab_input, tab_data);

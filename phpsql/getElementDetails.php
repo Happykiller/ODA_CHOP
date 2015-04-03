@@ -9,27 +9,24 @@ require("../php/ChopInterface.php");
 //--------------------------------------------------------------------------
 //Build the interface
 $params = new \Oda\OdaPrepareInterface();
-$params->interface = "phpsql/getElementDetails";
-$params->arrayInput = array("key","lang","date_record");
+$params->arrayInput = array("id");
 $CHOP_INTERFACE = new ChopInterface($params);
 
 //--------------------------------------------------------------------------
-// phpsql/getElementDetails.php?milis=123450&key=BPAD-PRES_TITRE&lang=EN&date_record=2014-08-08 11:00:27
+// phpsql/getElementDetails.php?id=898
 
 //--------------------------------------------------------------------------
 $params = new OdaPrepareReqSql();
-$params->sql = "Select b.*
-    from `tab_elements` a, `tab_elements_datas` b
+$params->sql = "Select a.`key`, a.`description`, a.`type`, a.`date_record` as 'date_creation', c.`code_user` as 'user_creation', b.`lang`, b.`data`, b.`date_record`, d.`code_user` as 'user_record'
+    from `tab_elements` a, `tab_elements_datas` b, `api_tab_utilisateurs` c, `api_tab_utilisateurs` d
     WHERE 1=1
     AND a.`id` = b.`parent_element_id`
-    AND a.`key` = :key
-    AND b.`lang` = :lang
-    AND b.`date_record` = :date_record
+    AND a.`user_id_record` = c.`id`
+    AND b.`user_id_record` = d.`id`
+    AND b.`id` = :id
 ;";
 $params->bindsValue = [
-    "key" => $CHOP_INTERFACE->inputs["key"],
-    "lang" => $CHOP_INTERFACE->inputs["lang"],
-    "date_record" => $CHOP_INTERFACE->inputs["date_record"]
+    "id" => $CHOP_INTERFACE->inputs["id"]
 ];
 $params->typeSQL = OdaLibBd::SQL_GET_ONE;
 $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);

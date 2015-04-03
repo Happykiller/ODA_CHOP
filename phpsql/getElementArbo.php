@@ -10,7 +10,7 @@ require("../php/ChopInterface.php");
 //Build the interface
 $params = new \Oda\OdaPrepareInterface();
 $params->interface = "phpsql/getElementArbo";
-$params->arrayInput = array("key","lang","date_update_data");
+$params->arrayInput = array("key","lang","date_update_data","type");
 $CHOP_INTERFACE = new ChopInterface($params);
 
 //--------------------------------------------------------------------------
@@ -20,27 +20,54 @@ $CHOP_INTERFACE = new ChopInterface($params);
 $langs = $CHOP_INTERFACE->getLangs();
 
 //--------------------------------------------------------------------------
-foreach($langs->data as $key => $value) {
+if($CHOP_INTERFACE->inputs["lang"] != ""){
+    foreach($langs->data as $key => $value) {
+        $params = new OdaPrepareReqSql();
+        $params->sql = "Select b.`id`, b.`date_record`, c.`code_user`
+            from `tab_elements` a, `tab_elements_datas` b, `api_tab_utilisateurs` c
+            WHERE 1=1
+            AND a.`id` = b.`parent_element_id`
+            AND b.`user_id_record` = c.`id`
+            AND a.`key` = :key
+            AND b.`lang` = :currentLang
+            AND IF(b.`lang` = :lang, b.`date_record` != :date_update_data, true)
+            ORDER BY b.`date_record` desc
+        ;";
+        $params->bindsValue = [
+            "key" => $CHOP_INTERFACE->inputs["key"]
+            , "lang" => $CHOP_INTERFACE->inputs["lang"]
+            , "date_update_data" => $CHOP_INTERFACE->inputs["date_update_data"]
+            , "currentLang" => $value->code
+        ];
+        $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+        $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);
+
+        $params = new stdClass();
+        $params->label = $value->code;
+        $params->retourSql = $retour;
+        $CHOP_INTERFACE->addDataReqSQL($params);
+    }
+} else {
     $params = new OdaPrepareReqSql();
-    $params->sql = "Select b.`date_record`
-        from `tab_elements` a, `tab_elements_datas` b
+    $params->sql = "Select b.`id`, b.`date_record`, c.`code_user`
+        from `tab_elements` a, `tab_elements_datas` b, `api_tab_utilisateurs` c
         WHERE 1=1
         AND a.`id` = b.`parent_element_id`
+        AND b.`user_id_record` = c.`id`
         AND a.`key` = :key
-        AND b.`lang` = :currentLang
-        AND IF(b.`lang` = :lang,b.`date_record` != :date_update_data, true)
+        AND b.`lang` = ''
+        AND b.`date_record` != :date_update_data
+        ORDER BY b.`date_record` desc
     ;";
     $params->bindsValue = [
         "key" => $CHOP_INTERFACE->inputs["key"]
-        , "lang" => $CHOP_INTERFACE->inputs["lang"]
         , "date_update_data" => $CHOP_INTERFACE->inputs["date_update_data"]
-        , "currentLang" => $value->code
     ];
-    $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+    $params->typeSQL = OdaLibBd::SQL_GET_ALL;
     $retour = $CHOP_INTERFACE->BD_ENGINE->reqODASQL($params);
 
     $params = new stdClass();
-    $params->label = $value->code;
+    $params->label = $CHOP_INTERFACE->inputs["type"];
     $params->retourSql = $retour;
     $CHOP_INTERFACE->addDataReqSQL($params);
 }
