@@ -1,1 +1,0 @@
-python ...\script_emptyPython.py ...\exemple.config.emptyPython.json lunch
