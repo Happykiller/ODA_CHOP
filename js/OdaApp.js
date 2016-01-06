@@ -343,7 +343,7 @@
                  */
                 start: function () {
                     try {
-                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION");
+                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId);
 
                         if($.Oda.App.Controller.Qcm.Session === null){
                             $.Oda.Router.navigateTo({'route':'301','args':{}});
@@ -435,7 +435,7 @@
                         for(var key in $.Oda.App.Controller.Qcm.map){
                             if(!$.Oda.App.Controller.Qcm.map[key]){
                                 $.Oda.App.Controller.Qcm.Session.state = $.Oda.App.Controller.Qcm.map;
-                                $.Oda.Storage.set("QCM-SESSION",$.Oda.App.Controller.Qcm.Session);
+                                $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
                                 $.Oda.App.Controller.Qcm.map[key] = true;
                                 $.Oda.Scope.Gardian.remove({id:"qcm"});
                                 $("#"+key).fadeIn("slow");
@@ -505,11 +505,13 @@
                  */
                 start: function () {
                     try {
-                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION", $.Oda.App.Controller.Qcm.SessionDefault);
 
                         var id = $.Oda.Router.current.args["id"];
                         var name = $.Oda.Router.current.args["name"];
                         var lang = $.Oda.Router.current.args["lang"];
+                        
+                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+id, $.Oda.App.Controller.Qcm.SessionDefault);
+                        
                         if( (id === $.Oda.App.Controller.Qcm.Session.qcmId) && (name === $.Oda.App.Controller.Qcm.Session.qcmName) && (lang === $.Oda.App.Controller.Qcm.Session.qcmLang) ){
                             $.Oda.Router.navigateTo({'route':'qcm','args':{
                                 'qcmId': id,
@@ -520,7 +522,7 @@
                             $.Oda.App.Controller.Qcm.Session.qcmId = id;
                             $.Oda.App.Controller.Qcm.Session.qcmName = name;
                             $.Oda.App.Controller.Qcm.Session.qcmLang = lang;
-                            $.Oda.Storage.set("QCM-SESSION",$.Oda.App.Controller.Qcm.Session);
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
                         }
 
                         $.Oda.Scope.Gardian.add({
@@ -552,7 +554,7 @@
 
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/", {type:'POST', functionRetour : function(response){
                             $.Oda.App.Controller.Qcm.Session.id = response.data;
-                            $.Oda.Storage.set("QCM-SESSION",$.Oda.App.Controller.Qcm.Session);
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
                             $.Oda.Router.navigateTo({'route':'qcm','args':{}});
                         }},{
                             "firstName":$.Oda.App.Controller.Qcm.Session.firstName,
