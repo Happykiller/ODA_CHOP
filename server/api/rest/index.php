@@ -36,6 +36,8 @@ $slim->get('/entity/:id', function ($id) use ($slim) {
 //---------------------------- QCM -----------------------------------------
 $slim->get('/qcm/', function () use ($slim) {
     $params = new OdaPrepareInterface();
+    $params->arrayInputOpt = array("userId"=>null);
+    $params->modePublic = false;
     $params->slim = $slim;
     $INTERFACE = new QcmInterface($params);
     $INTERFACE->get();

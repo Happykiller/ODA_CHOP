@@ -28,7 +28,8 @@
                     "path" : "partials/home.html",
                     "title" : "oda-main.home-title",
                     "urls" : ["","home"],
-                    "middleWares":["support","auth"]
+                    "middleWares":["support","auth"],
+                    "dependencies" : ["hightcharts"]
                 });
 
                 $.Oda.Router.addRoute("qcm-manage", {
@@ -88,6 +89,79 @@
                  */
                 start: function () {
                     try {
+                        var tabInput = {
+                            "userId": $.Oda.Session.id,
+                            "odaLimit": 10
+                        };
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", { functionRetour : function(response){
+                            $.Oda.Log.trace(response.data);
+
+                            var series = [
+                                {
+                                    name:"success",
+                                    data:[]
+                                },
+                                {
+                                    name:"fail",
+                                    data:[]
+                                }
+                            ];
+                            var barsLabel = [];
+                            var nbUsers = [];
+                            for(var indice in response.data){
+                                var elt = response.data[indice];
+                                nbUsers.push(elt.nbUser);
+                                barsLabel.push(elt.id+'-'+elt.name+'-'+elt.lang);
+                                series[0].data.push(parseInt(elt.success));
+                                series[1].data.push(parseInt(elt.fail));
+                            }
+
+                            if(series.length > 0){
+                                $('#chart').highcharts({
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: 'Last QCM'
+                                    },
+                                    xAxis: {
+                                        categories: barsLabel
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        max: 105,
+                                        endOnTick: false,
+                                        title: {
+                                            text: 'Response quality'
+                                        },
+                                        stackLabels: {
+                                            enabled: true,
+                                            formatter: function () {
+                                                return nbUsers[this.x] + " users";
+                                            },
+                                            style: {
+                                                fontWeight: 'bold',
+                                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                                        shared: true
+                                    },
+                                    plotOptions: {
+                                        column: {
+                                            stacking: 'percent'
+                                        }
+                                    },
+                                    series: series
+                                });
+                            }else{
+                                $('#chart').html('no datas');
+                            }
+
+                        }},tabInput);
+
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.Home.start : " + er.message);
@@ -128,7 +202,8 @@
                                     {"sTitle": "Name", "sClass": "Left"},
                                     {"sTitle": "Lang", "sClass": "Left"},
                                     {"sTitle": "Link", "sClass": "Left"},
-                                    {"sTitle": "Success", "sClass": "Left"}
+                                    {"sTitle": "Success", "sClass": "Left"},
+                                    {"sTitle": "NbUser", "sClass": "Left"}
                                 ],
                                 "aoColumnDefs": [
                                     {
@@ -155,13 +230,24 @@
                                             return url;
                                         },
                                         "aTargets": [3]
-                                    }
-                                    ,
+                                    },
                                     {
                                         "mRender": function (data, type, row) {
-                                            return row[objDataTable.entete["perc"]];
+                                            var success = parseInt(row[objDataTable.entete["success"]]);
+                                            var fail = parseInt(row[objDataTable.entete["fail"]]);
+                                            var perc = 0;
+                                            if(success !== 0 || fail !== 0){
+                                                perc = success / (success + fail);
+                                            }
+                                            return (perc * 100)+'%';
                                         },
                                         "aTargets": [4]
+                                    },
+                                    {
+                                        "mRender": function (data, type, row) {
+                                            return row[objDataTable.entete["nbUser"]];
+                                        },
+                                        "aTargets": [5]
                                     }
                                 ]
                             });

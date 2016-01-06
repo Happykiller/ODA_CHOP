@@ -21,18 +21,38 @@ class QcmInterface extends OdaRestInterface {
      */
     function get() {
         try {
+            $filtreUserId = "";
+            if(!is_null($this->inputs["userId"])){
+                $filtreUserId = " AND a.`author` = ".$this->inputs["userId"];
+            }
+
             $params = new OdaPrepareReqSql();
-            $params->sql = "SELECT a.`id`, a.`author` as 'authorId', b.`code_user` as 'authorCode', a.`creationDate`, a.`name`, a.`lang`,
-                (SELECT count(*) as 'perc'
+            $params->sql = "
+                SELECT a.`id`, a.`author` as 'authorId', b.`code_user` as 'authorCode', a.`creationDate`, a.`name`, a.`lang`,
+                IFNULL((SELECT count(*) as 'success'
                   FROM `tab_qcm_sessions_user` d, `tab_sessions_user_record` e
                   WHERE 1=1
                   AND d.`id` = e.`sessionUserId`
                   AND d.`qcmId` = a.`id`
                   AND e.`nbErrors` = 0
-                ) as 'perc'
+                ),0) as 'success',
+                IFNULL((SELECT count(*) as 'fail'
+                  FROM `tab_qcm_sessions_user` f, `tab_sessions_user_record` g
+                  WHERE 1=1
+                  AND f.`id` = g.`sessionUserId`
+                  AND f.`qcmId` = a.`id`
+                  AND g.`nbErrors` > 0
+                ),0) as 'fail',
+                IFNULL((SELECT count(*) as 'nbUser'
+                  FROM `tab_qcm_sessions_user` h
+                  WHERE 1=1
+                  AND h.`qcmId` = a.`id`
+                ),0) as 'nbUser'
                 FROM `tab_qcm_sessions` a, `api_tab_utilisateurs` b
                 WHERE 1=1
                 AND a.`author` = b.`id`
+                $filtreUserId
+                ORDER BY a.`id` DESC
                 LIMIT :odaOffset, :odaLimit
             ;";
             $params->bindsValue = [
