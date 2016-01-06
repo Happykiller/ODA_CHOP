@@ -199,6 +199,7 @@
                                 "aaSorting": [[0, 'desc']],
                                 "aoColumns": [
                                     {"sTitle": "Id", "sClass": "dataTableColCenter"},
+                                    {"sTitle": "Author", "sClass": "Left"},
                                     {"sTitle": "Name", "sClass": "Left"},
                                     {"sTitle": "Lang", "sClass": "Left"},
                                     {"sTitle": "Link", "sClass": "Left"},
@@ -214,22 +215,28 @@
                                     },
                                     {
                                         "mRender": function (data, type, row) {
-                                            return row[objDataTable.entete["name"]];
+                                            return row[objDataTable.entete["authorCode"]];
                                         },
                                         "aTargets": [1]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
-                                            return $.Oda.I8n.get("qcm-manage",row[objDataTable.entete["lang"]]);
+                                            return row[objDataTable.entete["name"]];
                                         },
                                         "aTargets": [2]
+                                    },
+                                    {
+                                        "mRender": function (data, type, row) {
+                                            return $.Oda.I8n.get("qcm-manage",row[objDataTable.entete["lang"]]);
+                                        },
+                                        "aTargets": [3]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
                                             var url = $.Oda.Context.host+"qcm.html?id="+row[objDataTable.entete["id"]]+"&name="+row[objDataTable.entete["name"]]+"&lang="+row[objDataTable.entete["lang"]];
                                             return url;
                                         },
-                                        "aTargets": [3]
+                                        "aTargets": [4]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
@@ -241,13 +248,13 @@
                                             }
                                             return (perc * 100)+'%';
                                         },
-                                        "aTargets": [4]
+                                        "aTargets": [5]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
                                             return row[objDataTable.entete["nbUser"]];
                                         },
-                                        "aTargets": [5]
+                                        "aTargets": [6]
                                     }
                                 ]
                             });
