@@ -25,13 +25,6 @@ $slim->get('/', function () {
     echo $parser->parse($markdown);
 });
 
-$slim->get('/entity/:id', function ($id) use ($slim) {
-    $params = new OdaPrepareInterface();
-    $params->slim = $slim;
-    $INTERFACE = new EntityInterface($params);
-    $INTERFACE->get($id);
-});
-
 //--------------------------------------------------------------------------
 //---------------------------- QCM -----------------------------------------
 $slim->get('/qcm/', function () use ($slim) {
