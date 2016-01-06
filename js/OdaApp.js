@@ -261,7 +261,7 @@
                         }});
                         return this;
                     } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.start : " + er.message);
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayQcm : " + er.message);
                         return null;
                     }
                 },
@@ -308,6 +308,7 @@
                 submitQcm: function () {
                     try {
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", {type:'POST',functionRetour : function(response){
+                            $.Oda.App.Controller.ManageQcm.displayQcm();
                             $.Oda.Display.Popup.close({name:"createQcm"});
                         }},{
                             "name":$('#name').val(),
