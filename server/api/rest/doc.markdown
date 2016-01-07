@@ -10,6 +10,9 @@
     * type : POST
     * mandatory params : "userId","name","lang"
     * public : false
+* `/qcm/search/file`
+    * type : GET
+    * public : false
 * `/qcm/:name/:lang`
     * type : GET
     * public : true

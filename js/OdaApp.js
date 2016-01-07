@@ -170,6 +170,7 @@
                 }
             },
             "ManageQcm": {
+                "files": {},
                 /**
                  * @returns {$.Oda.App.Controller.ManageQcm}
                  */
@@ -246,7 +247,7 @@
                                             if(success !== 0 || fail !== 0){
                                                 perc = success / (success + fail);
                                             }
-                                            return (perc * 100)+'%';
+                                            return $.Oda.Tooling.arrondir(perc * 100,2)+'%';
                                         },
                                         "aTargets": [5]
                                     },
@@ -270,32 +271,81 @@
                  */
                 formQcm: function () {
                     try {
-                        var strHtml = $.Oda.Display.TemplateHtml.create({
-                            template : "formQcm"
-                            , scope : {}
-                        });
-
-                        $.Oda.Display.Popup.open({
-                            "name" : "createQcm",
-                            "label" : $.Oda.I8n.get('qcm-manage','createQcm'),
-                            "details" : strHtml,
-                            "footer" : '<button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.App.Controller.ManageQcm.submitQcm();" class="btn btn-primary disabled" disabled>Submit</button>',
-                            "callback" : function(){
-                                $.Oda.Scope.Gardian.add({
-                                    id : "createQcm",
-                                    listElt : ["name", "lang"],
-                                    function : function(e){
-                                        if( ($("#name").data("isOk")) && ($("#lang").data("isOk")) ){
-                                            $("#submit").removeClass("disabled");
-                                            $("#submit").removeAttr("disabled");
-                                        }else{
-                                            $("#submit").addClass("disabled");
-                                            $("#submit").attr("disabled", true);
-                                        }
-                                    }
-                                });
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/file", {functionRetour : function(response){
+                            $.Oda.App.Controller.ManageQcm.files = {};
+                            for(var indice in response.data){
+                                var elt = response.data[indice];
+                                if(!$.Oda.App.Controller.ManageQcm.files.hasOwnProperty(elt.name)){
+                                    $.Oda.App.Controller.ManageQcm.files[elt.name] = [];
+                                }
+                                var obj = {
+                                    "lang": elt.lang
+                                }
+                                $.Oda.App.Controller.ManageQcm.files[elt.name].push(obj);
                             }
-                        });
+
+                            var listName = "";
+                            for(var indice in $.Oda.App.Controller.ManageQcm.files){
+                                listName +='<option value="'+indice+'">'+indice+'</option>';
+                            }
+                            var strHtml = $.Oda.Display.TemplateHtml.create({
+                                template : "formQcm"
+                                , scope : {
+                                    "datas": listName
+                                }
+                            });
+
+                            $.Oda.Display.Popup.open({
+                                "name" : "createQcm",
+                                "label" : $.Oda.I8n.get('qcm-manage','createQcm'),
+                                "details" : strHtml,
+                                "footer" : '<button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.App.Controller.ManageQcm.submitQcm();" class="btn btn-primary disabled" disabled>Submit</button>',
+                                "callback" : function(){
+                                    $.Oda.Scope.Gardian.add({
+                                        id : "typeWatch",
+                                        listElt : ["name"],
+                                        function : function(e){
+                                            var name = $("#name").val();
+
+                                            if(name !== ""){
+                                                var listLang = "";
+                                                for(var indice in $.Oda.App.Controller.ManageQcm.files[name]){
+                                                    var elt = $.Oda.App.Controller.ManageQcm.files[name][indice];
+                                                    listLang +='<option value="'+elt.lang+'">'+ $.Oda.I8n.getByString("qcm-manage."+elt.lang)+ '</option>';
+                                                }
+                                                var strHtml = $.Oda.Display.TemplateHtml.create({
+                                                    template : "select"
+                                                    , scope : {
+                                                        "id": "lang",
+                                                        "datas": listLang
+                                                    }
+                                                });
+                                                $.Oda.Display.render({
+                                                    "id": 'divLang',
+                                                    'html': strHtml
+                                                })
+                                            }else{
+                                                $('#divLang').html('');
+                                            }
+                                        }
+                                    });
+
+                                    $.Oda.Scope.Gardian.add({
+                                        id : "createQcm",
+                                        listElt : ["name", "lang"],
+                                        function : function(e){
+                                            if( ($("#name").data("isOk")) && ($("#lang").data("isOk")) ){
+                                                $("#submit").removeClass("disabled");
+                                                $("#submit").removeAttr("disabled");
+                                            }else{
+                                                $("#submit").addClass("disabled");
+                                                $("#submit").attr("disabled", true);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }});
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.formQcm : " + er.message);

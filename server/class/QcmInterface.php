@@ -74,6 +74,35 @@ class QcmInterface extends OdaRestInterface {
 
     /**
      */
+    function getFile() {
+        try {
+            $array = array();
+
+            $path = __DIR__  . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "qcm" . DIRECTORY_SEPARATOR;
+
+            $dir = new \DirectoryIterator($path);
+            foreach ($dir as $fileinfo) {
+                if (!$fileinfo->isDot()) {
+                    $elt = new stdClass();
+                    $elt->fileName = $fileinfo->getFilename();
+                    $shortFileName = str_replace('.yaml', '', $elt->fileName);
+                    $tabFileName = explode('.',$shortFileName);
+                    $elt->name = $tabFileName[0];
+                    $elt->lang = $tabFileName[1];
+                    $array[] = $elt;
+                }
+            }
+
+            $this->addDataObject($array);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+
+    /**
+     */
     function create() {
         try {
             $params = new OdaPrepareReqSql();
