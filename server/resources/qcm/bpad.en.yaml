@@ -4,7 +4,7 @@
     - "Bonita Integration": false
     - "Bonita Portal": true
     - "Bonita Engine": true
-    " "Bonita Server": false
+    - "Bonita Server": false
   - "What will you use bonita studio for ?":
     - "Designing processes": true
     - "Creating forms": true
@@ -187,11 +187,11 @@
     - "Execute actions on a case/step": true
     - "Assign a task": false
     - "Filter by categories": true
-    - "See case history in “done” category": true
-  - "What actions can a user take on a task ?": true
+    - "See case history in done category": true
+  - "What actions can a user take on a task ?":
     - "Perform a step, hide": true
     - "Add a subtask": true
-    - "Take'/release": true
+    - "Take/release": true
     - "Add a comment": true
     - "Assign to another user": false
   - "When can a user add a subtask ?":

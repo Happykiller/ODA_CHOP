@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Happykiller/ODA_FW_SERVER.git",
-                "reference": "07603b2a3b1f8f654c2e3ba696279110dc8301ae"
+                "reference": "46a352f8202f016e2f4737842d876b449747b763"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Happykiller/ODA_FW_SERVER/zipball/07603b2a3b1f8f654c2e3ba696279110dc8301ae",
-                "reference": "07603b2a3b1f8f654c2e3ba696279110dc8301ae",
+                "url": "https://api.github.com/repos/Happykiller/ODA_FW_SERVER/zipball/46a352f8202f016e2f4737842d876b449747b763",
+                "reference": "46a352f8202f016e2f4737842d876b449747b763",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,7 @@
             "keywords": [
                 "oda"
             ],
-            "time": "2015-12-29 23:40:59"
+            "time": "2016-01-07 08:29:49"
         },
         {
             "name": "ircmaxell/password-compat",
