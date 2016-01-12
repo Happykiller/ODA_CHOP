@@ -94,8 +94,6 @@
                             "odaLimit": 10
                         };
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", { functionRetour : function(response){
-                            $.Oda.Log.trace(response.data);
-
                             var series = [
                                 {
                                     name:"success",
