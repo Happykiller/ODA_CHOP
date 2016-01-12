@@ -569,7 +569,7 @@
                             $.Oda.App.Controller.Qcm.Session.qcmId = id;
                             $.Oda.App.Controller.Qcm.Session.qcmName = name;
                             $.Oda.App.Controller.Qcm.Session.qcmLang = lang;
-                            //$.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
                         }
 
                         $.Oda.Scope.Gardian.add({
