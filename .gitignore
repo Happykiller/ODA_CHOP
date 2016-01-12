@@ -71,6 +71,6 @@ server/config/*
 server/config/config.php
 server/vendor/
 server/vendor/*
-server/resources/
-server/resources/*
+server/resources/avatars/
+server/resources/avatars/*
 server/composer.lock
