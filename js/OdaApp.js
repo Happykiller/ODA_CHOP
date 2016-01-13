@@ -391,9 +391,9 @@
                  */
                 start: function () {
                     try {
-                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId);
-
-                        if($.Oda.App.Controller.Qcm.Session === null){
+                        if($.Oda.App.Controller.Qcm.Session !== null){
+                            $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId);
+                        }else{
                             $.Oda.Router.navigateTo({'route':'301','args':{}});
                             return this;
                         }
