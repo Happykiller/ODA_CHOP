@@ -40,7 +40,15 @@
             "fr": "Français",
             "en": "Anglais",
             "name" : "Nom",
-            "lang": "Langue"
+            "lang": "Langue",
+            "author": "Autheur",
+            "name": "Nom",
+            "lang": "Langue",
+            "link": "Lien",
+            "success": "Réussite",
+            "nbUser": "Nombre d'utilisateur",
+            "actions": "Actions",
+            "id": "Identifiant"
         }
     },
     {

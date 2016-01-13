@@ -194,16 +194,17 @@
                             var oTable = $('#tableQcm').DataTable({
                                 "pageLength": 25,
                                 "sPaginationType": "full_numbers",
+                                "language" : $.Oda.I8n.getByGroupName('oda-datatables'),
                                 "aaData": objDataTable.data,
                                 "aaSorting": [[0, 'desc']],
                                 "aoColumns": [
-                                    {"sTitle": "Id", "sClass": "dataTableColCenter"},
-                                    {"sTitle": "Author", "sClass": "Left"},
-                                    {"sTitle": "Name", "sClass": "Left"},
-                                    {"sTitle": "Lang", "sClass": "Left"},
-                                    {"sTitle": "Link", "sClass": "Left"},
-                                    {"sTitle": "Success", "sClass": "Left"},
-                                    {"sTitle": "NbUser", "sClass": "Left"}
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","id"), "sClass": "dataTableColCenter"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","author"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","name"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","lang"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","link"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","success"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","nbUser"), "sClass": "Left"}
                                 ],
                                 "aoColumnDefs": [
                                     {
