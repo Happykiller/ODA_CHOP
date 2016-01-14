@@ -309,33 +309,36 @@
                                         "attribute": {
                                             "name" : {
                                                 "header": "Name",
-                                                "value": function(data, type, row, meta){
+                                                "value": function(data, type, full, meta, row){
                                                     return row.name;
                                                 },
                                                 "withFilter" : true
                                             },
                                             "version" : {
                                                 "header": "Version",
-                                                "value": function(data, type, row, meta){
+                                                "value": function(data, type, full, meta, row){
                                                     return row.version;
-                                                }
+                                                },
+                                                "withFilter" : true
                                             },
                                             "lang" : {
                                                 "header": "Langue",
-                                                "value": function(data, type, row, meta){
+                                                "value": function(data, type, full, meta, row){
                                                     return row.lang;
-                                                }
+                                                },
+                                                "withFilter" : true
                                             },
                                             "date" : {
                                                 "header": "Date",
-                                                "value": function(data, type, row, meta){
+                                                "value": function(data, type, full, meta, row){
                                                     return row.date;
-                                                }
+                                                },
+                                                "withFilter" : true
                                             },
                                             "action" : {
                                                 "header": "Action",
-                                                "value": function(data, type, row, meta){
-                                                    return "...";
+                                                "value": function(data, type, full, meta, row){
+                                                    return '<a onclick="$.Oda.App.Controller.ManageQcm.selectQcm({\'file\':\''+row.fileName+'\'})" class="btn btn-primary btn-xs">..</a>';
                                                 }
                                             }
                                         }
@@ -408,6 +411,19 @@
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.formQcm : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {Object} elt
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                selectQcm : function (elt) {
+                    try {
+                        console.log(elt);
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.selectQcm : " + er.message);
                         return null;
                     }
                 },
