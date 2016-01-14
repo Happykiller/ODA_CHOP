@@ -271,6 +271,8 @@
                 formQcm: function () {
                     try {
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/file", {functionRetour : function(response){
+
+
                             $.Oda.App.Controller.ManageQcm.files = {};
                             for(var indice in response.data){
                                 var elt = response.data[indice];
@@ -300,6 +302,45 @@
                                 "details" : strHtml,
                                 "footer" : '<button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.App.Controller.ManageQcm.submitQcm();" class="btn btn-primary disabled" disabled>Submit</button>',
                                 "callback" : function(){
+
+                                    $.Oda.Display.Table.createDataTable({
+                                        "target": "tableFile",
+                                        "data": response.data,
+                                        "attribute": {
+                                            "name" : {
+                                                "header": "Name",
+                                                "value": function(data, type, row, meta){
+                                                    return row.name;
+                                                },
+                                                "withFilter" : true
+                                            },
+                                            "version" : {
+                                                "header": "Version",
+                                                "value": function(data, type, row, meta){
+                                                    return row.version;
+                                                }
+                                            },
+                                            "lang" : {
+                                                "header": "Langue",
+                                                "value": function(data, type, row, meta){
+                                                    return row.lang;
+                                                }
+                                            },
+                                            "date" : {
+                                                "header": "Date",
+                                                "value": function(data, type, row, meta){
+                                                    return row.date;
+                                                }
+                                            },
+                                            "action" : {
+                                                "header": "Action",
+                                                "value": function(data, type, row, meta){
+                                                    return "...";
+                                                }
+                                            }
+                                        }
+                                    });
+
                                     $.Oda.Scope.Gardian.add({
                                         id : "typeWatch",
                                         listElt : ["name"],

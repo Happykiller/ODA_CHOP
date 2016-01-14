@@ -83,13 +83,17 @@ class QcmInterface extends OdaRestInterface {
             $dir = new \DirectoryIterator($path);
             foreach ($dir as $fileinfo) {
                 if (!$fileinfo->isDot()) {
-                    $elt = new stdClass();
-                    $elt->fileName = $fileinfo->getFilename();
-                    $shortFileName = str_replace('.yaml', '', $elt->fileName);
-                    $tabFileName = explode('.',$shortFileName);
-                    $elt->name = $tabFileName[0];
-                    $elt->lang = $tabFileName[1];
-                    $array[] = $elt;
+                    if (preg_match("/[a-zA-Z]+-[a-zA-Z0-9\.]+-[a-zA-Z]+-[0-9]{6}.yaml/i", $fileinfo->getFilename())) {
+                        $elt = new stdClass();
+                        $elt->fileName = $fileinfo->getFilename();
+                        $shortFileName = str_replace('.yaml', '', $elt->fileName);
+                        $tabFileName = explode('-',$shortFileName);
+                        $elt->name = $tabFileName[0];
+                        $elt->version = $tabFileName[1];
+                        $elt->lang = $tabFileName[2];
+                        $elt->date = $tabFileName[3];
+                        $array[] = $elt;
+                    }
                 }
             }
 
