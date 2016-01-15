@@ -254,7 +254,7 @@
                                     },
                                     {
                                         "mRender": function (data, type, row) {
-                                            var url = $.Oda.Context.host+"qcm.html?id="+row[objDataTable.entete["id"]]+"&name="+row[objDataTable.entete["name"]]+"&lang="+row[objDataTable.entete["lang"]];
+                                            var url = $.Oda.Context.host+"qcm.html?id="+row[objDataTable.entete["id"]];
                                             return url;
                                         },
                                         "aTargets": [7]
@@ -595,6 +595,7 @@
                 start: function () {
                     try {
                         var id = $.Oda.Router.current.args["id"];
+                        //TODO partir qu'avec l'id de la session
                         var name = $.Oda.Router.current.args["name"];
                         var lang = $.Oda.Router.current.args["lang"];
                         
