@@ -28,7 +28,7 @@ class QcmInterface extends OdaRestInterface {
 
             $params = new OdaPrepareReqSql();
             $params->sql = "
-                SELECT a.`id`, a.`author` as 'authorId', b.`code_user` as 'authorCode', a.`creationDate`, a.`name`, a.`lang`,
+                SELECT a.`id`, a.`author` as 'authorId', b.`code_user` as 'authorCode', a.`creationDate`, a.`name`, a.`version`, a.`lang`, a.`date`, a.`desc`,
                 IFNULL((SELECT count(*) as 'success'
                   FROM `tab_qcm_sessions_user` d, `tab_sessions_user_record` e
                   WHERE 1=1
@@ -114,16 +114,22 @@ class QcmInterface extends OdaRestInterface {
                     `author` ,
                     `creationDate`,
                     `name`,
-                    `lang`
+                    `version`,
+                    `lang`,
+                    `date`,
+                    `desc`
                 )
                 VALUES (
-                    :userId, NOW(), :name, :lang
+                    :userId, NOW(), :name, :version, :lang, :date, :desc
                 )
             ;";
             $params->bindsValue = [
                 "userId" => $this->inputs["userId"],
                 "name" => $this->inputs["name"],
-                "lang" => $this->inputs["lang"]
+                "version" => $this->inputs["version"],
+                "lang" => $this->inputs["lang"],
+                "date" => $this->inputs["date"],
+                "desc" => $this->inputs["desc"],
             ];
             $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);

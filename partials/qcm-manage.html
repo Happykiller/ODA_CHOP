@@ -19,20 +19,15 @@
 </script>
 
 <script id="formQcm" type="text/template">
-    <div id="tableFile"></div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
-                <label for="name" oda-label="qcm-manage.name">qcm-manage.name</label>
-                <select class="form-control" oda-input-select="name" required>
-                    <option value="" oda-label="oda-main.select-default"></option>
-                    {{datas}}
-                </select>
+                <label for="desc" oda-label="oda-admin.edit_desc">oda-admin.edit_desc</label>
+                <input required type="text" class="form-control" oda-input-text="desc" oda-input-text-tips="oda-admin.edit_desc-tips" oda-input-text-placeholder="oda-admin.edit_desc-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
             </div>
         </div>
-        <div class="col-md-6" id="divLang">
-        </div>
     </div>
+    <div id="tableFile"></div>
 </script>
 
 <script id="select" type="text/template">

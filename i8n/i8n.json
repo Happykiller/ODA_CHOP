@@ -43,12 +43,17 @@
             "lang": "Langue",
             "author": "Autheur",
             "name": "Nom",
+            "version": "Version",
             "lang": "Langue",
+            "date": "Date",
+            "desc": "Description",
             "link": "Lien",
             "success": "Réussite",
             "nbUser": "Nombre d'utilisateur",
             "actions": "Actions",
-            "id": "Identifiant"
+            "id": "Identifiant",
+            "select": "Selectionner",
+            "descMissing": "Description manquante."
         }
     },
     {

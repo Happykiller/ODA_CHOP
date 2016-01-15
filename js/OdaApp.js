@@ -201,7 +201,10 @@
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","id"), "sClass": "dataTableColCenter"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","author"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","name"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","version"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","lang"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","date"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","desc"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","link"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","success"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","nbUser"), "sClass": "Left"}
@@ -227,16 +230,34 @@
                                     },
                                     {
                                         "mRender": function (data, type, row) {
-                                            return $.Oda.I8n.get("qcm-manage",row[objDataTable.entete["lang"]]);
+                                            return row[objDataTable.entete["version"]];
                                         },
                                         "aTargets": [3]
+                                    },
+                                    {
+                                        "mRender": function (data, type, row) {
+                                            return $.Oda.I8n.get("qcm-manage",row[objDataTable.entete["lang"]]);
+                                        },
+                                        "aTargets": [4]
+                                    },
+                                    {
+                                        "mRender": function (data, type, row) {
+                                            return row[objDataTable.entete["date"]];
+                                        },
+                                        "aTargets": [5]
+                                    },
+                                    {
+                                        "mRender": function (data, type, row) {
+                                            return row[objDataTable.entete["desc"]];
+                                        },
+                                        "aTargets": [6]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
                                             var url = $.Oda.Context.host+"qcm.html?id="+row[objDataTable.entete["id"]]+"&name="+row[objDataTable.entete["name"]]+"&lang="+row[objDataTable.entete["lang"]];
                                             return url;
                                         },
-                                        "aTargets": [4]
+                                        "aTargets": [7]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
@@ -248,13 +269,13 @@
                                             }
                                             return $.Oda.Tooling.arrondir(perc * 100,2)+'%';
                                         },
-                                        "aTargets": [5]
+                                        "aTargets": [8]
                                     },
                                     {
                                         "mRender": function (data, type, row) {
                                             return row[objDataTable.entete["nbUser"]];
                                         },
-                                        "aTargets": [6]
+                                        "aTargets": [9]
                                     }
                                 ]
                             });
@@ -300,7 +321,6 @@
                                 "name" : "createQcm",
                                 "label" : $.Oda.I8n.get('qcm-manage','createQcm'),
                                 "details" : strHtml,
-                                "footer" : '<button type="button" oda-label="oda-main.bt-submit" oda-submit="submit" onclick="$.Oda.App.Controller.ManageQcm.submitQcm();" class="btn btn-primary disabled" disabled>Submit</button>',
                                 "callback" : function(){
 
                                     $.Oda.Display.Table.createDataTable({
@@ -338,51 +358,14 @@
                                             "action" : {
                                                 "header": "Action",
                                                 "value": function(data, type, full, meta, row){
-                                                    return '<a onclick="$.Oda.App.Controller.ManageQcm.selectQcm({\'file\':\''+row.fileName+'\'})" class="btn btn-primary btn-xs">..</a>';
+                                                    var datas = {
+                                                        "name": row.name,
+                                                        "version": row.version,
+                                                        "lang": row.lang,
+                                                        "date": row.date
+                                                    };
+                                                    return '<a onclick="$.Oda.App.Controller.ManageQcm.selectQcm('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs">'+ $.Oda.I8n.get('qcm-manage','select')+'</a>';
                                                 }
-                                            }
-                                        }
-                                    });
-
-                                    $.Oda.Scope.Gardian.add({
-                                        id : "typeWatch",
-                                        listElt : ["name"],
-                                        function : function(e){
-                                            var name = $("#name").val();
-
-                                            if(name !== ""){
-                                                var listLang = "";
-                                                for(var indice in $.Oda.App.Controller.ManageQcm.files[name]){
-                                                    var elt = $.Oda.App.Controller.ManageQcm.files[name][indice];
-                                                    listLang +='<option value="'+elt.lang+'">'+ $.Oda.I8n.getByString("qcm-manage."+elt.lang)+ '</option>';
-                                                }
-                                                var strHtml = $.Oda.Display.TemplateHtml.create({
-                                                    template : "select"
-                                                    , scope : {
-                                                        "id": "lang",
-                                                        "datas": listLang
-                                                    }
-                                                });
-                                                $.Oda.Display.render({
-                                                    "id": 'divLang',
-                                                    'html': strHtml
-                                                })
-                                            }else{
-                                                $('#divLang').html('');
-                                            }
-                                        }
-                                    });
-
-                                    $.Oda.Scope.Gardian.add({
-                                        id : "createQcm",
-                                        listElt : ["name", "lang"],
-                                        function : function(e){
-                                            if( ($("#name").data("isOk")) && ($("#lang").data("isOk")) ){
-                                                $("#submit").removeClass("disabled");
-                                                $("#submit").removeAttr("disabled");
-                                            }else{
-                                                $("#submit").addClass("disabled");
-                                                $("#submit").attr("disabled", true);
                                             }
                                         }
                                     });
@@ -396,31 +379,31 @@
                     }
                 },
                 /**
+                 * @param {Object} params
+                 * @param {String} params.name
+                 * @param {String} params.version
+                 * @param {String} params.lang
+                 * @param {String} params.date
                  * @returns {$.Oda.App.Controller.ManageQcm}
                  */
-                submitQcm: function () {
+                selectQcm : function (params) {
                     try {
-                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", {type:'POST',functionRetour : function(response){
-                            $.Oda.App.Controller.ManageQcm.displayQcm();
-                            $.Oda.Display.Popup.close({name:"createQcm"});
-                        }},{
-                            "name":$('#name').val(),
-                            "lang":$('#lang').val(),
-                            "userId": $.Oda.Session.id
-                        });
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.formQcm : " + er.message);
-                        return null;
-                    }
-                },
-                /**
-                 * @param {Object} elt
-                 * @returns {$.Oda.App.Controller.ManageQcm}
-                 */
-                selectQcm : function (elt) {
-                    try {
-                        console.log(elt);
+                        var desc = $('#desc').val();
+                        if(desc !== ""){
+                            var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", {type:'POST',functionRetour : function(response){
+                                $.Oda.App.Controller.ManageQcm.displayQcm();
+                                $.Oda.Display.Popup.close({name:"createQcm"});
+                            }},{
+                                "name": params.name,
+                                "version": params.version,
+                                "lang": params.lang,
+                                "date": params.date,
+                                "desc": desc,
+                                "userId": $.Oda.Session.id
+                            });
+                        }else{
+                            $.Oda.Display.Notification.warning($.Oda.I8n.get('qcm-manage','descMissing'));
+                        }
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.selectQcm : " + er.message);
