@@ -74,7 +74,7 @@ class QcmInterface extends OdaRestInterface {
 
     /**
      */
-    function getFile() {
+    function getFiles() {
         try {
             $array = array();
 
@@ -146,12 +146,41 @@ class QcmInterface extends OdaRestInterface {
 
     /**
      */
-    function getByName($name,$lang) {
+    function getContentFile() {
         try {
-            $qcm = __DIR__  . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "qcm" . DIRECTORY_SEPARATOR . $name .'.'.$lang.'.yaml';
+            $fileName = $this->inputs["name"] .'-'. $this->inputs["version"] .'-'. $this->inputs["lang"] .'-'. $this->inputs["date"] .'.yaml';
+            $qcm = __DIR__  . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "qcm" . DIRECTORY_SEPARATOR . $fileName;
             $content = Yaml::parse(file_get_contents($qcm));
 
             $this->addDataObject($content);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    function getById($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "
+                SELECT a.`id`, a.`author` as 'authorId', a.`creationDate`, a.`name`, a.`version`, a.`lang`, a.`date`, a.`desc`
+                FROM `tab_qcm_sessions` a
+                WHERE 1=1
+                AND a.`id` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new stdClass();
+            $params->retourSql = $retour;
+            $this->addDataObject($retour->data);
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;

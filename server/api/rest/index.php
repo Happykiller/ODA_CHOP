@@ -38,12 +38,19 @@ $slim->get('/qcm/', function () use ($slim) {
     $INTERFACE->get();
 });
 
+$slim->get('/qcm/:id', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new QcmInterface($params);
+    $INTERFACE->getById($id);
+});
+
 $slim->get('/qcm/search/file', function () use ($slim) {
     $params = new OdaPrepareInterface();
     $params->modePublic = false;
     $params->slim = $slim;
     $INTERFACE = new QcmInterface($params);
-    $INTERFACE->getFile();
+    $INTERFACE->getFiles();
 });
 
 $slim->post('/qcm/', function () use ($slim) {
@@ -55,11 +62,12 @@ $slim->post('/qcm/', function () use ($slim) {
     $INTERFACE->create();
 });
 
-$slim->get('/qcm/:name/:lang', function ($name,$lang) use ($slim) {
+$slim->get('/qcm/search/', function () use ($slim) {
     $params = new OdaPrepareInterface();
+    $params->arrayInput = array("name","version","lang","date");
     $params->slim = $slim;
     $INTERFACE = new QcmInterface($params);
-    $INTERFACE->getByName($name,$lang);
+    $INTERFACE->getContentFile();
 });
 
 //--------------------------------------------------------------------------

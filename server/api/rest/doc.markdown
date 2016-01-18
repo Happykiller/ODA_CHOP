@@ -6,6 +6,8 @@
     * type : GET
     * optional params : "userId"
     * public : false
+* `/qcm/;id`
+    * type : GET
 * `/qcm/`
     * type : POST
     * mandatory params : "userId","name","lang"
@@ -13,8 +15,9 @@
 * `/qcm/search/file`
     * type : GET
     * public : false
-* `/qcm/:name/:lang`
+* `/qcm/search/
     * type : GET
+    * mandatory params : "name","version","lang","date"
     * public : true
     
 ## Session user
