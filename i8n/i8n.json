@@ -53,7 +53,9 @@
             "actions": "Actions",
             "id": "Identifiant",
             "select": "Selectionner",
-            "descMissing": "Description manquante."
+            "descMissing": "Description manquante.",
+            "action": "Actions",
+            "details": "Détails"
         }
     },
     {

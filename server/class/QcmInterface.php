@@ -166,8 +166,7 @@ class QcmInterface extends OdaRestInterface {
     function getById($id) {
         try {
             $params = new OdaPrepareReqSql();
-            $params->sql = "
-                SELECT a.`id`, a.`author` as 'authorId', a.`creationDate`, a.`name`, a.`version`, a.`lang`, a.`date`, a.`desc`
+            $params->sql = "SELECT a.`id`, a.`author` as 'authorId', a.`creationDate`, a.`name`, a.`version`, a.`lang`, a.`date`, a.`desc`
                 FROM `tab_qcm_sessions` a
                 WHERE 1=1
                 AND a.`id` = :id

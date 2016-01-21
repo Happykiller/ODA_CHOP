@@ -12,10 +12,10 @@
     * type : POST
     * mandatory params : "userId","name","lang"
     * public : false
-* `/qcm/search/file`
+* `/qcm/search/file/`
     * type : GET
     * public : false
-* `/qcm/search/
+* `/qcm/search/`
     * type : GET
     * mandatory params : "name","version","lang","date"
     * public : true
@@ -30,3 +30,10 @@
     * type : POST
     * mandatory params : "question","nbErrors","sessionUserId"
     * public : true
+    
+## Rapport
+    
+* `/rapport/qcm/:id/details/`
+    * type : GET
+* `/rapport/sessionUser/id:/record/`
+    * type : GET
