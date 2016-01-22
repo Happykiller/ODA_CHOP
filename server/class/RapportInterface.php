@@ -23,7 +23,7 @@ class RapportInterface extends OdaRestInterface {
     function getQcmDetails($id) {
         try {
             $params = new OdaPrepareReqSql();
-            $params->sql = "SELECT a.`id`, a.`firstName`, a.`lastName`, a.`createDate`
+            $params->sql = "SELECT a.`id`, a.`firstName`, a.`lastName`, a.`createDate`, a.`qcmId`
                 FROM `tab_qcm_sessions_user` a
                 WHERE 1=1
                 AND a.`qcmId` = :id

@@ -40,17 +40,14 @@
     </div>
 </script>
 
-<script id="templateDetailQcm" type="text/template">
-    {{users}}
-</script>
-
 <script id="templateDetailQcmUser" type="text/template">
-    <ul>
-        <li>{{id}} - {{firstName}} {{lastName}} - {{createDate}}</li>
-        <ul id="histo-{{id}}" data-id="{{id}}">
-            {{histo}}
+    <div id="divDetailUser-{{id}}">
+        <ul>
+            <li>{{id}} - {{firstName}} {{lastName}} - {{createDate}}</li>
+            <ul id="histo-{{id}}" data-id="{{id}}">
+            </ul>
         </ul>
-    </ul>
+    </div>
 </script>
 
 <script id="templateQuestion" type="text/template">

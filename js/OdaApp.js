@@ -436,39 +436,16 @@
                  */
                 seeDetails : function (p_params) {
                     try {
-                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/qcm/"+p_params.id+"/details/", {callback : function(response){
-                            var strHtmlUsers = "";
-                            for(var indice in response.data){
-                                var eltUser = response.data[indice];
-                                strHtmlUsers += $.Oda.Display.TemplateHtml.create({
-                                    template : "templateDetailQcmUser"
-                                    , scope : {
-                                        "id": eltUser.id,
-                                        "firstName": eltUser.firstName,
-                                        "lastName": eltUser.lastName,
-                                        "createDate": eltUser.createDate,
-                                        "histo": ""
-                                    }
-                                });
+                        $.Oda.Display.Popup.open({
+                            "name": "modalDetailsQcm",
+                            "size": "lg",
+                            "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
+                            "details": '<div id="divDetailsUsers"></div>',
+                            "callback": function () {
+                                $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
+                                $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 400);
                             }
-
-                            var strHtmlDetailQcm = $.Oda.Display.TemplateHtml.create({
-                                template : "templateDetailQcm"
-                                , scope : {
-                                    "users": strHtmlUsers
-                                }
-                            });
-
-                            $.Oda.Display.Popup.open({
-                                "name": "modalDetailsQcm",
-                                "size": "lg",
-                                "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
-                                "details": strHtmlDetailQcm,
-                                "callback": function () {
-                                    $.Oda.App.Controller.ManageQcm.startBot();
-                                }
-                            });
-                        }});
+                        });
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.seeDetails : " + er.message);
@@ -476,9 +453,44 @@
                     }
                 },
                 /**
+                 * @param {Object} p_params
+                 * @param p_params.id
                  * @returns {$.Oda.App.Controller.ManageQcm}
                  */
-                startBot : function () {
+                startBotUsers : function (p_params) {
+                    try {
+                        if($('#divDetailsUsers').exists()) {
+                            var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/qcm/" + p_params.id + "/details/", {
+                                callback: function (response) {
+                                    for (var index in response.data) {
+                                        var eltUser = response.data[index];
+                                        if (!$('#divDetailUser-' + eltUser.id).exists()) {
+                                            var strHtmlUsers = $.Oda.Display.TemplateHtml.create({
+                                                template: "templateDetailQcmUser"
+                                                , scope: {
+                                                    "id": eltUser.id,
+                                                    "firstName": eltUser.firstName,
+                                                    "lastName": eltUser.lastName,
+                                                    "createDate": eltUser.createDate
+                                                }
+                                            });
+                                            $('#divDetailsUsers').append(strHtmlUsers);
+                                        }
+                                    }
+                                    $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotUsers, 5000, {id:eltUser.qcmId});
+                                }
+                            });
+                        }
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.startBot : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                startBotQuestions : function () {
                     try {
                         var gardian = false;
                         $('ul[id^=histo-]').each(function() {
@@ -502,7 +514,7 @@
                             gardian = true;
                         });
                         if(gardian){
-                            $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBot, 5000);
+                            $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 5000);
                         }
                         return this;
                     } catch (er) {
@@ -535,9 +547,11 @@
                 start: function () {
                     try {
                         var id = $.Oda.Router.current.args["id"];
-                        if(id !== null){
+                        if(id !== undefined){
                             $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+id);
-                        }else{
+                        }
+
+                        if($.Oda.App.Controller.Qcm.Session === null){
                             $.Oda.Router.navigateTo({'route':'301','args':{}});
                             return this;
                         }
