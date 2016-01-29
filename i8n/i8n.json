@@ -14,7 +14,7 @@
         "groupName" : "qcm"
         , "fr" : {
             "title" : "QCM",
-            "hello" : "qcm par Oda",
+            "hello" : "Dans ce Questionnaire à Choix Multiple, il vous suffit de proposer vos choix, si ils sont jsutes vous pourrez passer à la suite.",
             "start" : "Commencer",
             "next" : "Suivant",
             "validate" : "Valider",
@@ -22,13 +22,24 @@
             "SuccessMessage" : "Bravo vous pouvez aller à la suite quant vous êtes prêt !"
         }
         , "en" : {
-            "title" : "QCM",
-            "hello" : "Oda qcm",
+            "title" : "MCQ",
+            "hello" : "In this Multiple Choice Questionnaire, simply submit your choices, if they are good you can move next.",
             "start" : "Start",
-            "next" : "Suivant",
+            "next" : "Next",
             "validate" : "Validate",
             "SuccessMessage" : " bad response(s) !",
             "SuccessMessage" : "Bravo you can go to next when your are ready !"
+        }
+    },
+    {
+        "groupName" : "qcmStart"
+        , "fr" : {
+            "title" : "QCM",
+            "hello" : "Bienvenue dans ce Questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
+        }
+        , "en" : {
+            "title" : "MCQ",
+            "hello" : "Welcome to the Multiple Choice Questionnaire, in order to improve ourselves we need to recognize you."
         }
     },
     {

@@ -443,7 +443,7 @@
                             "details": '<div id="divDetailsUsers"></div>',
                             "callback": function () {
                                 $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
-                                $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 400);
+                                $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
                             }
                         });
                         return this;
@@ -460,6 +460,7 @@
                 startBotUsers : function (p_params) {
                     try {
                         if($('#divDetailsUsers').exists()) {
+                            $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotUsers, 5000, {id:p_params.id});
                             var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/qcm/" + p_params.id + "/details/", {
                                 callback: function (response) {
                                     for (var index in response.data) {
@@ -477,7 +478,6 @@
                                             $('#divDetailsUsers').append(strHtmlUsers);
                                         }
                                     }
-                                    $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotUsers, 5000, {id:eltUser.qcmId});
                                 }
                             });
                         }
@@ -493,27 +493,31 @@
                 startBotQuestions : function () {
                     try {
                         var gardian = false;
-                        $('ul[id^=histo-]').each(function() {
-                            var id = $(this).data('id');
-                            var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/sessionUser/"+id+"/record/", {callback : function(response){
-                                var strQuestions = "";
-                                var sessionUserId = 0;
-                                $.each(response.data, function(index,value){
-                                    sessionUserId = value.sessionUserId;
-                                    strQuestions += $.Oda.Display.TemplateHtml.create({
-                                        template : "templateQuestion"
-                                        , scope : {
-                                            "question": value.question,
-                                            "nbErrors": value.nbErrors,
-                                            "recordDate": value.recordDate
-                                        }
-                                    });
-                                });
-                                $('#histo-'+sessionUserId).html(strQuestions);
-                            }});
+                        if($('#divDetailsUsers').exists()) {
                             gardian = true;
-                        });
-                        if(gardian){
+                            $('ul[id^=histo-]').each(function () {
+                                var id = $(this).data('id');
+                                var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/sessionUser/" + id + "/record/", {
+                                    callback: function (response) {
+                                        var strQuestions = "";
+                                        var sessionUserId = 0;
+                                        $.each(response.data, function (index, value) {
+                                            sessionUserId = value.sessionUserId;
+                                            strQuestions += $.Oda.Display.TemplateHtml.create({
+                                                template: "templateQuestion"
+                                                , scope: {
+                                                    "question": value.question,
+                                                    "nbErrors": value.nbErrors,
+                                                    "recordDate": value.recordDate
+                                                }
+                                            });
+                                        });
+                                        $('#histo-' + sessionUserId).html(strQuestions);
+                                    }
+                                });
+                            });
+                        }
+                        if (gardian) {
                             $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 5000);
                         }
                         return this;
