@@ -1,0 +1,32 @@
+<div class="container">
+
+    <div id="certificate" class="certificate">
+        <div class="banner"></div>
+        <div class="card">
+            <div class="content">
+                <h1 class="title" oda-label="qcmFinish.certComple">qcmFinish.certCompl</h1>
+                <p class="press" oda-label="qcmFinish.certPress">qcmFinish.certPress</p>
+                <h2 class="trainee" id="trainee">trainee</h2>
+                <div class="sep"></div>
+                <p class="for"><span oda-label="qcmFinish.certDate">For successfully completing the powrezrzerzer in </span><span id="qcm">qcm</span></p>
+            </div>
+            <div class="accurate">
+                <div class="progress-radial progress-60">
+                    <div class="overlay">
+                        50%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary" onclick="$.Oda.App.Controller.QcmFinish.getPdfCertificate();" oda-label="qcmFinish.getPdf">qcmFinish.getPdf</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $.Oda.App.Controller.QcmFinish.start();
+</script>

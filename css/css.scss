@@ -1,0 +1,101 @@
+$border: 1px solid #EDEDEE;
+$borderRadius: 4px;
+$boxShadow: 0px 1px 3px 0px #9c9c9d;
+$paddingSize: 10px;
+$blue: #2980b9;
+$grey: #7f8c8d;
+$black: #000000;
+$green: #27ae60;
+
+.certificate {
+  width: 100%;
+  margin-top: 20px;
+  padding: $paddingSize;
+  border: $border;
+  border-radius: $borderRadius;
+  box-shadow: $boxShadow;
+  font-family: Latin, Greek, Cyrillic;
+  .banner {
+    height: 50px;
+    width: 100%;
+    background-color: $green;
+    display: block;
+    border-bottom: 10px solid lightgray;
+  }
+  .card{
+    display: table;
+    width: 100%;
+    .content {
+      width: 55%;
+      display: table-cell;
+      vertical-align: top;
+      .title {
+        font-weight: bold;
+        color: $blue;
+      }
+      .press, .for {
+        color: $grey;
+        margin-bottom: 50px;
+      }
+      .trainee {
+        color: $black;
+      }
+      .sep {
+        height: 2px;
+        width: 100%;
+        background-color: $black;
+        display: block;
+        margin-bottom: 10px;
+      }
+    }
+    .accurate{
+      width: 40%;
+      height: 100%;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+}
+
+$overlayColor: #fffde8;
+$backColor: #2f3439;
+$cirleSize: 200px;
+
+.progress-radial {
+  margin: auto;
+  width: $cirleSize;
+  height: $cirleSize;
+  border-radius: 50%;
+  background-color: $green
+}
+
+.progress-radial .overlay {
+  position: absolute;
+  width: $cirleSize - 40px;
+  height: $cirleSize - 40px;
+  background-color: $overlayColor;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-top: 20px;
+  text-align: center;
+  line-height: $cirleSize - 50px;
+  font-size: $cirleSize / 4;
+}
+
+$step: 5; // step of % for created classes
+
+$loops: round(100 / $step);
+$increment: 360 / $loops;
+$half: round($loops / 2);
+@for $i from 0 through $loops {
+  .progress-#{$i*$step}{
+    @if $i < $half{
+      $nextdeg: 90deg + ( $increment * $i );
+      background-image: linear-gradient(90deg, $backColor 50%, transparent 50%, transparent), linear-gradient($nextdeg, $green 50%, $backColor 50%, $backColor);
+    } @else {
+      $nextdeg: -90deg + ( $increment * ( $i - $half ) );
+      background-image: linear-gradient($nextdeg, $green 50%, transparent 50%, transparent), linear-gradient(270deg, $green 50%, $backColor 50%, $backColor);
+    }
+  }
+}

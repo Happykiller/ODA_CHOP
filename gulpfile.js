@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 plugins.browserSync = require('browser-sync');
+plugins.minCss = require('gulp-minify-css');
 
 gulp.task('browser-sync', function() {
     plugins.browserSync.init({
@@ -27,6 +28,7 @@ gulp.task('scss', function () {
                 "bb >= 10"
             ]
         }))
+        .pipe(plugins.minCss())
         .pipe(gulp.dest('css/'));
 });
 

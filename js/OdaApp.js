@@ -54,6 +54,14 @@
          */
         startQcm: function () {
             try {
+                $.Oda.Router.addDependencies("jsToPdf", {
+                    ordered : true,
+                    "list" : [
+                        { "elt" : "js/html2canvas.min.js", "type" : "script"},
+                        { "elt" : "js/jspdf.min.js", "type" : "script"}
+                    ]
+                });
+
                 $.Oda.Router.addRoute("home", {
                     "path" : "partials/qcm-start.html",
                     "title" : "qcm.title",
@@ -64,6 +72,13 @@
                     "path" : "partials/qcm.html",
                     "title" : "qcm.title",
                     "urls" : ["qcm"]
+                });
+
+                $.Oda.Router.addRoute("qcmFinish", {
+                    "path" : "partials/qcmFinish.html",
+                    "title" : "qcmFinish.title",
+                    "urls" : ["qcmFinish"],
+                    "dependencies" : ["jsToPdf"]
                 });
 
                 $.Oda.Router.addRoute("301", {
@@ -637,6 +652,12 @@
                  */
                 moveNext: function () {
                     try {
+                        if($.Oda.App.Controller.Qcm.current !== ""){
+                            $.Oda.App.Controller.Qcm.map[$.Oda.App.Controller.Qcm.current] = true;
+                            $.Oda.App.Controller.Qcm.Session.state = $.Oda.App.Controller.Qcm.map;
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
+                        }
+
                         $.Oda.App.Controller.Qcm.currentStep = 0;
                         for(var key in $.Oda.App.Controller.Qcm.map){
                             if($.Oda.App.Controller.Qcm.map[key]){
@@ -647,17 +668,22 @@
 
                         $('#progressBar').width(($.Oda.App.Controller.Qcm.currentStep/$.Oda.App.Controller.Qcm.steps*100)+"%");
 
+                        var gardian = false;
                         for(var key in $.Oda.App.Controller.Qcm.map){
                             if(!$.Oda.App.Controller.Qcm.map[key]){
-                                $.Oda.App.Controller.Qcm.Session.state = $.Oda.App.Controller.Qcm.map;
-                                $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
-                                $.Oda.App.Controller.Qcm.map[key] = true;
                                 $.Oda.Scope.Gardian.remove({id:"qcm"});
                                 $("#"+key).fadeIn("slow");
                                 $.Oda.App.Controller.Qcm.current = key;
+                                gardian = true;
                                 break;
                             }
                         }
+
+                        //no more step, finish screan
+                        if(!gardian){
+                            $.Oda.Router.navigateTo({'route':'qcmFinish','args':{id:$.Oda.App.Controller.Qcm.Session.id}});
+                        }
+
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.Qcm.moveNext : " + er.message);
@@ -733,6 +759,7 @@
                                 $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.version;
                                 $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.lang;
                                 $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.date;
+                                $.Oda.App.Controller.Qcm.Session.qcmDesc = response.data.desc;
                                 $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
                             }
 
@@ -778,6 +805,53 @@
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.QcmStart.submit : " + er.message);
+                        return null;
+                    }
+                }
+            },
+            "QcmFinish": {
+                /**
+                 * @returns {$.Oda.App.Controller.QcmFinish}
+                 */
+                start: function () {
+                    try {
+                        var id = $.Oda.Router.current.args["id"];
+                        if(id !== undefined){
+                            $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+id);
+                        }
+
+                        if($.Oda.App.Controller.Qcm.Session === null){
+                            $.Oda.Router.navigateTo({'route':'301','args':{}});
+                            return this;
+                        }
+
+                        $('#trainee').html($.Oda.App.Controller.Qcm.Session.firstName + ' ' + $.Oda.App.Controller.Qcm.Session.lastName + ' - ' + $.Oda.Date.getStrDateFR());
+                        $('#qcm').html(
+                            $.Oda.App.Controller.Qcm.Session.qcmName + " " +
+                            $.Oda.App.Controller.Qcm.Session.qcmVersion + " " +
+                            $.Oda.App.Controller.Qcm.Session.qcmLang + " " +
+                            $.Oda.App.Controller.Qcm.Session.qcmDate
+                        );
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.QcmFinish.start : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @returns {$.Oda.App.Controller.QcmFinish}
+                 */
+                getPdfCertificate: function () {
+                    try {
+                        var doc = new jsPDF();
+                        doc.addHTML($('#certificate')[0], 0, 0, {
+                            'background': '#fff',
+                        }, function() {
+                            doc.save('sample-file.pdf');
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.QcmFinish.getPdfCertificate : " + er.message);
                         return null;
                     }
                 }

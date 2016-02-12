@@ -79,5 +79,24 @@
             "title": "Error",
             "error": "Invalid session."
         }
+    },
+    {
+        "groupName": "qcmFinish",
+        "fr": {
+            "title": "Fin QCM",
+            "hello": "Félicitation vous avez finir votre QCM.",
+            "certComple": "Médaille du mérite !",
+            "certPress":"Félicitation pour avoir parcouru avec succés toutes les questoins.",
+            "certDate": "Pour la session de ",
+            "getPdf": "Get the PDF"
+        },
+        "en": {
+            "title": "MCQ end",
+            "hello": "Congratulation you have finish the MCQ.",
+            "certComple": "Medal of completion !",
+            "certPress":"Congratulation for success all questions.",
+            "certDate": "For the session of",
+            "getPdf": "Get the PDF"
+        }
     }
 ]
