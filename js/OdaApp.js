@@ -681,7 +681,7 @@
 
                         //no more step, finish screan
                         if(!gardian){
-                            $.Oda.Router.navigateTo({'route':'qcmFinish','args':{id:$.Oda.App.Controller.Qcm.Session.id}});
+                            $.Oda.Router.navigateTo({'route':'qcmFinish','args':{id:$.Oda.App.Controller.Qcm.Session.qcmId}});
                         }
 
                         return this;
