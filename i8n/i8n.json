@@ -85,18 +85,26 @@
         "fr": {
             "title": "Fin QCM",
             "hello": "Félicitation vous avez finir votre QCM.",
-            "certComple": "Médaille du mérite !",
+            "certComple": "Médaille du mérite",
             "certPress":"Félicitation pour avoir parcouru avec succés toutes les questoins.",
             "certDate": "Pour la session de ",
-            "getPdf": "Get the PDF"
+            "getPdf": "Get the PDF",
+            "gold": "Or",
+            "silver": "Argent",
+            "bronze": "Bronze",
+            "waitingDl": "Merci de patienter votre téléchargement va commencer."
         },
         "en": {
             "title": "MCQ end",
             "hello": "Congratulation you have finish the MCQ.",
-            "certComple": "Medal of completion !",
+            "certComple": "Medal of completion",
             "certPress":"Congratulation for success all questions.",
             "certDate": "For the session of",
-            "getPdf": "Get the PDF"
+            "getPdf": "Get the PDF",
+            "gold": "Gold",
+            "silver": "Silver",
+            "bronze": "Bronze",
+            "waitingDl": "Thank for waiting your download will start soon."
         }
     }
 ]

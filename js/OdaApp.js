@@ -832,6 +832,27 @@
                             $.Oda.App.Controller.Qcm.Session.qcmLang + " " +
                             $.Oda.App.Controller.Qcm.Session.qcmDate
                         );
+
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/sessionUser/"+$.Oda.App.Controller.Qcm.Session.id+"/stats/", {callback : function(response){
+                            var perc = parseInt($.Oda.Tooling.arrondir((response.data.nbTest - response.data.nbFail) / response.data.nbTest * 100,0));
+                            var rest = perc % 5;
+                            $('.overlay').html(perc+'%');
+                            $('#progress').addClass('progress-'+(perc-rest));
+                            if(perc >= 80){
+                                $('.overlay').css('background-color','#f1c40f');
+                                $('#medal').html($.Oda.I8n.get('qcmFinish','gold'));
+                                $('#medal').addClass('gold');
+                            }else if(perc >= 50 && perc < 80){
+                                $('.overlay').css('background-color','#bdc3c7');
+                                $('#medal').html($.Oda.I8n.get('qcmFinish','silver'));
+                                $('#medal').addClass('silver');
+                            }else if(perc < 50){
+                                $('.overlay').css('background-color','#e67e22');
+                                $('#medal').html($.Oda.I8n.get('qcmFinish','bronze'));
+                                $('#medal').addClass('bronze');
+                            }
+                        }});
+
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.QcmFinish.start : " + er.message);
@@ -843,11 +864,21 @@
                  */
                 getPdfCertificate: function () {
                     try {
+                        $.Oda.Display.Notification.info($.Oda.I8n.get('qcmFinish','waitingDl'));
                         var doc = new jsPDF();
                         doc.addHTML($('#certificate')[0], 0, 0, {
                             'background': '#fff',
                         }, function() {
-                            doc.save('sample-file.pdf');
+                            var currentTime = new Date();
+                            var annee = currentTime.getFullYear();
+                            var mois = $.Oda.Tooling.pad2(currentTime.getMonth()+1);
+                            var jour = $.Oda.Tooling.pad2(currentTime.getDate());
+                            var strDate = annee + mois + jour;
+                            doc.save('medal_'+$.Oda.App.Controller.Qcm.Session.qcmName + "-" +
+                                $.Oda.App.Controller.Qcm.Session.qcmVersion + "-" +
+                                $.Oda.App.Controller.Qcm.Session.qcmLang + "-" +
+                                $.Oda.App.Controller.Qcm.Session.qcmDate+ "_" +
+                                strDate + '.pdf');
                         });
                         return this;
                     } catch (er) {

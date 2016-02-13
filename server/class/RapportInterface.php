@@ -72,4 +72,45 @@ class RapportInterface extends OdaRestInterface {
             die();
         }
     }
+
+    /**
+     * @param $id
+     */
+    function getSessionUserStats($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`sessionUserId`, count(a.`id`) as 'nbTest'
+                FROM `tab_sessions_user_record` a
+                WHERE 1=1
+                AND a.`sessionUserId` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`sessionUserId`,
+                AVG(a.`nbErrors`) as 'avErrors', count(a.`id`) as 'nbFail'
+                FROM `tab_sessions_user_record` a
+                WHERE 1=1
+                AND a.`sessionUserId` = :id
+                AND a.`nbErrors` != 0
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour2 = $this->BD_ENGINE->reqODASQL($params);
+
+            $c = (object)array_merge((array)$retour->data, (array)$retour2->data);
+
+            $this->addDataObject($c);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
 }

@@ -37,3 +37,5 @@
     * type : GET
 * `/rapport/sessionUser/id:/record/`
     * type : GET
+* `/rapport/sessionUser/:id/stats/`
+    * type : GET
