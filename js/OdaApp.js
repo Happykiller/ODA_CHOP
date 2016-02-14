@@ -451,12 +451,19 @@
                  */
                 seeDetails : function (p_params) {
                     try {
+                        var strFooter = '<button type="button" onclick="$.Oda.App.Controller.ManageQcm.displayQCM();" class="btn btn-info" id="bt-displayOverviewQcm" oda-label="qcm-manage.showOverviewQcm">qcm-manage.showOverviewQcm</button>';
                         $.Oda.Display.Popup.open({
                             "name": "modalDetailsQcm",
-                            "size": "lg",
                             "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
-                            "details": '<div id="divDetailsUsers"></div>',
+                            "details": '<div id="divDetailsUsers" style="display: inline-block;vertical-align: top;"></div><div id="divOverview" style="display: none;width: 50%;overflow-y: auto; max-height:600px;"></div>',
+                            "footer": strFooter,
                             "callback": function () {
+                                $.Oda.App.Controller.ManageQcm.buildQcmView({
+                                    name: p_params.name,
+                                    version: p_params.version,
+                                    lang: p_params.lang,
+                                    date: p_params.date
+                                });
                                 $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
                                 $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
                             }
@@ -464,6 +471,76 @@
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.seeDetails : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {object} params
+                 * @param params.name
+                 * @param params.version
+                 * @param params.lang
+                 * @param params.date
+                 * @returns {$.Oda.App.Controller}
+                 */
+                buildQcmView: function (params) {
+                    try {
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/", { callback : function(response){
+                            var strHtml = "<span style='font-weight: bold;font-size: large;'>"+ $.Oda.I8n.get('qcm-manage','overviewQcm') +"</span><ul>";
+                            for(var chapterName in response.data){
+                                var chapterContent = response.data[chapterName]
+                                strHtml += '<li>'+chapterName+'<ul>';
+                                for(var index in chapterContent){
+                                    for(var questionName in chapterContent[index]){
+                                        var questionContent = chapterContent[index][questionName];
+                                        strHtml += '<li>'+questionName+'<ul>';
+                                        for(var indexResponse in questionContent){
+                                            for(var responseName in questionContent[indexResponse]){
+                                                if(questionContent[indexResponse][responseName]){
+                                                    strHtml += '<li style="color:#27ae60">'+responseName+'</li>';
+                                                }else{
+                                                    strHtml += '<li style="color:#c0392b">'+responseName+'</li>';
+                                                }
+                                            }
+                                        }
+                                        strHtml += '</ul></li>'
+                                    }
+                                }
+                                strHtml += "</ul></li>";
+                            }
+                            strHtml += "</ul>";
+                            $('#divOverview').html(strHtml);
+                        }}, {
+                            "name": params.name,
+                            "version": params.version,
+                            "lang": params.lang,
+                            "date": params.date
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.buildQcmViex : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                displayQCM: function () {
+                    try {
+                        var modal = $('#modalDetailsQcm .modal-dialog');
+                        if(modal.hasClass('modal-lg')){
+                            $('#bt-displayOverviewQcm').html($.Oda.I8n.get('qcm-manage','showOverviewQcm'));
+                            $('#divOverview').css('display','none');
+                            $('#divDetailsUsers').css('width','100%');
+                            modal.removeClass('modal-lg');
+                        }else{
+                            $('#bt-displayOverviewQcm').html($.Oda.I8n.get('qcm-manage','hideOverviewQcm'));
+                            modal.addClass('modal-lg');
+                            $('#divDetailsUsers').css('width','50%');
+                            $('#divOverview').css('display','inline-block');
+                        }
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayQCM : " + er.message);
                         return null;
                     }
                 },
