@@ -1,0 +1,237 @@
+"Chapter Bonita BPM":
+  - "What are the three main components of Bonita BPM ?":
+    - "Bonita Studio": true
+    - "Bonita Integration": false
+    - "Bonita Portal": true
+    - "Bonita Engine": true
+    - "Bonita Server": false
+  - "What will you use bonita studio for ?":
+    - "Designing processes": true
+    - "Creating forms": true
+    - "Running integration": false
+    - "Managing organizations": true
+    - "Deploying in qualification": false
+  - "what are .bos and .bar files useful for ?":
+    - "Bos for sharing processes between studio": true
+    - "Bos for deploying on servers": false
+    - "Bar for deploying on servers": true
+    - "Bar for sharing processes between studio": false
+"Chapter BPMN":
+  - "What are the different types of tasks available ?":
+    - "Human": true
+    - "Service": true
+    - "Timer": false
+    - "Call activity": true
+    - "Script": true
+    - "Abstract": true
+    - "E-Mail": false
+    - "Message": true
+  - "Can you provide examples of human and service tasks ?":
+    - "Human: Someone needs to validate a request made by someone else": true
+    - "Human: Someone needs to send a e-mali": false
+    - "Service task: a task to ask a validation": false
+    - "Service task: a task to update the database": true
+  - "What is the behavior of the process when there are multiple direct inputs into a task (no gateway)?":
+    - "Exclusive: the first transition to arrive (activated and completed) will take precedence. The other branch(es) may still reach the task and lead to duplication.": true
+    - "Parallel: wait all transition to arrive.": false
+  - "What is the difference between a Terminate end event and an End event":
+    - "The terminate end event immediately stop the process. The end event only terminate the current branch.": true
+    - "They are no difference.": false
+  - "Which transition should always be defined when using Exclusive gateways ?":
+    - "A transition always to avoid a lock.": false
+    - "A default transition to avoid a lock.": true
+"Chapter Using data in BonitaBPM":
+  - "What are the levels at which data can be defined as persistent ?":
+    - "Application": false
+    - "Global (process)": true
+    - "Local (task)": true
+    - "Form (ui desginer)": false
+  - "At which levels are or can not be persisted?":
+    - "Application": true
+    - "Global (process)": false
+    - "Local (task)": true
+    - "Form (ui desginer)": true
+  - "What is/are - global data used for?  What do you store in it ?":
+    - "Conditions": true
+    - "Business data": false
+    - "Indicator data": false
+    - "Computes intermediate": true
+"Chapter Call activity":
+  - "What are call activities useful for?":
+    - "Reuse": true
+    - "Readability": true
+    - "Maintenance": true
+    - "Performance": false
+    - "traceability": false
+  - "How is/are data transferred when using call activities ?":
+    - "Using data mapping, data are mapped from parent process to the child sub process": true
+    - "Auto-calculate by BonitaBPM with strong link between variables names": false
+  - "Where is the data mapping function located?":
+    - "On the process level": true
+    - "On the call activity task": false
+"Chapter Events":
+  - "In which categories could you differentiate bpmn events ?":
+    - "Start + catch": true
+    - "Start + throw": true
+    - "Intermediate + catch": true
+    - "Intermediate + throw": true
+    - "End events + catch": false
+    - "End events + throw": true
+  - "Which event sends a message?":
+    - "Start message process event": false
+    - "End message process event": true
+    - "Intermediate throw message event": true
+  - "How can we take an alternate path based on an event ?":
+    - "Intermediate catch event": false
+    - "Interrupting boundary events": true
+    - "Non interrupting boundary events": true
+"Chapter Message and Signal":
+  - "What are the two main differences between a message and a signal ?":
+    - "Messages can be Intermediate, signals don’t.": false
+    - "Messages carry data, signals don’t.": true
+    - "Messages can be start event, signals don’t.": false
+    - "Message are asynchrone, signals synchrone.": true
+  - "Which one can carry data ?":
+    - "Message": true
+    - "Signal": false
+  - "What is the first step to send data using messages ?":
+    - "Create a task message": false
+    - "Create a throw message event": true
+  - "How can we start a process from another process ?":
+    - "Yes": true
+    - "No": false
+  - "Can we end a process with a message event ?":
+    - "Yes": true
+    - "No": false
+"Chapter Timer":
+  - "What are the different timer event types ?":
+    - "Start timer": true
+    - "End timer": false
+    - "Terminate timer": false
+    - "Intermediate timer": true
+    - "Interrupting boundary timer": true
+    - "non interrupting boundary timer": true
+  - "Which element would we use for an escalation ?":
+    - "Interrupting boundary timer event": true
+    - "Intermediate timer": false
+  - "What is the difference between boundary timer events":
+    - "Interrupting boundary timer can be a duration, non interrupting don't": false
+    - "Interrupting boundary timer stop the task, non interrupting don't": true
+"Chapter Iterations":
+  - "Are multi-instantiated tasks run in parallel or in series ?":
+    - "Parallel if not a sequential multi instantiation": true
+    - "Series by default": false
+  - "Can we use multi-instantiation with a call activity ?":
+    - "Yes": true
+    - "No": false
+  - "Can we configure a loop on a call activity ?":
+    - "Yes": true
+    - "No": false
+"Chapter Connector":
+  - "What is a connector and how does it work ?":
+    - "For connect to another process": false
+    - "A door to the outside of the process": true
+    - "Waiting inputs and provide outputs": true
+    - "Waiting only the context and provide outputs": false
+  - "Where can a connector execution be triggered ?":
+    - "Process level": true
+    - "Form Level": false
+    - "Task Level": true
+    - "Application Level": false
+    - "Server Level": false
+  - "What can happens when a connector execution fails ?":
+    - "Ignore error": true
+    - "Retry execution": false
+    - "Send a notification": false
+    - "Put the step in a failed state": true
+    - "Thrown a BPMN error": true
+"Chapter Excption":
+  - "Which 2 kind of errors can be found in a process ?":
+    - "Tachnical Java": true
+    - "Tachnical JavaScript": false
+    - "Tachnical Html": false
+    - "Functional": true
+  - "What can throw an error ?":
+    - "Connector": true
+    - "Start event": false
+    - "End event": true
+  - "How is an error caught ?":
+    - "Connector": false
+    - "Boundary event": true
+    - "Start event": true
+    - "End event": false
+    - "Sub-process": true
+"Chapter Actor":
+  - "How are tasks linked to actors at design time (Bonita Studio) ?":
+    - "Actor mapping": true
+    - "Choose a profil ": false
+  - "What is the output of the execution of a filter ?":
+    - "List of user name": false
+    - "List of user Id": true
+  - "Under which conditions will a user see a step in his task list (Bonita Portal) ?":
+    - "If after calculate the actor mapping the user correspond to the actor": true
+    - "If it was disign on the task": false
+"Chapter Form":
+  - "Can you provide some examples of widgets that you can use to create a form ?":
+    - "Maps": false
+    - "Datatable": true
+    - "Record video": false
+    - "Text field": true
+  - "What happens after a form is submit ?":
+    - "The contract is checked": true
+    - "Connector input are execute": false
+"Chapter Portal":
+  - "What can a user do in Bonita BPM Portal ?":
+    - "Start a case": true
+    - "Stop a case": false
+    - "Execute actions on a case/step": true
+    - "Assign a task": false
+    - "Filter by categories": true
+    - "See case history in done category": true
+  - "What actions can a user take on a task ?":
+    - "Perform a step, hide": true
+    - "Add a subtask": true
+    - "Take/release": true
+    - "Add a comment": true
+    - "Assign to another user": false
+  - "When can a user add a subtask ?":
+    - "Anytime": false
+    - "On a taken task": true
+"Chapter Administration portal":
+  - "What are some differences between a user and an administrator profile in Bonita Portal? ":
+    - "Administrator can retry a task, user don't": true
+    - "Administrator can assign a task, user don't": true
+    - "Administrator can release a task, user don't": false
+    - "Administrator can start a case, user don't": false
+    - "Administrator can manage apps and organization, user don't": true
+  - "What can an administrator do to cases ?":
+    - "See all cases": true
+    - "The cases he just started": false
+    - "Delete a case": true
+    - "Modify data case": true
+    - "Retry a case": false
+  - "What can an administrator do to processes ?":
+    - "Change actor mapping": true
+    - "Change parameter": true
+    - "Change dependancy": false
+    - "Change groovy scrypt": true
+    - "Change state": true
+    - "Change connector implementation": true
+    - "Change version": false
+    - "Change form": true
+    - "Change categorie": true
+"Chapter KPI":
+  - "What is a Key Performance Indicator ?":
+    - "KPIs evaluate the success of an organization": true
+    - "Debug": false
+    - "Measuring the performance": true
+  - "What can be monitored in Bonita BPM ?":
+    - "Proces data": true
+    - "Form data": false
+  - "How and where is a report of KPI data produced ?":
+    - "Studio": false
+    - "Portal": true
+    - "Applicaion": true
+  - "Where can the existing reports in Bonita BPM be found ?":
+    - "As administrator profile in BPM, Analytics": true
+    - "In the studio in KPI": false
