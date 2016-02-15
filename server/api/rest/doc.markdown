@@ -39,3 +39,5 @@
     * type : GET
 * `/rapport/sessionUser/:id/stats/`
     * type : GET
+* `/rapport/emarg/:id`
+    * type : GET

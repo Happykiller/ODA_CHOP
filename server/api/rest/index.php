@@ -111,6 +111,12 @@ $slim->get('/rapport/sessionUser/:id/stats/', function ($id) use ($slim) {
     $INTERFACE->getSessionUserStats($id);
 });
 
+$slim->get('/rapport/emarg/:id', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new RapportInterface($params);
+    $INTERFACE->getEmarg($id);
+});
 
 //--------------------------------------------------------------------------
 

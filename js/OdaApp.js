@@ -24,6 +24,21 @@
          */
         startApp: function () {
             try {
+                $.Oda.Loader.load({
+                    depends : [{
+                        "name" : "qcm",
+                        "list" : [
+                            {
+                                "elt" : "templates/emarg.html",
+                                "type": "html",
+                                target : function(data){
+                                    $( "body" ).append(data);
+                                }
+                            }
+                        ]
+                    }]
+                });
+
                 $.Oda.Router.addRoute("home", {
                     "path" : "partials/home.html",
                     "title" : "oda-main.home-title",
@@ -98,6 +113,74 @@
         },
 
         "Controller" : {
+            /**
+             * @param {Object} p_params
+             * @param p_params.id
+             * @returns {$.Oda.App.Controller}
+             */
+            displayEmarg : function (p_params) {
+                try {
+                    var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/emarg/"+p_params.id, { callback : function(response){
+                        var strHtml = $.Oda.Display.TemplateHtml.create({
+                            template : "emarg-tpl"
+                            , scope : {
+                            }
+                        });
+
+                        $.Oda.Display.Popup.open({
+                            "name": "popEmarg",
+                            "label": "hello",
+                            "size": "lg",
+                            "details": strHtml,
+                            "callback": function () {
+                                var nbDays = response.data.qcmDates.data.length;
+                                for (var index in response.data.qcmDates.data){
+                                    var date = response.data.qcmDates.data[index];
+                                    $('#tabEmarg > thead tr:first-child').append('<th colspan="2">'+date.date+'</th>');
+                                    $('#tabEmarg > thead tr:last-child').append('<th>Matin</th><th>Arpès-midi</th>');
+                                    $('#tabEmarg > tbody tr:first-child').append('<td colspan="2">&nbsp;</td>');
+                                }
+
+                                for (var index in response.data.qcmUsers.data){
+                                    var user = response.data.qcmUsers.data[index];
+                                    var strHtmlUser = '<tr><td>'+user.firstName+' '+user.lastName+': Credit Agricole Bretagne</td>';
+                                    for (var indexDate in response.data.qcmDates.data){
+                                        var date = response.data.qcmDates.data[indexDate];
+                                        var strPeriode1 = 'period1';
+                                        var strPeriode2 = 'period2';
+                                        for(var indexData in response.data.qcmDatas.data){
+                                            var data = response.data.qcmDatas.data[indexData];
+                                            if(data.sessionUserId === user.sessionUserId && data.date === date.date){
+                                                if(data.period === '1'){
+                                                    if(data.present === '1') {
+                                                        strPeriode1 = 'yes';
+                                                    }else{
+                                                        strPeriode1 = 'no';
+                                                    }
+                                                }else if(data.period === '2'){
+                                                    if(data.present === '1') {
+                                                        strPeriode2 = 'yes';
+                                                    }else{
+                                                        strPeriode2 = 'no';
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        strHtmlUser += '<td>'+strPeriode1+'</td>';
+                                        strHtmlUser += '<td>'+strPeriode2+'</td>';
+                                    }
+                                    strHtmlUser += '</tr>';
+                                    $('#tabEmarg > tbody:last-child').append(strHtmlUser);
+                                }
+                            }
+                        });
+                    }});
+                    return this;
+                } catch (er) {
+                    $.Oda.Log.error("$.Oda.App.controller.displayEmarg : " + er.message);
+                    return null;
+                }
+            },
             "Home": {
                 /**
                  * @returns {$.Oda.App.Controller.Home}
