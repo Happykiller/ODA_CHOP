@@ -1,5 +1,14 @@
 [
     {
+        "groupName" : "qcm-main"
+        , "fr" : {
+            "getPdfEmarg" : "Récupérer en PDF"
+        }
+        , "en" : {
+            "getPdfEmarg" : "Get in PDF"
+        }
+    },
+    {
         "groupName" : "home"
         , "fr" : {
             "title" : "Accueil",
@@ -69,7 +78,8 @@
             "details": "Détails",
             "showOverviewQcm": "Montrer Aperçu QCM",
             "hideOverviewQcm": "Cacher Aperçu QCM",
-            "overviewQcm": "Aperçu QCM"
+            "overviewQcm": "Aperçu QCM",
+            "emarg": "Emargement"
         }
     },
     {

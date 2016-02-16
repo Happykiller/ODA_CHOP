@@ -39,6 +39,14 @@
                     }]
                 });
 
+                $.Oda.Router.addDependencies("jsToPdf", {
+                    ordered : true,
+                    "list" : [
+                        { "elt" : "js/html2canvas.min.js", "type" : "script"},
+                        { "elt" : "js/jspdf.min.js", "type" : "script"}
+                    ]
+                });
+
                 $.Oda.Router.addRoute("home", {
                     "path" : "partials/home.html",
                     "title" : "oda-main.home-title",
@@ -52,7 +60,7 @@
                     "title" : "qcm-manage.title",
                     "urls" : ["qcm-manage"],
                     "middleWares":["support","auth"],
-                    "dependencies" : ["dataTables"]
+                    "dependencies" : ["dataTables","jsToPdf"]
                 });
 
                 $.Oda.Router.startRooter();
@@ -123,20 +131,26 @@
                     var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/emarg/"+p_params.id, { callback : function(response){
                         var strHtml = $.Oda.Display.TemplateHtml.create({
                             template : "emarg-tpl"
-                            , scope : {
+                            , "scope" : {
+                                "title": response.data.qcmDetails.qcmDesc,
+                                "trainer": response.data.qcmDetails.firstName + " " + response.data.qcmDetails.lastName
                             }
                         });
 
+                        var strLabel = response.data.qcmDetails.qcmName+' '+response.data.qcmDetails.qcmLang+' '+response.data.qcmDetails.qcmVersion+' '+response.data.qcmDetails.qcmDate;
+                        var strFooter = '<button type="button" onclick="$.Oda.App.Controller.getPdfEmarg();" class="btn btn-info" oda-label="qcm-main.getPdfEmarg">qcm-main.getPdfEmarg</button>';
+
                         $.Oda.Display.Popup.open({
                             "name": "popEmarg",
-                            "label": "hello",
+                            "label": strLabel,
                             "size": "lg",
+                            "footer": strFooter,
                             "details": strHtml,
                             "callback": function () {
                                 var nbDays = response.data.qcmDates.data.length;
                                 for (var index in response.data.qcmDates.data){
                                     var date = response.data.qcmDates.data[index];
-                                    $('#tabEmarg > thead tr:first-child').append('<th colspan="2">'+date.date+'</th>');
+                                    $('#tabEmarg > thead tr:first-child').append('<th colspan="2" style="text-align: center;">'+date.date+'</th>');
                                     $('#tabEmarg > thead tr:last-child').append('<th>Matin</th><th>Arpès-midi</th>');
                                     $('#tabEmarg > tbody tr:first-child').append('<td colspan="2">&nbsp;</td>');
                                 }
@@ -166,8 +180,8 @@
                                                 }
                                             }
                                         }
-                                        strHtmlUser += '<td>'+strPeriode1+'</td>';
-                                        strHtmlUser += '<td>'+strPeriode2+'</td>';
+                                        strHtmlUser += '<td><div class="circle-'+strPeriode1+'"></div></td>';
+                                        strHtmlUser += '<td><div class="circle-'+strPeriode2+'"></div></td>';
                                     }
                                     strHtmlUser += '</tr>';
                                     $('#tabEmarg > tbody:last-child').append(strHtmlUser);
@@ -178,6 +192,30 @@
                     return this;
                 } catch (er) {
                     $.Oda.Log.error("$.Oda.App.controller.displayEmarg : " + er.message);
+                    return null;
+                }
+            },
+            /**
+             * @returns {$.Oda.App.Controller}
+             */
+            getPdfEmarg : function () {
+                try {
+                    $.Oda.Display.Notification.info($.Oda.I8n.get('qcmFinish','waitingDl'));
+                    var doc = new jsPDF();
+                    doc.addHTML($('#popEmarg_content')[0], 0, 15, {
+                        'background': '#fff',
+                    }, function() {
+                        var currentTime = new Date();
+                        var annee = currentTime.getFullYear();
+                        var mois = $.Oda.Tooling.pad2(currentTime.getMonth()+1);
+                        var jour = $.Oda.Tooling.pad2(currentTime.getDate());
+                        var strDate = annee + mois + jour;
+                        doc.save('emarg_' +
+                            strDate + '.pdf');
+                    });
+                    return this;
+                } catch (er) {
+                    $.Oda.Log.error("$.Oda.App.Controller.getPdfEmarg : " + er.message);
                     return null;
                 }
             },
@@ -386,7 +424,9 @@
                                                 "date": row[objDataTable.entete["date"]],
                                                 "desc": row[objDataTable.entete["desc"]]
                                             };
-                                            return '<button onclick="$.Oda.App.Controller.ManageQcm.seeDetails('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> '+ $.Oda.I8n.get('qcm-manage','details')+'</button>';
+                                            var strHtml = '<button onclick="$.Oda.App.Controller.ManageQcm.seeDetails('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> '+ $.Oda.I8n.get('qcm-manage','details')+'</button>';
+                                            strHtml += '<button onclick="$.Oda.App.Controller.displayEmarg({id:'+row[objDataTable.entete["id"]]+'});" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-th-list"></span> '+ $.Oda.I8n.get('qcm-manage','emarg')+'</button>'
+                                            return strHtml;
                                         },
                                         "aTargets": [10]
                                     }
@@ -1026,7 +1066,7 @@
                     try {
                         $.Oda.Display.Notification.info($.Oda.I8n.get('qcmFinish','waitingDl'));
                         var doc = new jsPDF();
-                        doc.addHTML($('#certificate')[0], 0, 0, {
+                        doc.addHTML($('#certificate')[0], 0, 15, {
                             'background': '#fff',
                         }, function() {
                             var currentTime = new Date();
