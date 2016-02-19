@@ -46,7 +46,7 @@
   "groupName": "qcmStart",
   "fr": {
     "title": "QCM",
-    "hello": "Bienvenue dans ce Questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
+    "hello": "Bienvenue dans ce questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
   },
   "en": {
     "title": "MCQ",
