@@ -151,13 +151,13 @@
                                 for (var index in response.data.qcmDates.data){
                                     var date = response.data.qcmDates.data[index];
                                     $('#tabEmarg > thead tr:first-child').append('<th colspan="2" style="text-align: center;">'+date.date+'</th>');
-                                    $('#tabEmarg > thead tr:last-child').append('<th>Matin</th><th>Arpès-midi</th>');
+                                    $('#tabEmarg > thead tr:last-child').append('<th style="text-align: center;">Matin</th><th style="text-align: center;">Arpès-midi</th>');
                                     $('#tabEmarg > tbody tr:first-child').append('<td colspan="2">&nbsp;</td>');
                                 }
 
                                 for (var index in response.data.qcmUsers.data){
                                     var user = response.data.qcmUsers.data[index];
-                                    var strHtmlUser = '<tr><td>'+user.firstName+' '+user.lastName+': Credit Agricole Bretagne</td>';
+                                    var strHtmlUser = '<tr><td>'+user.firstName+' '+user.lastName+((user.company!=='')?':'+user.company:'')+'</td>';
                                     for (var indexDate in response.data.qcmDates.data){
                                         var date = response.data.qcmDates.data[indexDate];
                                         var strPeriode1 = 'period1';
@@ -745,15 +745,16 @@
             "Qcm": {
                 Session: null,
                 SessionDefault: {
-                    "id":"0",
-                    "firstName":"",
-                    "lastName":"",
-                    "qcmId":"0",
-                    "qcmName":"",
-                    "qcmVersion":"",
-                    "qcmLang":"",
-                    "qcmDate":"",
-                    "state":null
+                    "id": "0",
+                    "firstName": "",
+                    "lastName": "",
+                    "compagny": "",
+                    "qcmId": "0",
+                    "qcmName": "",
+                    "qcmVersion": "",
+                    "qcmLang": "",
+                    "qcmDate": "",
+                    "state": null
                 },
                 map: {},
                 listCheckbox: [],
@@ -990,17 +991,19 @@
                     try {
                         $.Oda.App.Controller.Qcm.Session.firstName = $('#firstName').val();
                         $.Oda.App.Controller.Qcm.Session.lastName = $('#lastName').val();
+                        $.Oda.App.Controller.Qcm.Session.company = $('#company').val();
 
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/", {type:'POST', callback : function(response){
                             $.Oda.App.Controller.Qcm.Session.id = response.data;
                             $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
-                            $.Oda.Router.navigateTo({'route':'qcm','args':{}});
+                            $.Oda.Router.navigateTo({'route':'qcm','args':{id:$.Oda.App.Controller.Qcm.Session.qcmId}});
                         }},{
-                            "firstName":$.Oda.App.Controller.Qcm.Session.firstName,
-                            "lastName":$.Oda.App.Controller.Qcm.Session.lastName,
-                            "qcmId":$.Oda.App.Controller.Qcm.Session.qcmId,
-                            "qcmName":$.Oda.App.Controller.Qcm.Session.qcmName,
-                            "qcmLang":$.Oda.App.Controller.Qcm.Session.qcmLang
+                            "firstName": $.Oda.App.Controller.Qcm.Session.firstName,
+                            "lastName": $.Oda.App.Controller.Qcm.Session.lastName,
+                            "company": $.Oda.App.Controller.Qcm.Session.company,
+                            "qcmId": $.Oda.App.Controller.Qcm.Session.qcmId,
+                            "qcmName": $.Oda.App.Controller.Qcm.Session.qcmName,
+                            "qcmLang": $.Oda.App.Controller.Qcm.Session.qcmLang
                         });
                         return this;
                     } catch (er) {

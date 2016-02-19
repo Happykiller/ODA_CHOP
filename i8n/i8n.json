@@ -1,123 +1,145 @@
-[
-    {
-        "groupName" : "qcm-main"
-        , "fr" : {
-            "getPdfEmarg" : "Récupérer en PDF"
-        }
-        , "en" : {
-            "getPdfEmarg" : "Get in PDF"
-        }
-    },
-    {
-        "groupName" : "home"
-        , "fr" : {
-            "title" : "Accueil",
-            "hello" : "Bonjour avec le FrameWork Oda"
-        }
-        , "en" : {
-            "title" : "Home",
-            "hello" : "Hello with Oda FrameWork"
-        }
-    },
-    {
-        "groupName" : "qcm"
-        , "fr" : {
-            "title" : "QCM",
-            "hello" : "Dans ce Questionnaire à Choix Multiple, il vous suffit de proposer vos choix, si ils sont jsutes vous pourrez passer à la suite.",
-            "start" : "Commencer",
-            "next" : "Suivant",
-            "validate" : "Valider",
-            "ErrorMessage" : " mauvaise(s) réponse(s) !",
-            "SuccessMessage" : "Bravo vous pouvez aller à la suite quant vous êtes prêt !"
-        }
-        , "en" : {
-            "title" : "MCQ",
-            "hello" : "In this Multiple Choice Questionnaire, simply submit your choices, if they are good you can move next.",
-            "start" : "Start",
-            "next" : "Next",
-            "validate" : "Validate",
-            "SuccessMessage" : " bad response(s) !",
-            "SuccessMessage" : "Bravo you can go to next when your are ready !"
-        }
-    },
-    {
-        "groupName" : "qcmStart"
-        , "fr" : {
-            "title" : "QCM",
-            "hello" : "Bienvenue dans ce Questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
-        }
-        , "en" : {
-            "title" : "MCQ",
-            "hello" : "Welcome to the Multiple Choice Questionnaire, in order to improve ourselves we need to recognize you."
-        }
-    },
-    {
-        "groupName" : "qcm-manage",
-        "fr" : {
-            "title" : "Gérer les QCM",
-            "hello" : "Pour la gestion des qcm",
-            "createQcm": "Créer une nouvelle session QCM",
-            "fr": "Français",
-            "en": "Anglais",
-            "name" : "Nom",
-            "lang": "Langue",
-            "author": "Autheur",
-            "name": "Nom",
-            "version": "Version",
-            "lang": "Langue",
-            "date": "Date",
-            "desc": "Description",
-            "link": "Lien",
-            "success": "Réussite",
-            "nbUser": "Nombre d'utilisateur",
-            "actions": "Actions",
-            "id": "Identifiant",
-            "select": "Selectionner",
-            "descMissing": "Description manquante.",
-            "action": "Actions",
-            "details": "Détails",
-            "showOverviewQcm": "Montrer Aperçu QCM",
-            "hideOverviewQcm": "Cacher Aperçu QCM",
-            "overviewQcm": "Aperçu QCM",
-            "emarg": "Emargement"
-        }
-    },
-    {
-        "groupName": "301",
-        "fr": {
-            "title": "Erreur",
-            "error": "Session invalide."
-        },
-        "en": {
-            "title": "Error",
-            "error": "Invalid session."
-        }
-    },
-    {
-        "groupName": "qcmFinish",
-        "fr": {
-            "title": "Fin QCM",
-            "hello": "Félicitation vous avez finir votre QCM.",
-            "certComple": "Médaille du mérite",
-            "certPress":"Félicitation pour avoir parcouru avec succés toutes les questoins.",
-            "certDate": "Pour la session de ",
-            "getPdf": "Get the PDF",
-            "gold": "Or",
-            "silver": "Argent",
-            "bronze": "Bronze",
-            "waitingDl": "Merci de patienter votre téléchargement va commencer."
-        },
-        "en": {
-            "title": "MCQ end",
-            "hello": "Congratulation you have finish the MCQ.",
-            "certComple": "Medal of completion",
-            "certPress":"Congratulation for success all questions.",
-            "certDate": "For the session of",
-            "getPdf": "Get the PDF",
-            "gold": "Gold",
-            "silver": "Silver",
-            "bronze": "Bronze",
-            "waitingDl": "Thank for waiting your download will start soon."
-        }
-    }
-]
+[{
+  "groupName": "qcm-main",
+  "fr": {
+    "getPdfEmarg": "Récupérer en PDF"
+  },
+  "en": {
+    "getPdfEmarg": "Get in PDF"
+  }
+}, {
+  "groupName": "home",
+  "fr": {
+    "title": "Accueil",
+    "hello": "Bonjour avec le FrameWork Oda"
+  },
+  "en": {
+    "title": "Home",
+    "hello": "Hello with Oda FrameWork"
+  }
+}, {
+  "groupName": "qcm",
+  "fr": {
+    "title": "QCM",
+    "hello": "Dans ce Questionnaire à Choix Multiple, il vous suffit de proposer vos choix, si ils sont jsutes vous pourrez passer à la suite.",
+    "start": "Commencer",
+    "next": "Suivant",
+    "validate": "Valider",
+    "ErrorMessage": " mauvaise(s) réponse(s) !",
+    "SuccessMessage": "Bravo vous pouvez aller à la suite quant vous êtes prêt !",
+    "company": "Entreprise",
+    "company-tips": "Saisie libre",
+    "company-placeholder": "Le nom de votre entreprise ici"
+  },
+  "en": {
+    "title": "MCQ",
+    "hello": "In this Multiple Choice Questionnaire, simply submit your choices, if they are good you can move next.",
+    "start": "Start",
+    "next": "Next",
+    "validate": "Validate",
+    "ErrorMessage": " bad response(s) !",
+    "SuccessMessage": "Bravo you can go to next when your are ready !",
+    "company": "Company",
+    "company-tips": "Free record",
+    "company-placeholder": "Your company name here"
+  }
+}, {
+  "groupName": "qcmStart",
+  "fr": {
+    "title": "QCM",
+    "hello": "Bienvenue dans ce Questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
+  },
+  "en": {
+    "title": "MCQ",
+    "hello": "Welcome to the Multiple Choice Questionnaire, in order to improve ourselves we need to recognize you."
+  }
+}, {
+  "groupName": "qcm-manage",
+  "fr": {
+    "title": "Gérer les QCM",
+    "hello": "Pour la gestion des qcm",
+    "createQcm": "Créer une nouvelle session QCM",
+    "fr": "Français",
+    "en": "Anglais",
+    "name": "Nom",
+    "lang": "Langue",
+    "author": "Autheur",
+    "version": "Version",
+    "date": "Date",
+    "desc": "Description",
+    "link": "Lien",
+    "success": "Réussite",
+    "nbUser": "Nombre d'utilisateur",
+    "actions": "Actions",
+    "id": "Identifiant",
+    "select": "Selectionner",
+    "descMissing": "Description manquante.",
+    "action": "Actions",
+    "details": "Détails",
+    "showOverviewQcm": "Montrer Aperçu QCM",
+    "hideOverviewQcm": "Cacher Aperçu QCM",
+    "overviewQcm": "Aperçu QCM",
+    "emarg": "Emargement"
+  },
+  "en": {
+    "title": "Manage MCQ",
+    "hello": "For mange MCQs",
+    "createQcm": "Create new MCQ session",
+    "fr": "French",
+    "en": "English",
+    "name": "Name",
+    "lang": "Language",
+    "author": "Author",
+    "version": "Version",
+    "date": "Date",
+    "desc": "Description",
+    "link": "Link",
+    "success": "Success",
+    "nbUser": "Number of user",
+    "actions": "Actions",
+    "id": "Identification",
+    "select": "Select",
+    "descMissing": "Description missing.",
+    "action": "Actions",
+    "details": "Details",
+    "showOverviewQcm": "Show MCS Overview",
+    "hideOverviewQcm": "Hide MCS Overview",
+    "overviewQcm": "Overview MCQ",
+    "emarg": "Attendance sheet"
+  }
+}, {
+  "groupName": "301",
+  "fr": {
+    "title": "Erreur",
+    "error": "Session invalide."
+  },
+  "en": {
+    "title": "Error",
+    "error": "Invalid session."
+  }
+}, {
+  "groupName": "qcmFinish",
+  "fr": {
+    "title": "Fin QCM",
+    "hello": "Félicitation vous avez finir votre QCM.",
+    "certComple": "Médaille du mérite",
+    "certPress": "Félicitation pour avoir parcouru avec succés toutes les questoins.",
+    "certDate": "Pour la session de ",
+    "getPdf": "Get the PDF",
+    "gold": "Or",
+    "silver": "Argent",
+    "bronze": "Bronze",
+    "waitingDl": "Merci de patienter votre téléchargement va commencer."
+  },
+  "en": {
+    "title": "MCQ end",
+    "hello": "Congratulation you have finish the MCQ.",
+    "certComple": "Medal of completion",
+    "certPress": "Congratulation for success all questions.",
+    "certDate": "For the session of",
+    "getPdf": "Get the PDF",
+    "gold": "Gold",
+    "silver": "Silver",
+    "bronze": "Bronze",
+    "waitingDl": "Thank for waiting your download will start soon."
+  }
+}]

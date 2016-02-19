@@ -139,7 +139,7 @@ class RapportInterface extends OdaRestInterface {
             $this->addDataReqSQL($params);
 
             $params = new OdaPrepareReqSql();
-            $params->sql = "Select DISTINCT b.`sessionUserId`, a.`firstName`, a.`lastName`
+            $params->sql = "Select DISTINCT b.`sessionUserId`, a.`firstName`, a.`lastName`, a.`company`
              FROM `tab_qcm_sessions_user` a, `tab_sessions_user_record` b
              WHERE 1=1
                 AND b.`sessionUserId` = a.`id`

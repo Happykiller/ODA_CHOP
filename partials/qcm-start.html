@@ -20,6 +20,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="company" oda-label="qcm.company">company</label>
+                <input type="text" class="form-control" oda-input-text="company" oda-input-text-tips="qcm.company-tips" oda-input-text-placeholder="qcm.company-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12 text-right">
             <button type="button" oda-label="qcm.start" oda-submit="submit" onclick="$.Oda.App.Controller.QcmStart.submit();" class="btn btn-primary disabled" disabled>qcm.start</button >
         </div>

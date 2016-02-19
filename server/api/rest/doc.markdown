@@ -24,7 +24,7 @@
 
 * `/sessionUser/`
     * type : POST
-    * mandatory params : "firstName","lastName","qcmId","qcmName","qcmLang"
+    * mandatory params : "firstName","lastName","qcmId","qcmName","qcmLang","company"
     * public : true
 * `/sessionUser/record/`
     * type : POST

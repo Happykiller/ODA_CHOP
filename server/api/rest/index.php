@@ -74,7 +74,7 @@ $slim->get('/qcm/search/', function () use ($slim) {
 //---------------------------- SESSION_USER --------------------------------
 $slim->post('/sessionUser/', function () use ($slim) {
     $params = new OdaPrepareInterface();
-    $params->arrayInput = array("firstName","lastName","qcmId","qcmName","qcmLang");
+    $params->arrayInput = array("firstName","lastName","qcmId","qcmName","qcmLang","company");
     $params->slim = $slim;
     $INTERFACE = new SessionUserInterface($params);
     $INTERFACE->create();

@@ -28,10 +28,11 @@ class SessionUserInterface extends OdaRestInterface {
                     `qcmId`,
                     `qcmName`,
                     `qcmLang`,
-                    `createDate`
+                    `createDate`,
+                    `company`
                 )
                 VALUES (
-                    :firstName, :lastName, :qcmId, :qcmName, :qcmLang, NOW()
+                    :firstName, :lastName, :qcmId, :qcmName, :qcmLang, NOW(), :company
                 )
             ;";
             $params->bindsValue = [
@@ -39,7 +40,8 @@ class SessionUserInterface extends OdaRestInterface {
                 "lastName" => $this->inputs["lastName"],
                 "qcmId" => $this->inputs["qcmId"],
                 "qcmName" => $this->inputs["qcmName"],
-                "qcmLang" => $this->inputs["qcmLang"]
+                "qcmLang" => $this->inputs["qcmLang"],
+                "company" => $this->inputs["company"]
             ];
             $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);
