@@ -117,10 +117,15 @@ class QcmInterface extends OdaRestInterface {
                     `version`,
                     `lang`,
                     `date`,
-                    `desc`
+                    `desc`,
+                    `title`,
+                    `hours`,
+                    `duration`,
+                    `details`,
+                    `location`
                 )
                 VALUES (
-                    :userId, NOW(), :name, :version, :lang, :date, :desc
+                    :userId, NOW(), :name, :version, :lang, :date, :desc, :title, :hours, :duration, :details, :location
                 )
             ;";
             $params->bindsValue = [
@@ -130,6 +135,11 @@ class QcmInterface extends OdaRestInterface {
                 "lang" => $this->inputs["lang"],
                 "date" => $this->inputs["date"],
                 "desc" => $this->inputs["desc"],
+                "title" => $this->inputs["title"],
+                "hours" => $this->inputs["hours"],
+                "duration" => $this->inputs["duration"],
+                "details" => $this->inputs["details"],
+                "location" => $this->inputs["location"]
             ];
             $params->typeSQL = OdaLibBd::SQL_INSERT_ONE;
             $retour = $this->BD_ENGINE->reqODASQL($params);

@@ -10,7 +10,7 @@
     * type : GET
 * `/qcm/`
     * type : POST
-    * mandatory params : "userId","name","lang"
+    * mandatory params : "userId","name","lang","title","hours","duration","details","location"
     * public : false
 * `/qcm/search/file/`
     * type : GET

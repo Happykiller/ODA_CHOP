@@ -1,10 +1,28 @@
 [{
   "groupName": "qcm-main",
   "fr": {
-    "getPdfEmarg": "Récupérer en PDF"
+    "getPdfEmarg": "Récupérer en PDF",
+    "title": "Intitulé de la formation :",
+    "location": "Lieu :",
+    "hours": "Horaires :",
+    "duration": "Nombre d’heures total :",
+    "details": "Détails :",
+    "trainer": "Formateur :",
+    "trainee": "Nom et société des participants",
+    "morning": "Matin",
+    "afternoon": "Après-midi"
   },
   "en": {
-    "getPdfEmarg": "Get in PDF"
+    "getPdfEmarg": "Get in PDF",
+    "title": "Training title:",
+    "location": "Location:",
+    "hours": "Hours:",
+    "duration": "Number of hours total:",
+    "details": "Details:",
+    "trainer": "Trainer:",
+    "trainee": "Name and company of trainee",
+    "morning": "Morning",
+    "afternoon": "Afternoon"
   }
 }, {
   "groupName": "home",

@@ -120,7 +120,9 @@ class RapportInterface extends OdaRestInterface {
     function getEmarg($id) {
         try {
             $params = new OdaPrepareReqSql();
-            $params->sql = "Select a.`id` as 'qcmId', a.`author` as 'qcmAuthor', a.`date` as 'qcmDate', a.`desc` as 'qcmDesc', a.`lang` as 'qcmLang', a.`name` as 'qcmName', a.`version` as 'qcmVersion',
+            $params->sql = "Select a.`id` as 'qcmId', a.`author` as 'qcmAuthor', a.`date` as 'qcmDate', a.`desc` as 'qcmDesc',
+            a.`lang` as 'qcmLang', a.`name` as 'qcmName', a.`version` as 'qcmVersion', a.`location` as 'qcmLocation',
+            a.`title` as 'qcmTitle', a.`hours` as 'qcmHours', a.`duration` as 'qcmDuration', a.`details` as 'qcmDetails',
             b.`code_user`, b.`nom` as 'firstName', b.`prenom` as 'lastName'
             FROM `tab_qcm_sessions` a, `api_tab_utilisateurs` b
             WHERE 1=1

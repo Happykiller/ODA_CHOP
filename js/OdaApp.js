@@ -132,8 +132,12 @@
                         var strHtml = $.Oda.Display.TemplateHtml.create({
                             template : "emarg-tpl"
                             , "scope" : {
-                                "title": response.data.qcmDetails.qcmDesc,
-                                "trainer": response.data.qcmDetails.firstName + " " + response.data.qcmDetails.lastName
+                                "title": response.data.qcmDetails.qcmTitle,
+                                "trainer": response.data.qcmDetails.firstName + " " + response.data.qcmDetails.lastName,
+                                "location": response.data.qcmDetails.qcmLocation,
+                                "hours": response.data.qcmDetails.qcmHours,
+                                "duration": response.data.qcmDetails.qcmDuration,
+                                "details": response.data.qcmDetails.qcmDetails
                             }
                         });
 
@@ -147,11 +151,10 @@
                             "footer": strFooter,
                             "details": strHtml,
                             "callback": function () {
-                                var nbDays = response.data.qcmDates.data.length;
                                 for (var index in response.data.qcmDates.data){
                                     var date = response.data.qcmDates.data[index];
                                     $('#tabEmarg > thead tr:first-child').append('<th colspan="2" style="text-align: center;">'+date.date+'</th>');
-                                    $('#tabEmarg > thead tr:last-child').append('<th style="text-align: center;">Matin</th><th style="text-align: center;">Arpès-midi</th>');
+                                    $('#tabEmarg > thead tr:last-child').append('<th style="text-align: center;">'+ $.Oda.I8n.get('qcm-main','morning')+'</th><th style="text-align: center;">'+ $.Oda.I8n.get('qcm-main','afternoon')+'</th>');
                                     $('#tabEmarg > tbody tr:first-child').append('<td colspan="2">&nbsp;</td>');
                                 }
 

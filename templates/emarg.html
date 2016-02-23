@@ -1,13 +1,13 @@
 <script id="emarg-tpl" type="text/template">
     <div class="row">
         <div class="col-md-6">
-            <p>Intitulé de la formation : {{title}}</p>
-            <p>Lieu : à distance</p>
+            <p><span oda-label="qcm-main.title">qcm-main.title</span> {{title}}</p>
+            <p><span oda-label="qcm-main.location">qcm-main.location</span> {{location}}</p>
         </div>
         <div class="col-md-6">
-            <p>Horaires : 14h- 17h30</p>
-            <p>Nombre d’heures total : 10h50</p>
-            <p>Version Bonita BPM : BonitaBPM-Subscription-7.1.0</p>
+            <p><span oda-label="qcm-main.hours">qcm-main.hours</span> {{hours}}</p>
+            <p><span oda-label="qcm-main.duration">qcm-main.duration</span> {{duration}}</p>
+            <p><span oda-label="qcm-main.details">qcm-main.details</span> {{details}}</p>
         </div>
     </div>
     <div class="row">
@@ -15,14 +15,14 @@
             <table class="table table-bordered table-hover" id="tabEmarg">
                 <thead>
                     <tr>
-                        <th rowspan="2">Formateur: {{trainer}}</th>
+                        <th rowspan="2"><span oda-label="qcm-main.trainer">qcm-main.trainer</span> {{trainer}}</th>
                     </tr>
                     <tr>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Nom et société des participants</td>
+                        <td><span oda-label="qcm-main.trainee">qcm-main.trainee</span></td>
                     </tr>
                 </tbody>
             </table>
