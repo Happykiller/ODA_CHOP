@@ -55,7 +55,7 @@ $slim->get('/qcm/search/file', function () use ($slim) {
 
 $slim->post('/qcm/', function () use ($slim) {
     $params = new OdaPrepareInterface();
-    $params->arrayInput = array("userId","name","version","lang","date","desc","title","hours","duration","details","location");
+    $params->arrayInput = array("userId","name","version","lang","date","desc");
     $params->modePublic = false;
     $params->slim = $slim;
     $INTERFACE = new QcmInterface($params);
