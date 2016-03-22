@@ -11,7 +11,7 @@
   - "Quelles sont les composantes du BPM ?":
     - "Des échanges entre personnes": true
     - "Des processus de tâche": true
-    - "Des processus d'état": true
+    - "Des processus d'état": false
     - "Suivre et surveiller pour l'amélioration": true
 "Chapitre Living applications":
   - "Qu'es-ce qu'une application métier ?":
@@ -21,7 +21,7 @@
     - "Des processus complètement automatiques": false
   - "Qu'es-ce qu'une application BPM ?":
     - "Elle est composée de processus": true
-    - "Elle n'a pas formcément de processus": false
+    - "Elle n'a pas forcément de processus": false
     - "Elle interagie avec le système d'information": true
     - "Elle coordonne les tâches entre personnes": true
     - "Elle fournie des interfaces pour les utilisateurs": true
@@ -72,15 +72,9 @@
     - "Humaine: Quelqu'un a besoin d'envoyer un e-mail": false
     - "Tâche de service: une tâche pour demander une validation": false
     - "Tâche de service: une tâche pour mettre à jour la base de données": true
-  - "Quel est le comportement du processus quand il y a des entrées directes dans une tâche (pas de passerelle)?":
-    - "Exclusive: la première transition à arriver (activé et complété) aura priorité. L'autre branche(s) peut encore atteindre la tâche et conduire à la duplication": true
-    - "Parallèle: attendre toutes les transitions pour s'exécuter": false
   - "Quelle est la différence entre un événement terminé et un événement de fin":
     - "L'événement terminé arrête immédiatement le processus. L'événement de fin fini juste à la branche courante.": true
     - "Il n'y a pas de différence": false
-  - "Quelle transition devrait toujours être défini lors de l'utilisation des portes exclusives ?":
-    - "Une transition toujours pour éviter un blocage": false
-    - "Une transition par défaut pour éviter un blocage": true
 "Chapitre utiliser les données dans BonitaBPM":
   - "A quoi servent les variables et les documents ?":
     - "Conditions": true
@@ -103,14 +97,21 @@
   - "La règle pour la porte inclusive":
     - "Attends tous les chemins à condition qu'ils soient exécutables et exécute tous les chemins après, à condition que la condition soit bonne": true
     - "Attends un chemin et exécute tous les chemins après, à condition que la condition soit bonne": false
+  - "Quelle transition devrait toujours être défini lors de l'utilisation des portes exclusives ?":
+    - "Une transition toujours pour éviter un blocage": false
+    - "Une transition par défaut pour éviter un blocage": true
+  - "Quel est le comportement du processus quand il y a des entrées directes dans une tâche (pas de passerelle)?":
+    - "Exclusive: la première transition à arriver (activé et complété) aura priorité. L'autre branche(s) peut encore atteindre la tâche et conduire à la duplication": true
+    - "Parallèle: attendre toutes les transitions pour s'exécuter": false
 "Chapitre évènements":
   - "Dans quelles catégories pourrions-vous différencier des événements BPMN ?":
-    - "Commencez avec capturer": true
-    - "Commencez avec lancer": true
-    - "Intermédiaire avec capturer": true
-    - "Intermédiaire avec lancer": true
-    - "Evènements finaux avec capturer": false
-    - "Evènements finaux avec lancer": true
+    - "Evènements absolue": false
+    - "Evènement de début": true
+    - "Evènement de fin": true
+    - "Evènement intermédaire": true
+    - "Evènement de bordure": true
+    - "Evènement e-mail": false
+    - "Evènements absolue": false
   - "Quels sont les différents types d'événements de minuterie ?":
     - "Minuterie de début": true
     - "Minuterie de fin": false
@@ -119,7 +120,7 @@
     - "Minuterie de bordure intéruptive": true
     - "Minuterie de bordure non-intéruptive": true
   - "Comment pouvons-nous prendre un autre chemin basé sur un événement ?":
-    - "Evènement de capture intermédiaire": false
+    - "Evènement intermédiaire": false
     - "Evènement de bordure intéruptif": true
     - "Evènement de bordure non-intéruptif": true
 "Chapitre Message":
@@ -264,7 +265,7 @@
     - "Dans un formulaire, le contexte est fourni": true
 "Chapitre API REST EXT":
   - "Que peut-faire avec une API REST EXT":
-    - "Aglomérer des données avant qu'elle arrive à la page": true
+    - "Agglomérer des données avant qu'elle arrive à la page": true
     - "Récupérer des données ailleurs dans le SI": true
     - "Faire de la validation du formulaire": false
   - "Peut-on éditer des données d'une BDM avec une API REST EXT ?":
@@ -285,7 +286,7 @@
 "Chapitre Projet":
   - "Comment travailler efficacement en équipe ?":
     - "En s'échangent des fichiers bos": false
-    - "Avec les fonctionalités de travail en équipe du studio": true
+    - "Avec les fonctionnalités de travail en équipe du studio": true
   - "Qu'est-ce qu'un indicateur de performance ?":
     - "KPIs évaluer le succès d'une organisation": true
     - "Debuger": false
