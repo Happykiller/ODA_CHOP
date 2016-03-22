@@ -105,12 +105,13 @@
     - "Parallèle: attendre toutes les transitions pour s'exécuter": false
 "Chapitre évènements":
   - "Dans quelles catégories pourrions-vous différencier des événements BPMN ?":
-    - "Commencez avec capturer": true
-    - "Commencez avec lancer": true
-    - "Intermédiaire avec capturer": true
-    - "Intermédiaire avec lancer": true
-    - "Evènements finaux avec capturer": false
-    - "Evènements finaux avec lancer": true
+    - "Evènements absolue": false
+    - "Evènement de début": true
+    - "Evènement de fin": true
+    - "Evènement intermédaire": true
+    - "Evènement de bordure": true
+    - "Evènement e-mail": false
+    - "Evènements absolue": false
   - "Quels sont les différents types d'événements de minuterie ?":
     - "Minuterie de début": true
     - "Minuterie de fin": false
@@ -119,7 +120,7 @@
     - "Minuterie de bordure intéruptive": true
     - "Minuterie de bordure non-intéruptive": true
   - "Comment pouvons-nous prendre un autre chemin basé sur un événement ?":
-    - "Evènement de capture intermédiaire": false
+    - "Evènement intermédiaire": false
     - "Evènement de bordure intéruptif": true
     - "Evènement de bordure non-intéruptif": true
 "Chapitre Message":
