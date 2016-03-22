@@ -721,12 +721,17 @@
                                         var sessionUserId = 0;
                                         $.each(response.data, function (index, value) {
                                             sessionUserId = value.sessionUserId;
+                                            var color = '#e74c3c';
+                                            if(value.nbErrors === "0"){
+                                                color = '#27ae60';
+                                            }
                                             strQuestions += $.Oda.Display.TemplateHtml.create({
                                                 template: "templateQuestion"
                                                 , scope: {
                                                     "question": value.question,
                                                     "nbErrors": value.nbErrors,
-                                                    "recordDate": value.recordDate
+                                                    "recordDate": value.recordDate,
+                                                    "color": color
                                                 }
                                             });
                                         });
