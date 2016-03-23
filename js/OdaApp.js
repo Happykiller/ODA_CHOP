@@ -583,7 +583,7 @@
                             strHtml +="<ul>";
                             for(var chapterName in response.data){
                                 var chapterContent = response.data[chapterName]
-                                strHtml += '<li style="font-weight: bold;">'+chapterName+'<ul>';
+                                strHtml += '<li><span style="font-weight: bold;">'+chapterName+'</span><ul>';
                                 for(var index in chapterContent){
                                     for(var questionName in chapterContent[index]){
                                         var questionContent = chapterContent[index][questionName];
