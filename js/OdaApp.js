@@ -583,12 +583,12 @@
                             strHtml +="<ul>";
                             for(var chapterName in response.data){
                                 var chapterContent = response.data[chapterName]
-                                strHtml += '<li><span style="font-weight: bold;">'+chapterName+'</span><ul>';
+                                strHtml += '<li><a><span style="font-weight: bold;">'+chapterName+'</span></a><ul>';
                                 for(var index in chapterContent){
                                     for(var questionName in chapterContent[index]){
                                         var questionContent = chapterContent[index][questionName];
                                         var str = (chapterName+questionName).replace(/[^a-zA-Z0-9]/g, "");
-                                        strHtml += '<li>'+questionName+' <div id="paddoc_'+str+'" style="display: inline-block;"></div><ul>';
+                                        strHtml += '<li><a>'+questionName+'</a> <div id="paddoc_'+str+'" style="display: inline-block;"></div><ul>';
                                         for(var indexResponse in questionContent){
                                             for(var responseName in questionContent[indexResponse]){
                                                 if(questionContent[indexResponse][responseName]){
@@ -611,6 +611,26 @@
                                 "details": strHtml,
                                 "size": "lg",
                                 "callback": function () {
+                                    $('#modalDetailsQcm_content').addClass('tree');
+                                    $( '.tree li' ).each( function() {
+                                        if( $( this ).children( 'ul' ).length > 0 ) {
+                                            $( this ).addClass( 'parent' );
+                                        }
+                                    });
+
+                                    $( '.tree li.parent > a' ).click( function( ) {
+                                        $( this ).parent().toggleClass( 'active' );
+                                        $( this ).parent().children( 'ul' ).slideToggle( 'fast' );
+                                    });
+
+                                    $( '#all' ).click( function() {
+
+                                        $( '.tree li' ).each( function() {
+                                            $( this ).toggleClass( 'active' );
+                                            $( this ).children( 'ul' ).slideToggle( 'fast' );
+                                        });
+                                    });
+
                                     $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
                                     $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
                                 }
