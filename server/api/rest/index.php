@@ -99,6 +99,7 @@ $slim->get('/rapport/qcm/:id/details/', function ($id) use ($slim) {
 
 $slim->get('/rapport/sessionUser/:id/record/', function ($id) use ($slim) {
     $params = new OdaPrepareInterface();
+    $params->arrayInputOpt = array("count"=>1);
     $params->slim = $slim;
     $INTERFACE = new RapportInterface($params);
     $INTERFACE->getSessionUserRecords($id);

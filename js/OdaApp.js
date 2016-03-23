@@ -577,55 +577,26 @@
                  */
                 seeDetails : function (p_params) {
                     try {
-                        var strFooter = '<button type="button" onclick="$.Oda.App.Controller.ManageQcm.displayQCM();" class="btn btn-info" id="bt-displayOverviewQcm" oda-label="qcm-manage.showOverviewQcm">qcm-manage.showOverviewQcm</button>';
-                        $.Oda.Display.Popup.open({
-                            "name": "modalDetailsQcm",
-                            "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
-                            "details": '<div id="divDetailsUsers" style="display: inline-block;vertical-align: top;"></div><div id="divOverview" style="display: none;width: 50%;overflow-y: auto; max-height:600px;"></div>',
-                            "footer": strFooter,
-                            "callback": function () {
-                                $.Oda.App.Controller.ManageQcm.buildQcmView({
-                                    name: p_params.name,
-                                    version: p_params.version,
-                                    lang: p_params.lang,
-                                    date: p_params.date
-                                });
-                                $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
-                                $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
-                            }
-                        });
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.seeDetails : " + er.message);
-                        return null;
-                    }
-                },
-                /**
-                 * @param {object} params
-                 * @param params.name
-                 * @param params.version
-                 * @param params.lang
-                 * @param params.date
-                 * @returns {$.Oda.App.Controller}
-                 */
-                buildQcmView: function (params) {
-                    try {
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/", { callback : function(response){
-                            var strHtml = "<span style='font-weight: bold;font-size: large;'>"+ $.Oda.I8n.get('qcm-manage','overviewQcm') +"</span><ul>";
+                            var strHtml = "<span style='font-weight: bold;font-size: large;'>"+ $.Oda.I8n.get('qcm-manage','overviewQcm') +"</span><br>";
+                            strHtml += '<div id="paddoc_start" style="display: inline-block;"></div>';
+                            strHtml +="<ul>";
                             for(var chapterName in response.data){
                                 var chapterContent = response.data[chapterName]
                                 strHtml += '<li>'+chapterName+'<ul>';
                                 for(var index in chapterContent){
                                     for(var questionName in chapterContent[index]){
                                         var questionContent = chapterContent[index][questionName];
-                                        strHtml += '<li>'+questionName+'<ul>';
+                                        var str = (chapterName+questionName).replace(/[^a-zA-Z0-9]/g, "");
+                                        strHtml += '<li>'+questionName+' <div id="paddoc_'+str+'" style="display: inline-block;"></div><ul>';
                                         for(var indexResponse in questionContent){
                                             for(var responseName in questionContent[indexResponse]){
                                                 if(questionContent[indexResponse][responseName]){
-                                                    strHtml += '<li style="color:#27ae60">'+responseName+'</li>';
+                                                    var colorClass = "qcmResponseRight";
                                                 }else{
-                                                    strHtml += '<li style="color:#c0392b">'+responseName+'</li>';
+                                                    var colorClass = "qcmResponseWrong";
                                                 }
+                                                strHtml += '<li><span class="'+colorClass+'">'+responseName+' </span></li>';
                                             }
                                         }
                                         strHtml += '</ul></li>'
@@ -634,39 +605,24 @@
                                 strHtml += "</ul></li>";
                             }
                             strHtml += "</ul>";
-                            $('#divOverview').html(strHtml);
+                            $.Oda.Display.Popup.open({
+                                "name": "modalDetailsQcm",
+                                "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
+                                "details": strHtml,
+                                "callback": function () {
+                                    $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
+                                    $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
+                                }
+                            });
                         }}, {
-                            "name": params.name,
-                            "version": params.version,
-                            "lang": params.lang,
-                            "date": params.date
+                            "name": p_params.name,
+                            "version": p_params.version,
+                            "lang": p_params.lang,
+                            "date": p_params.date
                         });
                         return this;
                     } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.buildQcmViex : " + er.message);
-                        return null;
-                    }
-                },
-                /**
-                 * @returns {$.Oda.App.Controller.ManageQcm}
-                 */
-                displayQCM: function () {
-                    try {
-                        var modal = $('#modalDetailsQcm .modal-dialog');
-                        if(modal.hasClass('modal-lg')){
-                            $('#bt-displayOverviewQcm').html($.Oda.I8n.get('qcm-manage','showOverviewQcm'));
-                            $('#divOverview').css('display','none');
-                            $('#divDetailsUsers').css('width','100%');
-                            modal.removeClass('modal-lg');
-                        }else{
-                            $('#bt-displayOverviewQcm').html($.Oda.I8n.get('qcm-manage','hideOverviewQcm'));
-                            modal.addClass('modal-lg');
-                            $('#divDetailsUsers').css('width','50%');
-                            $('#divOverview').css('display','inline-block');
-                        }
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayQCM : " + er.message);
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.seeDetails : " + er.message);
                         return null;
                     }
                 },
@@ -677,23 +633,16 @@
                  */
                 startBotUsers : function (p_params) {
                     try {
-                        if($('#divDetailsUsers').exists()) {
+                        if($('#modalDetailsQcm').exists()) {
                             $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotUsers, 5000, {id:p_params.id});
+                            console.log(p_params.id);
                             var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/qcm/" + p_params.id + "/details/", {
                                 callback: function (response) {
                                     for (var index in response.data) {
                                         var eltUser = response.data[index];
-                                        if (!$('#divDetailUser-' + eltUser.id).exists()) {
-                                            var strHtmlUsers = $.Oda.Display.TemplateHtml.create({
-                                                template: "templateDetailQcmUser"
-                                                , scope: {
-                                                    "id": eltUser.id,
-                                                    "firstName": eltUser.firstName,
-                                                    "lastName": eltUser.lastName,
-                                                    "createDate": eltUser.createDate
-                                                }
-                                            });
-                                            $('#divDetailsUsers').append(strHtmlUsers);
+                                        if (!$('#divHorse-' + eltUser.id).exists()) {
+                                            var strHtml = ' <button type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.firstName+'.'+eltUser.lastName.substr(0,1)+'</button>'
+                                            $('#paddoc_start').append(strHtml);
                                         }
                                     }
                                 }
@@ -711,32 +660,34 @@
                 startBotQuestions : function () {
                     try {
                         var gardian = false;
-                        if($('#divDetailsUsers').exists()) {
+                        if($('#modalDetailsQcm').exists()) {
                             gardian = true;
-                            $('ul[id^=histo-]').each(function () {
+                            $('[id^=divHorse-]').each(function () {
                                 var id = $(this).data('id');
                                 var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/sessionUser/" + id + "/record/", {
                                     callback: function (response) {
-                                        var strQuestions = "";
-                                        var sessionUserId = 0;
-                                        $.each(response.data, function (index, value) {
-                                            sessionUserId = value.sessionUserId;
-                                            var color = '#e74c3c';
+                                        for(var index in response.data){
+                                            var value = response.data[index];
+                                            var sessionUserId = value.sessionUserId;
+
+                                            var status = 'warning';
                                             if(value.nbErrors === "0"){
-                                                color = '#27ae60';
+                                                status = 'success';
                                             }
-                                            strQuestions += $.Oda.Display.TemplateHtml.create({
-                                                template: "templateQuestion"
-                                                , scope: {
-                                                    "question": value.question,
-                                                    "nbErrors": value.nbErrors,
-                                                    "recordDate": value.recordDate,
-                                                    "color": color
-                                                }
-                                            });
-                                        });
-                                        $('#histo-' + sessionUserId).html(strQuestions);
+                                            var divHorse = $('#divHorse-' + sessionUserId);
+                                            if (divHorse.exists()) {
+                                                divHorse.remove();
+                                            }
+
+                                            var str = value.question.replace(/[^a-zA-Z0-9]/g, "");
+                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.firstName+'.'+value.lastName.substr(0,1)+'</button>'
+                                            $('#paddoc_'+ str).append(strHtml);
+
+                                            break;
+                                        };
                                     }
+                                },{
+                                    "count": 1
                                 });
                             });
                         }

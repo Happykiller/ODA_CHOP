@@ -50,12 +50,13 @@ class RapportInterface extends OdaRestInterface {
     function getSessionUserRecords($id) {
         try {
             $params = new OdaPrepareReqSql();
-            $params->sql = "SELECT a.`id`, a.`question`, a.`nbErrors`, a.`recordDate`, a.`sessionUserId`
-                FROM `tab_sessions_user_record` a
+            $params->sql = "SELECT a.`id`, a.`question`, a.`nbErrors`, a.`recordDate`, a.`sessionUserId`, b.`firstName`, b.`lastName`
+                FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
                 WHERE 1=1
+                AND a.`sessionUserId` = b.`id`
                 AND a.`sessionUserId` = :id
                 ORDER BY a.`id` DESC
-                LIMIT 0, 2
+                LIMIT 0, ".$this->inputs["count"]."
             ;";
             $params->bindsValue = [
                 "id" => $id

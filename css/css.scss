@@ -141,3 +141,10 @@ $half: round($loops / 2);
   @extend .circle;
   background-color: $red;
 }
+
+.qcmResponseRight {
+  color: $green;
+}
+.qcmResponseWrong {
+  color: $red;
+}
