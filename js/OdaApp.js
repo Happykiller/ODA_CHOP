@@ -609,6 +609,7 @@
                                 "name": "modalDetailsQcm",
                                 "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
                                 "details": strHtml,
+                                "size": "lg",
                                 "callback": function () {
                                     $.Oda.App.Controller.ManageQcm.startBotUsers({id: p_params.id});
                                     $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotQuestions, 300);
@@ -635,7 +636,6 @@
                     try {
                         if($('#modalDetailsQcm').exists()) {
                             $.Oda.Tooling.timeout($.Oda.App.Controller.ManageQcm.startBotUsers, 5000, {id:p_params.id});
-                            console.log(p_params.id);
                             var call = $.Oda.Interface.callRest($.Oda.Context.rest + "api/rest/rapport/qcm/" + p_params.id + "/details/", {
                                 callback: function (response) {
                                     for (var index in response.data) {
@@ -669,19 +669,31 @@
                                         for(var index in response.data){
                                             var value = response.data[index];
                                             var sessionUserId = value.sessionUserId;
+                                            var str = value.question.replace(/[^a-zA-Z0-9]/g, "");
+                                            var divHorse = $('#divHorse-' + sessionUserId);
 
                                             var status = 'warning';
                                             if(value.nbErrors === "0"){
                                                 status = 'success';
                                             }
-                                            var divHorse = $('#divHorse-' + sessionUserId);
-                                            if (divHorse.exists()) {
-                                                divHorse.remove();
+
+                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.firstName+'.'+value.lastName.substr(0,1)+'</button>'
+
+                                            var isRemove = false;
+
+                                            if(!divHorse.hasClass('btn-'+status)){
+                                                isRemove = true;
                                             }
 
-                                            var str = value.question.replace(/[^a-zA-Z0-9]/g, "");
-                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.firstName+'.'+value.lastName.substr(0,1)+'</button>'
-                                            $('#paddoc_'+ str).append(strHtml);
+                                            var oldDiv = divHorse.closest("div").attr("id");
+                                            if(oldDiv !== ('paddoc_'+ str)){
+                                                isRemove = true;
+                                            }
+
+                                            if(isRemove){
+                                                divHorse.remove();
+                                                $('#paddoc_'+ str).append(strHtml);
+                                            }
 
                                             break;
                                         };
