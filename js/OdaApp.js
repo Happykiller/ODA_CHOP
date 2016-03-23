@@ -661,7 +661,7 @@
                                     for (var index in response.data) {
                                         var eltUser = response.data[index];
                                         if (!$('#divHorse-' + eltUser.id).exists()) {
-                                            var strHtml = ' <button type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.lastName+'.'+eltUser.firstName.substr(0,1)+'</button>'
+                                            var strHtml = ' <button onclick="$.Oda.App.Controller.ManageQcm.detailHorse(this);" type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.lastName+'.'+eltUser.firstName.substr(0,1)+'</button>'
                                             $('#paddoc_start').append(strHtml);
                                         }
                                     }
@@ -697,7 +697,7 @@
                                                 status = 'success';
                                             }
 
-                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.lastName+'.'+value.firstName.substr(0,1)+'</button>'
+                                            var strHtml = ' <button onclick="$.Oda.App.Controller.ManageQcm.detailHorse(this);" type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.lastName+'.'+value.firstName.substr(0,1)+'</button>'
 
                                             var isRemove = false;
 
@@ -732,6 +732,20 @@
                         return null;
                     }
                 },
+                /**
+                 * @param {Object} objt
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                detailHorse : function (objt) {
+                    try {
+                        var horse = $(objt);
+                        console.log(horse.data('id'));
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.detailHorse : " + er.message);
+                        return null;
+                    }
+                }
             },
             "Qcm": {
                 Session: null,

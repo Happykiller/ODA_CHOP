@@ -166,8 +166,8 @@
     - "Utilisation du mapping des données, les données sont mappées du processus parent au sous-processus": true
     - "Auto-calculer par Bonita BPM avec une forte liaison entre les deux processus": false
   - "Où est la fonction de mappage de données ?":
-    - "Au niveau du processus parent": true
-    - "Sur la tâche de l'activité": false
+    - "Au niveau du processus parent": false
+    - "Sur la tâche de l'activité": true
 "Chapitre Iterations":
   - "Peut-on utiliser multi-instanciation avec une activité d'appelante ?":
     - "Oui": true
