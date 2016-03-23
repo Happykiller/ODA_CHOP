@@ -583,7 +583,7 @@
                             strHtml +="<ul>";
                             for(var chapterName in response.data){
                                 var chapterContent = response.data[chapterName]
-                                strHtml += '<li>'+chapterName+'<ul>';
+                                strHtml += '<li style="font-weight: bold;">'+chapterName+'<ul>';
                                 for(var index in chapterContent){
                                     for(var questionName in chapterContent[index]){
                                         var questionContent = chapterContent[index][questionName];
@@ -641,7 +641,7 @@
                                     for (var index in response.data) {
                                         var eltUser = response.data[index];
                                         if (!$('#divHorse-' + eltUser.id).exists()) {
-                                            var strHtml = ' <button type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.firstName+'.'+eltUser.lastName.substr(0,1)+'</button>'
+                                            var strHtml = ' <button type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.lastName+'.'+eltUser.firstName.substr(0,1)+'</button>'
                                             $('#paddoc_start').append(strHtml);
                                         }
                                     }
@@ -677,7 +677,7 @@
                                                 status = 'success';
                                             }
 
-                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.firstName+'.'+value.lastName.substr(0,1)+'</button>'
+                                            var strHtml = ' <button type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.lastName+'.'+value.firstName.substr(0,1)+'</button>'
 
                                             var isRemove = false;
 
