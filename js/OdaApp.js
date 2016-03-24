@@ -662,7 +662,6 @@
                  */
                 displayStats : function (p_params) {
                     try {
-                        console.log(p_params);
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/report/"+p_params.id+"/stats/", { callback : function(response){
                             $.Oda.Display.Popup.open({
                                 "name": "modalDetailsQcm",
