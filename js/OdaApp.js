@@ -60,7 +60,7 @@
                     "title" : "qcm-manage.title",
                     "urls" : ["qcm-manage"],
                     "middleWares":["support","auth"],
-                    "dependencies" : ["dataTables","jsToPdf"]
+                    "dependencies" : ["dataTables","hightcharts","jsToPdf"]
                 });
 
                 $.Oda.Router.startRooter();
@@ -235,11 +235,11 @@
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", { callback : function(response){
                             var series = [
                                 {
-                                    name:"success",
+                                    name:"Fail",
                                     data:[]
                                 },
                                 {
-                                    name:"fail",
+                                    name:"Success",
                                     data:[]
                                 }
                             ];
@@ -249,8 +249,8 @@
                                 var elt = response.data[indice];
                                 nbUsers.push(elt.nbUser);
                                 barsLabel.push(elt.id+'-'+elt.name+'-'+elt.lang);
-                                series[0].data.push(parseInt(elt.success));
-                                series[1].data.push(parseInt(elt.fail));
+                                series[0].data.push(parseInt(elt.fail));
+                                series[1].data.push(parseInt(elt.success));
                             }
 
                             if(series.length > 0){
@@ -429,6 +429,7 @@
                                             };
                                             var strHtml = '<button onclick="$.Oda.App.Controller.ManageQcm.seeDetails('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> '+ $.Oda.I8n.get('qcm-manage','details')+'</button>';
                                             strHtml += '<button onclick="$.Oda.App.Controller.displayEmarg({id:'+row[objDataTable.entete["id"]]+'});" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-th-list"></span> '+ $.Oda.I8n.get('qcm-manage','emarg')+'</button>'
+                                            strHtml += '<button onclick="$.Oda.App.Controller.ManageQcm.displayStats('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+');" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stats"></span> '+ $.Oda.I8n.get('qcm-manage','stats')+'</button>'
                                             return strHtml;
                                         },
                                         "aTargets": [10]
@@ -652,6 +653,70 @@
                 /**
                  * @param {Object} p_params
                  * @param p_params.id
+                 * @param p_params.name
+                 * @param p_params.version
+                 * @param p_params.lang
+                 * @param p_params.date
+                 * @param p_params.desc
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                displayStats : function (p_params) {
+                    try {
+                        console.log(p_params);
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/report/"+p_params.id+"/stats/", { callback : function(response){
+                            $.Oda.Display.Popup.open({
+                                "name": "modalDetailsQcm",
+                                "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
+                                "details": '<div id="graph"></div>',
+                                "size": "lg",
+                                "callback": function () {
+                                    if(response.data.length > 0){
+                                        var listData = [];
+                                        for(var index in response.data){
+                                            var elt = response.data[index];
+                                            var data = [];
+                                            data.push(elt.question, parseInt(elt.number));
+                                            listData.push(data);
+                                        }
+
+                                        $('#graph').highcharts({
+                                            chart: {
+                                                type: 'column'
+                                            },
+                                            title: {
+                                                text: 'Question try'
+                                            },
+                                            legend: {
+                                                enabled: false
+                                            },
+                                            xAxis: {
+                                                type: 'category',
+                                                labels: {
+                                                    rotation: -80
+                                                }
+                                            },
+                                            series: [{
+                                                name: 'Try',
+                                                data: listData
+                                            }]
+                                        });
+                                    }else{
+                                        $('#graph').html('no datas');
+                                    }
+                                }
+                            });
+                        }}, {
+                            "id": p_params.id
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStats : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {Object} p_params
+                 * @param p_params.id
                  * @returns {$.Oda.App.Controller.ManageQcm}
                  */
                 startBotUsers : function (p_params) {
@@ -764,7 +829,6 @@
                             for(var index in horseDetail.histo){
                                 strHtmlHisto += '<tr><td>'+horseDetail.histo[index].id+'</td><td>'+horseDetail.histo[index].question+'</td><td>'+horseDetail.histo[index].nbErrors+'</td><td>'+horseDetail.histo[index].recordDate+'</td></tr>';
                             }
-
 
                             var strHtml = $.Oda.Display.TemplateHtml.create({
                                 template : "tplDetailHorse"

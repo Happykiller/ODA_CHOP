@@ -317,4 +317,31 @@ class RapportInterface extends OdaRestInterface {
             die();
         }
     }
+    
+    /**
+     * @param $id
+     */
+    function getStats($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`question`, count(*) as 'number'
+                FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
+                WHERE 1=1
+                AND a.`sessionUserId` = b.`id`
+                AND b.`qcmId` = :id
+                GROUP BY a.`question`
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
 }
