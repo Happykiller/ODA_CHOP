@@ -105,6 +105,13 @@ $slim->get('/rapport/sessionUser/:id/record/', function ($id) use ($slim) {
     $INTERFACE->getSessionUserRecords($id);
 });
 
+$slim->get('/rapport/sessionUser/:id/details/', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new RapportInterface($params);
+    $INTERFACE->getSessionUserDetails($id);
+});
+
 $slim->get('/rapport/sessionUser/:id/stats/', function ($id) use ($slim) {
     $params = new OdaPrepareInterface();
     $params->slim = $slim;

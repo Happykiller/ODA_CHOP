@@ -39,3 +39,37 @@
         </select>
     </div>
 </script>
+
+<script id="tpltHorse" type="text/template">
+    <button onclick="$.Oda.App.Controller.ManageQcm.detailHorse(this);" type="button" class="btn btn-{{color}} btn-xs" id="divHorse-{{userId}}" title="{{userId}}" data-id="{{userId}}">{{lastName}}.{{firstName}}</button>
+</script>
+
+<script id="tplDetailHorse" type="text/template">
+    <div class="row">
+        <div class="col-md-6">
+            <label oda-label="qcm.company">qcm.company</label>: {{company}}
+        </div>
+        <div class="col-md-6">
+            <label oda-label="qcm-manage.createDate">qcm-manage.createDate</label>: {{createDate}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="tabAddress">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th oda-label="qcm-manage.question">question</th>
+                        <th oda-label="qcm-manage.nbError">nbError</th>
+                        <th oda-label="qcm-manage.recordDate">recordDate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{contentTabHisto}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>

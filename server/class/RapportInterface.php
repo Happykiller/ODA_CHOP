@@ -33,9 +33,7 @@ class RapportInterface extends OdaRestInterface {
             ];
             $params->typeSQL = OdaLibBd::SQL_GET_ALL;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-
-            $params = new stdClass();
-            $params->retourSql = $retour;
+            
             $this->addDataObject($retour->data->data);
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
@@ -63,10 +61,51 @@ class RapportInterface extends OdaRestInterface {
             ];
             $params->typeSQL = OdaLibBd::SQL_GET_ALL;
             $retour = $this->BD_ENGINE->reqODASQL($params);
-
-            $params = new stdClass();
-            $params->retourSql = $retour;
+            
             $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    function getSessionUserDetails($id) {
+        try {
+            $data = new stdClass();
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`id`, a.`firstName`, a.`lastName`, a.`company`, a.`createDate`
+                FROM `tab_qcm_sessions_user` a
+                WHERE 1=1
+                AND a.`id` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $data = $retour->data;
+            
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`id`, a.`question`, a.`nbErrors`, a.`recordDate`, a.`sessionUserId`
+                FROM `tab_sessions_user_record` a
+                WHERE 1=1
+                AND a.`sessionUserId` = :id
+                ORDER BY a.`id` DESC
+                LIMIT 0, 5
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $data->histo = $retour->data->data;
+            
+            $this->addDataObject($data);
         } catch (Exception $ex) {
             $this->object_retour->strErreur = $ex.'';
             $this->object_retour->statut = self::STATE_ERROR;

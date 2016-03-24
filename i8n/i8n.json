@@ -96,7 +96,11 @@
     "showOverviewQcm": "Montrer Aperçu QCM",
     "hideOverviewQcm": "Cacher Aperçu QCM",
     "overviewQcm": "Aperçu QCM",
-    "emarg": "Emargement"
+    "emarg": "Emargement",
+    "createDate": "Date de départ",
+    "question": "Question",
+    "nbError": "Errors",
+    "recordDate": "Date"
   },
   "en": {
     "title": "Manage MCQ",
@@ -122,7 +126,11 @@
     "showOverviewQcm": "Show MCS Overview",
     "hideOverviewQcm": "Hide MCS Overview",
     "overviewQcm": "Overview MCQ",
-    "emarg": "Attendance sheet"
+    "emarg": "Attendance sheet",
+    "createDate": "Start date",
+    "question": "Question",
+    "nbError": "Errors",
+    "recordDate": "Date"
   }
 }, {
   "groupName": "301",

@@ -578,8 +578,7 @@
                 seeDetails : function (p_params) {
                     try {
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/", { callback : function(response){
-                            var strHtml = "<span style='font-weight: bold;font-size: large;'>"+ $.Oda.I8n.get('qcm-manage','overviewQcm') +"</span><br>";
-                            strHtml += '<div id="paddoc_start" style="display: inline-block;"></div>';
+                            var strHtml = '<span style="font-weight: bold;font-size: large;" id="spanTitleQcm">'+ $.Oda.I8n.get('qcm-manage','overviewQcm') + '</span><br>';
                             strHtml +="<ul>";
                             for(var chapterName in response.data){
                                 var chapterContent = response.data[chapterName]
@@ -588,7 +587,7 @@
                                     for(var questionName in chapterContent[index]){
                                         var questionContent = chapterContent[index][questionName];
                                         var str = (chapterName+questionName).replace(/[^a-zA-Z0-9]/g, "");
-                                        strHtml += '<li><a>'+questionName+'</a> <div id="paddoc_'+str+'" style="display: inline-block;"></div><ul>';
+                                        strHtml += '<li id="li_'+str+'"><a id="paddoc_'+str+'">'+questionName+'</a><ul>';
                                         for(var indexResponse in questionContent){
                                             for(var responseName in questionContent[indexResponse]){
                                                 if(questionContent[indexResponse][responseName]){
@@ -599,7 +598,7 @@
                                                 strHtml += '<li><span class="'+colorClass+'">'+responseName+' </span></li>';
                                             }
                                         }
-                                        strHtml += '</ul></li>'
+                                        strHtml += '</ul></li>';
                                     }
                                 }
                                 strHtml += "</ul></li>";
@@ -661,8 +660,16 @@
                                     for (var index in response.data) {
                                         var eltUser = response.data[index];
                                         if (!$('#divHorse-' + eltUser.id).exists()) {
-                                            var strHtml = ' <button onclick="$.Oda.App.Controller.ManageQcm.detailHorse(this);" type="button" class="btn btn-primary btn-xs" id="divHorse-' + eltUser.id + '" title="' + eltUser.id + '" data-id="' + eltUser.id + '">'+eltUser.lastName+'.'+eltUser.firstName.substr(0,1)+'</button>'
-                                            $('#paddoc_start').append(strHtml);
+                                            var strHtml = $.Oda.Display.TemplateHtml.create({
+                                                template : "tpltHorse"
+                                                , scope : {
+                                                    "userId": eltUser.id,
+                                                    "color": "primary",
+                                                    "lastName": eltUser.lastName,
+                                                    "firstName": eltUser.firstName.substr(0,1)
+                                                }
+                                            });
+                                            $('#spanTitleQcm').after(strHtml);
                                         }
                                     }
                                 }
@@ -697,7 +704,15 @@
                                                 status = 'success';
                                             }
 
-                                            var strHtml = ' <button onclick="$.Oda.App.Controller.ManageQcm.detailHorse(this);" type="button" class="btn btn-'+status+' btn-xs" id="divHorse-' + sessionUserId + '" title="' + sessionUserId + '" data-id="' + sessionUserId + '">'+value.lastName+'.'+value.firstName.substr(0,1)+'</button>'
+                                            var strHtml = $.Oda.Display.TemplateHtml.create({
+                                                template : "tpltHorse"
+                                                , scope : {
+                                                    "userId": value.sessionUserId,
+                                                    "color": status,
+                                                    "lastName": value.lastName,
+                                                    "firstName": value.firstName.substr(0,1)
+                                                }
+                                            });
 
                                             var isRemove = false;
 
@@ -705,14 +720,14 @@
                                                 isRemove = true;
                                             }
 
-                                            var oldDiv = divHorse.closest("div").attr("id");
-                                            if(oldDiv !== ('paddoc_'+ str)){
+                                            var oldDiv = divHorse.closest("li").attr("id");
+                                            if(oldDiv !== ('li_'+ str)){
                                                 isRemove = true;
                                             }
 
                                             if(isRemove){
                                                 divHorse.remove();
-                                                $('#paddoc_'+ str).append(strHtml);
+                                                $('#paddoc_'+ str).after(strHtml);
                                             }
 
                                             break;
@@ -739,7 +754,34 @@
                 detailHorse : function (objt) {
                     try {
                         var horse = $(objt);
-                        console.log(horse.data('id'));
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/rapport/sessionUser/" + horse.data('id') + "/details/", { callback : function(response){
+                            var horseDetail = response.data;
+
+                            var strHtmlHisto = "";
+                            for(var index in horseDetail.histo){
+                                strHtmlHisto += '<tr><td>'+horseDetail.histo[index].id+'</td><td>'+horseDetail.histo[index].question+'</td><td>'+horseDetail.histo[index].nbErrors+'</td><td>'+horseDetail.histo[index].recordDate+'</td></tr>';
+                            }
+
+
+                            var strHtml = $.Oda.Display.TemplateHtml.create({
+                                template : "tplDetailHorse"
+                                , "scope" : {
+                                    "company": horseDetail.company,
+                                    "createDate": horseDetail.createDate,
+                                    "contentTabHisto": strHtmlHisto
+                                }
+                            });
+
+                            var strLabel = horseDetail.firstName + ' ' + horseDetail.lastName + ' N°' + horseDetail.id;
+
+                            $.Oda.Display.Popup.open({
+                                "name": "modalDetailHorse",
+                                "label": strLabel,
+                                "details": strHtml,
+                                "callback": function () {
+                                }
+                            });
+                        }});
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.detailHorse : " + er.message);
