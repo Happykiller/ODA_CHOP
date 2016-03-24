@@ -160,7 +160,7 @@
 
                                 for (var index in response.data.qcmUsers.data){
                                     var user = response.data.qcmUsers.data[index];
-                                    var strHtmlUser = '<tr><td>'+user.firstName+' '+user.lastName+((user.company!=='')?':'+user.company:'')+'</td>';
+                                    var strHtmlUser = '<tr><td>'+user.firstName+' '+user.lastName+((user.company!=='')?'<br><i>'+user.company+'</i>':'')+'</td>';
                                     for (var indexDate in response.data.qcmDates.data){
                                         var date = response.data.qcmDates.data[indexDate];
                                         var strPeriode1 = 'period1';
@@ -779,6 +779,7 @@
 
                             $.Oda.Display.Popup.open({
                                 "name": "modalDetailHorse",
+                                size: "lg",
                                 "label": strLabel,
                                 "details": strHtml,
                                 "callback": function () {
