@@ -120,7 +120,7 @@
             }
         },
 
-        "Controller" : {
+        Controller : {
             /**
              * @param {Object} p_params
              * @param p_params.id
@@ -448,8 +448,6 @@
                 formQcm: function () {
                     try {
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/search/file", {callback : function(response){
-
-
                             $.Oda.App.Controller.ManageQcm.files = {};
                             for(var indice in response.data){
                                 var elt = response.data[indice];
@@ -477,10 +475,14 @@
                                 "name" : "createQcm",
                                 "label" : $.Oda.I8n.get('qcm-manage','createQcm'),
                                 "details" : strHtml,
+                                size: "lg",
                                 "callback" : function(){
                                     $.Oda.Display.Table.createDataTable({
                                         "target": "tableFile",
                                         "data": response.data,
+                                        option: {
+                                            "aaSorting": [[3, 'desc']],
+                                        },
                                         "attribute": {
                                             "name" : {
                                                 "header": "Name",
@@ -544,21 +546,22 @@
                 selectQcm : function (params) {
                     try {
                         var desc = $('#desc').val();
-                        if(desc !== ""){
-                            var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", {type:'POST',callback : function(response){
-                                $.Oda.App.Controller.ManageQcm.displayQcm();
-                                $.Oda.Display.Popup.close({name:"createQcm"});
-                            }},{
-                                "name": params.name,
-                                "version": params.version,
-                                "lang": params.lang,
-                                "date": params.date,
-                                "desc": desc,
-                                "userId": $.Oda.Session.id
-                            });
-                        }else{
-                            $.Oda.Display.Notification.warning($.Oda.I8n.get('qcm-manage','descMissing'));
-                        }
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/", {type:'POST',callback : function(response){
+                            $.Oda.App.Controller.ManageQcm.displayQcm();
+                            $.Oda.Display.Popup.close({name:"createQcm"});
+                        }},{
+                            "name": params.name,
+                            "version": params.version,
+                            "lang": params.lang,
+                            "date": params.date,
+                            "desc": desc,
+                            "userId": $.Oda.Session.id,
+                            "title": $('#titleNewQcm').val(),
+                            "hours": $('#hours').val(),
+                            "duration": $('#duration').val(),
+                            "details": $('#detailsNewQcm').val(),
+                            "location": $('#location').val()
+                        });
                         return this;
                     } catch (er) {
                         $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.selectQcm : " + er.message);
