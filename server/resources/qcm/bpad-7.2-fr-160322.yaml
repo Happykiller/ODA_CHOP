@@ -211,7 +211,7 @@
 "Chapitre Portal":
   - "Qu'est-ce qu'un utilisateur peut faire dans Bonita Portal BPM ?":
     - "Démarrer un cas": true
-    - "Finir un case": false
+    - "Supprimer un cas": false
     - "Exécuter les actions sur un cas / étape": true
     - "Attribuer une tâche": false
     - "Filtrer par catégories": true
