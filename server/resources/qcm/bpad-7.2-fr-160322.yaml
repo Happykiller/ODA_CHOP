@@ -242,7 +242,6 @@
     - "Créer des pages pour les applications": true
     - "Changer le portail": false
     - "Designer les processus": false
-    - "Créer de patron": true
 "Chapitre UI Designer":
   - "Pouvez-vous donner quelques exemples de widgets que vous pouvez utiliser pour créer un formulaire ?":
     - "Maps": false
@@ -264,7 +263,7 @@
     - "Dans une page, le contexte est fourni": false
     - "Dans un formulaire, le contexte est fourni": true
 "Chapitre API REST EXT":
-  - "Que peut-faire avec une API REST EXT":
+  - "Que peut-faire avec une API REST EXT ?":
     - "Agglomérer des données avant qu'elle arrive à la page": true
     - "Récupérer des données ailleurs dans le SI": true
     - "Faire de la validation du formulaire": false
