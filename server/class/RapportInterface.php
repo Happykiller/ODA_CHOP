@@ -344,4 +344,115 @@ class RapportInterface extends OdaRestInterface {
             die();
         }
     }
+
+    /**
+     * @param $id
+     */
+    function getStatsByUserGeneral($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`sessionUserId`, b.`firstName`, b.`lastName`, count(*) as 'number'
+                FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
+                WHERE 1=1
+                AND a.`sessionUserId` = b.`id`
+                AND b.`qcmId` = :id
+                GROUP BY a.`sessionUserId`
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $this->addDataObject($retour->data->data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    function getStatsByUserDetails($id) {
+        try {
+            $data = new stdClass();
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "CREATE TEMPORARY TABLE tmp0 AS SELECT DISTINCT a.`question`
+                FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
+                WHERE 1=1
+                AND a.`sessionUserId` = b.`id`
+                AND b.`qcmId` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_SCRIPT;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`question`
+                FROM `tmp0` a
+            ;";
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $data->listQuestions = $retour->data->data;
+
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT DISTINCT a.`sessionUserId`, b.`firstName`, b.`lastName`
+                FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
+                WHERE 1=1
+                AND a.`sessionUserId` = b.`id`
+                AND b.`qcmId` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+            $listUser = $retour->data->data;
+
+            $data->listResponses = [];
+
+            foreach ($listUser as $value){
+                $dataUser = new stdClass();
+                $dataUser->name = $value->firstName . "." . \substr($value->lastName,0,1);
+
+                $params = new OdaPrepareReqSql();
+                $params->sql = "SELECT IFNULL(c.`nb`,0) as 'nb'
+                    FROM `tmp0` d
+                    LEFT OUTER JOIN (
+                    SELECT a.`question`, count(*) as 'nb'
+                    FROM `tab_sessions_user_record` a, `tab_qcm_sessions_user` b
+                    WHERE 1=1
+                    AND a.`sessionUserId` = b.`id`
+                    AND b.`qcmId` = :id
+                    AND a.`sessionUserId` = :sessionUserId
+                    GROUP BY a.`question`) c
+                    ON c.`question` = d.`question`
+                ;";
+                $params->bindsValue = [
+                    "id" => $id,
+                    "sessionUserId" => $value->sessionUserId
+                ];
+                $params->typeSQL = OdaLibBd::SQL_GET_ALL;
+                $retour = $this->BD_ENGINE->reqODASQL($params);
+
+                $dataUser->data = [];
+                foreach ($retour->data->data as $valueReturn){
+                    $dataUser->data[] = intval($valueReturn->nb);
+                }
+
+                $data->listResponses[] = $dataUser;
+            }
+
+            $this->addDataObject($data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
 }

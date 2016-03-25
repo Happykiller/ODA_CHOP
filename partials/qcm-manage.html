@@ -111,3 +111,12 @@
         </div>
     </div>
 </script>
+
+<script id="tpltStats" type="text/template">
+    <ul class="nav nav-tabs">
+        <li class="active"><a onclick="$.Oda.App.Controller.ManageQcm.displayStatsByQuestion({ id:{{id}}, that: this })">Général</a></li>
+        <li><a onclick="$.Oda.App.Controller.ManageQcm.displayStatsByUserGeneral({ id:{{id}}, that: this })">Utilisateurs général</a></li>
+        <li><a onclick="$.Oda.App.Controller.ManageQcm.displayStatsByUserDetails({ id:{{id}}, that: this })">Utilisateurs détails</a></li>
+    </ul>
+    <div id="graph"></div>
+</script>

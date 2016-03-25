@@ -198,3 +198,12 @@ $half: round($loops / 2);
   top: 12px;
   width: 15px;
 }
+
+.circlePresent {
+  margin: auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: $green;
+  display: inline-block;
+}

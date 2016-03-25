@@ -133,6 +133,20 @@ $slim->get('/report/:id/stats/', function ($id) use ($slim) {
     $INTERFACE->getStats($id);
 });
 
+$slim->get('/report/:id/stats/users/general/', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new RapportInterface($params);
+    $INTERFACE->getStatsByUserGeneral($id);
+});
+
+$slim->get('/report/:id/stats/users/details/', function ($id) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new RapportInterface($params);
+    $INTERFACE->getStatsByUserDetails($id);
+});
+
 //--------------------------------------------------------------------------
 
 $slim->run();

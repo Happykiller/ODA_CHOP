@@ -662,54 +662,175 @@
                  */
                 displayStats : function (p_params) {
                     try {
+                        var strHtml = $.Oda.Display.TemplateHtml.create({
+                            template : "tpltStats"
+                            , scope : {
+                                id: p_params.id
+                            }
+                        });
+                        $.Oda.Display.Popup.open({
+                            "name": "modalDetailsQcm",
+                            "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
+                            "details": strHtml,
+                            "size": "lg",
+                            "callback": function () {
+                                $.Oda.App.Controller.ManageQcm.displayStatsByQuestion(p_params);
+                            }
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStats : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {Object} p_params
+                 * @param p_params.id
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                displayStatsByQuestion : function (p_params) {
+                    try {
+                        if(p_params.that !== undefined){
+                            $('.nav-tabs li.active').removeClass('active');
+                            $(p_params.that).closest('li').addClass('active');
+                        }
                         var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/report/"+p_params.id+"/stats/", { callback : function(response){
-                            $.Oda.Display.Popup.open({
-                                "name": "modalDetailsQcm",
-                                "label": p_params.desc + " (" + p_params.name + "-" + p_params.version + "-" + p_params.lang + "-" + p_params.date + ")",
-                                "details": '<div id="graph"></div>',
-                                "size": "lg",
-                                "callback": function () {
-                                    if(response.data.length > 0){
-                                        var listData = [];
-                                        for(var index in response.data){
-                                            var elt = response.data[index];
-                                            var data = [];
-                                            data.push(elt.question, parseInt(elt.number));
-                                            listData.push(data);
-                                        }
-
-                                        $('#graph').highcharts({
-                                            chart: {
-                                                type: 'column'
-                                            },
-                                            title: {
-                                                text: 'Question try'
-                                            },
-                                            legend: {
-                                                enabled: false
-                                            },
-                                            xAxis: {
-                                                type: 'category',
-                                                labels: {
-                                                    rotation: -80
-                                                }
-                                            },
-                                            series: [{
-                                                name: 'Try',
-                                                data: listData
-                                            }]
-                                        });
-                                    }else{
-                                        $('#graph').html('no datas');
-                                    }
+                            if(response.data.length > 0){
+                                var listData = [];
+                                for(var index in response.data){
+                                    var elt = response.data[index];
+                                    var data = [];
+                                    data.push(elt.question, parseInt(elt.number));
+                                    listData.push(data);
                                 }
+
+                                $('#graph').highcharts({
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: 'Question try'
+                                    },
+                                    legend: {
+                                        enabled: false
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        labels: {
+                                            rotation: -80
+                                        }
+                                    },
+                                    series: [{
+                                        name: 'Try',
+                                        data: listData
+                                    }]
+                                });
+                            }else{
+                                $('#graph').html('no datas');
+                            }
+                        }}, {
+                            "id": p_params.id
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStatsByQuestion : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {Object} p_params
+                 * @param p_params.id
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                displayStatsByUserGeneral : function (p_params) {
+                    try {
+                        $('.nav-tabs li.active').removeClass('active');
+                        $(p_params.that).closest('li').addClass('active');
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/report/"+p_params.id+"/stats/users/general/", { callback : function(response){
+                            if(response.data.length > 0){
+                                var listData = [];
+                                for(var index in response.data){
+                                    var elt = response.data[index];
+                                    var data = [];
+                                    data.push(elt.firstName+'.'+elt.lastName.substr(0,1), parseInt(elt.number));
+                                    listData.push(data);
+                                }
+
+                                $('#graph').highcharts({
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: 'Question try'
+                                    },
+                                    legend: {
+                                        enabled: false
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        labels: {
+                                            rotation: -80
+                                        }
+                                    },
+                                    series: [{
+                                        name: 'Try',
+                                        data: listData
+                                    }]
+                                });
+                            }else{
+                                $('#graph').html('no datas');
+                            }
+                        }}, {
+                            "id": p_params.id
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStatsByUserGeneral : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @param {Object} p_params
+                 * @param p_params.id
+                 * @returns {$.Oda.App.Controller.ManageQcm}
+                 */
+                displayStatsByUserDetails : function (p_params) {
+                    try {
+                        $('.nav-tabs li.active').removeClass('active');
+                        $(p_params.that).closest('li').addClass('active');
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/report/"+p_params.id+"/stats/users/details/", { callback : function(response){
+                            var listCate = [];
+                            for(var index in response.data.listQuestions){
+                                var elt = response.data.listQuestions[index];
+                                listCate.push(elt.question);
+                            }
+
+                            $('#graph').highcharts({
+                                chart: {
+                                    type: 'column'
+                                },
+                                title: {
+                                    text: 'Question try'
+                                },
+                                legend: {
+                                    enabled: false
+                                },
+                                xAxis: {
+                                    categories: listCate,
+                                    crosshair: true,
+                                    type: 'category',
+                                    labels: {
+                                        rotation: -80
+                                    }
+                                },
+                                series: response.data.listResponses
                             });
                         }}, {
                             "id": p_params.id
                         });
                         return this;
                     } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStats : " + er.message);
+                        $.Oda.Log.error("$.Oda.App.Controller.ManageQcm.displayStatsByUserDetails : " + er.message);
                         return null;
                     }
                 },
@@ -754,6 +875,8 @@
                 startBotQuestions : function () {
                     try {
                         var gardian = false;
+                        $('div.circlePresent').remove();
+                        $('li.present').removeClass('present');
                         if($('#modalDetailsQcm').exists()) {
                             gardian = true;
                             $('[id^=divHorse-]').each(function () {
@@ -792,9 +915,18 @@
                                                 isRemove = true;
                                             }
 
+                                            var question = $('#paddoc_'+ str);
+
+                                            var li_chap = question.closest('ul').closest('li');
+
+                                            if(!li_chap.hasClass('present')){
+                                                li_chap.addClass('present');
+                                                li_chap.find('a span').after(' <div class="circlePresent"></div>');
+                                            }
+
                                             if(isRemove){
                                                 divHorse.remove();
-                                                $('#paddoc_'+ str).after(strHtml);
+                                                question.after(strHtml);
                                             }
 
                                             break;
