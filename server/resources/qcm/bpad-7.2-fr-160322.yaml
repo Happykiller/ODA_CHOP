@@ -220,7 +220,7 @@
     - "Exécuter des tâches sur un cas": true
     - "Attribuer une tâche": false
     - "Filtrer par catégories": true
-    - "Voir l'historique de cas dans une catégorie": true
+    - "Voir l'historique d'un cas qu'il a lancé": true
   - "Quelles sont les actions qu'un utilisateur peut effectuer sur une tâche ?":
     - "Faire la tâche en remplissant un formulaire": true
     - "Ajouter une sous-tâche": true
@@ -235,7 +235,7 @@
     - "Transverse entre processus": true
     - "Modèle de données": true
     - "Traçabilité, historisation": false
-    - "Performance": false
+    - "Privée au processus": false
     - "Contient la valeur métier": true
   - "Comment peut-on modifier les valeurs des variables de la BDM ?":
     - "Par des API REST": false
