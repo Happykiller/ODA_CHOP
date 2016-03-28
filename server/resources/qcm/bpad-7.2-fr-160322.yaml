@@ -146,10 +146,10 @@
     - "D'une interface utilisateur découplée du moteur": true
 "Chapitre Acteur":
   - "Comment les tâches sont liées à des acteurs ?":
-    - "Acteur mapping dans le studio ": false
-    - "Choix du profil sur le portail ": false
-	- "Choix de l'acteur dans le Studio": true
-	- "Acteur mapping dans le Portail ": false
+    - "Acteur mapping dans le studio": false
+    - "Choix du profil sur le portail": false
+    - "Choix de l'acteur dans le Studio": true
+    - "Acteur mapping dans le Portail": false
   - "Sous quelles conditions un utilisateur peux voir une tâche dans sa liste de tâches ?":
     - "Si, après le calcul de l'acteur mapping l'utilisateur correspondent à l'acteur": true
     - "S'il a été nommé à la définition à la tâche": false
@@ -170,8 +170,8 @@
   - "Où se situe la fonction de mapping des données ?":
     - "Au niveau du processus parent": false
     - "Au niveau de l'activité appelante": true
-	- "Au niveau du processus appelé": false
-	- "Au niveau de la première activité du processus appelé": false
+    - "Au niveau du processus appelé": false
+    - "Au niveau de la première activité du processus appelé": false
 "Chapitre Iterations":
   - "Peut-on utiliser multi-instanciation avec une activité appelante ?":
     - "Oui": true
