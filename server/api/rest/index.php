@@ -88,6 +88,21 @@ $slim->post('/sessionUser/record/', function () use ($slim) {
     $INTERFACE->createRecord();
 });
 
+$slim->get('/sessionUser/:userId', function ($userId) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->slim = $slim;
+    $INTERFACE = new SessionUserInterface($params);
+    $INTERFACE->getById($userId);
+});
+
+$slim->put('/sessionUser/:userId', function ($userId) use ($slim) {
+    $params = new OdaPrepareInterface();
+    $params->arrayInput = array("state");
+    $params->slim = $slim;
+    $INTERFACE = new SessionUserInterface($params);
+    $INTERFACE->updateState($userId);
+});
+
 //--------------------------------------------------------------------------
 //---------------------------- Rapport -----------------------------------------
 $slim->get('/rapport/qcm/:id/details/', function ($id) use ($slim) {

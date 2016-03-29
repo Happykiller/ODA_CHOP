@@ -88,4 +88,58 @@ class SessionUserInterface extends OdaRestInterface {
             die();
         }
     }
+    
+    /**
+     * @param $id
+     */
+    function getById($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "SELECT a.`id`, a.`lastName`, a.`firstName`, a.`company`,
+                a.`qcmId`, b.`name` as 'qcmName', b.`version` as 'qcmVersion', b.`lang` as 'qcmLang', b.`date` as 'qcmDate',
+                a.`state`
+                FROM `tab_qcm_sessions_user` a, `tab_qcm_sessions` b
+                WHERE 1=1
+                AND a.`qcmId` = b.`id`
+                AND a.`id` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id
+            ];
+            $params->typeSQL = OdaLibBd::SQL_GET_ONE;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $this->addDataObject($retour->data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    function updateState($id) {
+        try {
+            $params = new OdaPrepareReqSql();
+            $params->sql = "UPDATE `tab_qcm_sessions_user`
+                SET `state` = :state
+                WHERE 1=1
+                AND `id` = :id
+            ;";
+            $params->bindsValue = [
+                "id" => $id,
+                "state" => $this->inputs["state"]
+            ];
+            $params->typeSQL = OdaLibBd::SQL_SCRIPT;
+            $retour = $this->BD_ENGINE->reqODASQL($params);
+
+            $this->addDataObject($retour->data);
+        } catch (Exception $ex) {
+            $this->object_retour->strErreur = $ex.'';
+            $this->object_retour->statut = self::STATE_ERROR;
+            die();
+        }
+    }
 }

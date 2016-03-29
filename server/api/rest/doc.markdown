@@ -29,6 +29,13 @@
 * `/sessionUser/record/`
     * type : POST
     * mandatory params : "question","nbErrors","sessionUserId"
+    * public : true  
+* `/sessionUser/:userId`
+    * type : GET
+    * public : true
+* `/sessionUser/:userId`
+    * type : PUT
+    * mandatory params : "state"
     * public : true
     
 ## Rapport

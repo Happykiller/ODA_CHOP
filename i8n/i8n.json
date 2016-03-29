@@ -118,7 +118,8 @@
     "location": "Lieu",
     "location-tips": "Texte",
     "location-placeholder": "32 rue Gustave Eiffel 38100 Grenoble",
-    "stats": "Stats"
+    "stats": "Stats",
+    "urlGetSessionUser": "Url de récupération de session : "
   },
   "en": {
     "title": "Manage MCQ",
@@ -164,7 +165,8 @@
     "location": "Lieu",
     "location-tips": "Texte",
     "location-placeholder": "32 rue Gustave Eiffel 38100 Grenoble",
-    "stats": "Stats"
+    "stats": "Stats",
+    "urlGetSessionUser": "Url for retrieve session: "
   }
 }, {
   "groupName": "301",
