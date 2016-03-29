@@ -1177,7 +1177,7 @@
                             var btSubmit = $("#submit-"+$.Oda.App.Controller.Qcm.current);
                             btSubmit.fadeIn();
                         }else{
-                            $.Oda.Display.Notification.error(gardian + $.Oda.I8n.get("qcm","ErrorMessage"));
+                            $.Oda.Display.Notification.warning(gardian + $.Oda.I8n.get("qcm","ErrorMessage"));
                         }
 
                         return this;
