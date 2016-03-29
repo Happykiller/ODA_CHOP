@@ -1223,7 +1223,7 @@
                                 }
                                 $.Oda.Router.navigateTo({
                                     'route': 'qcm',
-                                    'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
+                                    'args': {"id": response.data.qcmId}
                                 });
                             }});
                             return this;
