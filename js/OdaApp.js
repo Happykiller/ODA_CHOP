@@ -1204,19 +1204,23 @@
 
                         if(sessionUserId !== undefined){
                             var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/"+sessionUserId, {callback : function(response){
-                                $.Oda.App.Controller.Qcm.Session = $.Oda.App.Controller.Qcm.SessionDefault;
-                                $.Oda.App.Controller.Qcm.Session.id = response.data.id;
-                                $.Oda.App.Controller.Qcm.Session.firstName = response.data.firstName;
-                                $.Oda.App.Controller.Qcm.Session.lastName = response.data.lastName;
-                                $.Oda.App.Controller.Qcm.Session.compagny = response.data.compagny;
-                                $.Oda.App.Controller.Qcm.Session.qcmId = response.data.qcmId;
-                                $.Oda.App.Controller.Qcm.Session.qcmName = response.data.qcmName;
-                                $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.qcmVersion;
-                                $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.qcmLang;
-                                $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.qcmDate;
-                                $.Oda.App.Controller.Qcm.Session.state = $.parseJSON(response.data.state);
-                                $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
-                                
+                                try{
+                                    $.Oda.App.Controller.Qcm.Session = $.Oda.App.Controller.Qcm.SessionDefault;
+                                    $.Oda.App.Controller.Qcm.Session.id = response.data.id;
+                                    $.Oda.App.Controller.Qcm.Session.firstName = response.data.firstName;
+                                    $.Oda.App.Controller.Qcm.Session.lastName = response.data.lastName;
+                                    $.Oda.App.Controller.Qcm.Session.compagny = response.data.compagny;
+                                    $.Oda.App.Controller.Qcm.Session.qcmId = response.data.qcmId;
+                                    $.Oda.App.Controller.Qcm.Session.qcmName = response.data.qcmName;
+                                    $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.qcmVersion;
+                                    $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.qcmLang;
+                                    $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.qcmDate;
+                                    $.Oda.App.Controller.Qcm.Session.state = $.parseJSON(response.data.state);
+                                    $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
+                                }catch (er) {
+                                    $.Oda.App.Controller.Qcm.Session = null;
+                                    $.Oda.Display.Notification.warning($.Oda.I8n.get('qcmStart','stateCompromise'));
+                                }
                                 $.Oda.Router.navigateTo({
                                     'route': 'qcm',
                                     'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}

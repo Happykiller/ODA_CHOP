@@ -64,11 +64,13 @@
   "groupName": "qcmStart",
   "fr": {
     "title": "QCM",
-    "hello": "Bienvenue dans ce questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître."
+    "hello": "Bienvenue dans ce questionnaire à Choix Multiple, afin de nous améliorer nous avons besoin de vous reconnaître.",
+    "stateCompromise": "Sauvegarde de l'avancement compromise"
   },
   "en": {
     "title": "MCQ",
-    "hello": "Welcome to the Multiple Choice Questionnaire, in order to improve ourselves we need to recognize you."
+    "hello": "Welcome to the Multiple Choice Questionnaire, in order to improve ourselves we need to recognize you.",
+    "stateCompromise": "Backup of session compromise"
   }
 }, {
   "groupName": "qcm-manage",
