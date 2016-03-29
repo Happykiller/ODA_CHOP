@@ -1220,10 +1220,12 @@
                                 }catch (er) {
                                     $.Oda.App.Controller.Qcm.Session = null;
                                     $.Oda.Display.Notification.warning($.Oda.I8n.get('qcmStart','stateCompromise'));
+                                    $.Oda.Router.navigateTo({'route':'301','args':{}});
+
                                 }
                                 $.Oda.Router.navigateTo({
                                     'route': 'qcm',
-                                    'args': {"id": response.data.qcmId}
+                                    'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
                                 });
                             }});
                             return this;
