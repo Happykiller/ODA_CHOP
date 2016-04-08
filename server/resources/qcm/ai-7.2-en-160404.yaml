@@ -120,11 +120,11 @@
     - "0": false
     - "1": false
     - "2": true
-     - "un connecteur est constitué de la définition (IHM) et de l'implementation (coeur du connecteur)"
+      - "un connecteur est constitué de la définition (IHM) et de l'implementation (coeur du connecteur)"
     - "3": false
   - "Peut on avoir plusieurs versions de definitions et d'implemetations de connecteurs ?":
     - "1 version de définition et 1 version d'implementation uniquement(one to one only)": false
-     - "en effet on peut avoir plusieurs implementation pour une definition)"
+      - "en effet on peut avoir plusieurs implementation pour une definition)"
     - "1 version de definition et X versions d'implementation": true
     - "X versions de definitions et une version d'implementation pour chacunes": true
   - "Quelles sont les methodes presentes dans l'impementation d'un connecteur":

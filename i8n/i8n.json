@@ -10,7 +10,8 @@
     "trainer": "Formateur :",
     "trainee": "Nom et société des participants",
     "morning": "Matin",
-    "afternoon": "Après-midi"
+    "afternoon": "Après-midi",
+    "emargTitle": "Feuille d'émargement"
   },
   "en": {
     "getPdfEmarg": "Get in PDF",
@@ -22,7 +23,8 @@
     "trainer": "Trainer:",
     "trainee": "Name and company of trainee",
     "morning": "Morning",
-    "afternoon": "Afternoon"
+    "afternoon": "Afternoon",
+    "emargTitle": "feuille d'émargement"
   }
 }, {
   "groupName": "home",

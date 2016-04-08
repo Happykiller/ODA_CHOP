@@ -204,8 +204,8 @@
             getPdfEmarg : function () {
                 try {
                     $.Oda.Display.Notification.info($.Oda.I8n.get('qcmFinish','waitingDl'));
-                    var doc = new jsPDF();
-                    doc.addHTML($('#popEmarg_content')[0], 0, 15, {
+                    var doc = new jsPDF("l","mm","a4");
+                    doc.addHTML($('#popEmarg_content')[0], 0, 1, {
                         'background': '#fff',
                     }, function() {
                         var currentTime = new Date();
