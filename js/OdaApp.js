@@ -337,7 +337,7 @@
                                 "aaData": objDataTable.data,
                                 "aaSorting": [[0, 'desc']],
                                 "aoColumns": [
-                                    {"sTitle": $.Oda.I8n.get("qcm-manage","id"), "sClass": "dataTableColCenter"},
+                                    {"sTitle": "#", "sClass": "dataTableColCenter", "sWidth": "25px"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","author"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","name"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","version"), "sClass": "dataTableColCenter"},
@@ -345,7 +345,7 @@
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","date"), "sClass": "dataTableColCenter"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","desc"), "sClass": "Left"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","link"), "sClass": "Left"},
-                                    {"sTitle": $.Oda.I8n.get("qcm-manage","success"), "sClass": "Left"},
+                                    {"sTitle": $.Oda.I8n.get("qcm-manage","success"), "sClass": "dataTableColCenter"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","nbUser"), "sClass": "dataTableColCenter"},
                                     {"sTitle": $.Oda.I8n.get("qcm-manage","action"), "sClass": "Left"}
                                 ],
@@ -382,7 +382,8 @@
                                     },
                                     {
                                         "mRender": function (data, type, row) {
-                                            return row[objDataTable.entete["date"]];
+                                            var date = row[objDataTable.entete["date"]];
+                                            return date.substr(4,2)+"/"+date.substr(2,2)+"/20"+date.substr(0,2);
                                         },
                                         "aTargets": [5]
                                     },
