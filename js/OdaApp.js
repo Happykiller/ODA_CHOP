@@ -989,6 +989,114 @@
                     }
                 }
             },
+            "QcmStart" : {
+                /**
+                 * @returns {$.Oda.App.Controller.QcmStart}
+                 */
+                start: function () {
+                    try {
+                        var id = $.Oda.Router.current.args["id"];
+                        var sessionUserId = $.Oda.Router.current.args["sessionUserId"];
+
+                        if(sessionUserId !== undefined){
+                            var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/"+sessionUserId, {callback : function(response){
+                                try{
+                                    $.Oda.App.Controller.Qcm.Session = $.Oda.App.Controller.Qcm.SessionDefault;
+                                    $.Oda.App.Controller.Qcm.Session.id = response.data.id;
+                                    $.Oda.App.Controller.Qcm.Session.firstName = response.data.firstName;
+                                    $.Oda.App.Controller.Qcm.Session.lastName = response.data.lastName;
+                                    $.Oda.App.Controller.Qcm.Session.compagny = response.data.compagny;
+                                    $.Oda.App.Controller.Qcm.Session.qcmId = response.data.qcmId;
+                                    $.Oda.App.Controller.Qcm.Session.qcmName = response.data.qcmName;
+                                    $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.qcmVersion;
+                                    $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.qcmLang;
+                                    $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.qcmDate;
+                                    $.Oda.App.Controller.Qcm.Session.state = $.parseJSON(response.data.state);
+                                    $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
+                                }catch (er) {
+                                    $.Oda.App.Controller.Qcm.Session = null;
+                                    $.Oda.Display.Notification.warning($.Oda.I8n.get('qcmStart','stateCompromise'));
+                                    $.Oda.Router.navigateTo({'route':'301','args':{}});
+
+                                }
+                                $.Oda.Router.navigateTo({
+                                    'route': 'qcm',
+                                    'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
+                                });
+                            }});
+                            return this;
+                        }else if(id === null){
+                            $.Oda.Router.navigateTo({'route':'301','args':{}});
+                            return this;
+                        }
+
+                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+id, $.Oda.App.Controller.Qcm.SessionDefault);
+
+                        if( (id === $.Oda.App.Controller.Qcm.Session.qcmId) ) {
+                            $.Oda.Router.navigateTo({
+                                'route': 'qcm',
+                                'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
+                            });
+                            return this;
+                        }
+
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/"+id, {callback : function(response){
+                            $.Oda.App.Controller.Qcm.Session.qcmId = id;
+                            $.Oda.App.Controller.Qcm.Session.qcmName = response.data.name;
+                            $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.version;
+                            $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.lang;
+                            $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.date;
+                            $.Oda.App.Controller.Qcm.Session.qcmDesc = response.data.desc;
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
+
+                            $.Oda.Scope.Gardian.add({
+                                id : "qcmStart",
+                                listElt : ["firstName", "lastName"],
+                                function : function(e){
+                                    if( ($("#firstName").data("isOk")) && ($("#lastName").data("isOk")) ){
+                                        $("#submit").removeClass("disabled");
+                                        $("#submit").removeAttr("disabled");
+                                    }else{
+                                        $("#submit").addClass("disabled");
+                                        $("#submit").attr("disabled", true);
+                                    }
+                                }
+                            });
+                        }});
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.QcmStart.start : " + er.message);
+                        return null;
+                    }
+                },
+                /**
+                 * @returns {$.Oda.App.Controller.QcmStart}
+                 */
+                submit: function () {
+                    try {
+                        $.Oda.App.Controller.Qcm.Session.firstName = $('#firstName').val();
+                        $.Oda.App.Controller.Qcm.Session.lastName = $('#lastName').val();
+                        $.Oda.App.Controller.Qcm.Session.company = $('#company').val();
+
+                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/", {type:'POST', callback : function(response){
+                            $.Oda.App.Controller.Qcm.Session.id = response.data;
+                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
+                            $.Oda.Router.navigateTo({'route':'qcm','args':{id:$.Oda.App.Controller.Qcm.Session.qcmId}});
+                        }},{
+                            "firstName": $.Oda.App.Controller.Qcm.Session.firstName,
+                            "lastName": $.Oda.App.Controller.Qcm.Session.lastName,
+                            "company": $.Oda.App.Controller.Qcm.Session.company,
+                            "qcmId": $.Oda.App.Controller.Qcm.Session.qcmId,
+                            "qcmName": $.Oda.App.Controller.Qcm.Session.qcmName,
+                            "qcmLang": $.Oda.App.Controller.Qcm.Session.qcmLang
+                        });
+                        return this;
+                    } catch (er) {
+                        $.Oda.Log.error("$.Oda.App.Controller.QcmStart.submit : " + er.message);
+                        return null;
+                    }
+                }
+            },
             "Qcm": {
                 Session: null,
                 SessionDefault: {
@@ -1192,114 +1300,6 @@
                         return null;
                     }
                 },
-            },
-            "QcmStart" : {
-                /**
-                 * @returns {$.Oda.App.Controller.QcmStart}
-                 */
-                start: function () {
-                    try {
-                        var id = $.Oda.Router.current.args["id"];
-                        var sessionUserId = $.Oda.Router.current.args["sessionUserId"];
-
-                        if(sessionUserId !== undefined){
-                            var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/"+sessionUserId, {callback : function(response){
-                                try{
-                                    $.Oda.App.Controller.Qcm.Session = $.Oda.App.Controller.Qcm.SessionDefault;
-                                    $.Oda.App.Controller.Qcm.Session.id = response.data.id;
-                                    $.Oda.App.Controller.Qcm.Session.firstName = response.data.firstName;
-                                    $.Oda.App.Controller.Qcm.Session.lastName = response.data.lastName;
-                                    $.Oda.App.Controller.Qcm.Session.compagny = response.data.compagny;
-                                    $.Oda.App.Controller.Qcm.Session.qcmId = response.data.qcmId;
-                                    $.Oda.App.Controller.Qcm.Session.qcmName = response.data.qcmName;
-                                    $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.qcmVersion;
-                                    $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.qcmLang;
-                                    $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.qcmDate;
-                                    $.Oda.App.Controller.Qcm.Session.state = $.parseJSON(response.data.state);
-                                    $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
-                                }catch (er) {
-                                    $.Oda.App.Controller.Qcm.Session = null;
-                                    $.Oda.Display.Notification.warning($.Oda.I8n.get('qcmStart','stateCompromise'));
-                                    $.Oda.Router.navigateTo({'route':'301','args':{}});
-
-                                }
-                                $.Oda.Router.navigateTo({
-                                    'route': 'qcm',
-                                    'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
-                                });
-                            }});
-                            return this;
-                        }else if(id === null){
-                            $.Oda.Router.navigateTo({'route':'301','args':{}});
-                            return this;
-                        }
-
-                        $.Oda.App.Controller.Qcm.Session = $.Oda.Storage.get("QCM-SESSION-"+id, $.Oda.App.Controller.Qcm.SessionDefault);
-
-                        if( (id === $.Oda.App.Controller.Qcm.Session.qcmId) ) {
-                            $.Oda.Router.navigateTo({
-                                'route': 'qcm',
-                                'args': {"id": $.Oda.App.Controller.Qcm.Session.qcmId}
-                            });
-                            return this;
-                        }
-
-                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/qcm/"+id, {callback : function(response){
-                            $.Oda.App.Controller.Qcm.Session.qcmId = id;
-                            $.Oda.App.Controller.Qcm.Session.qcmName = response.data.name;
-                            $.Oda.App.Controller.Qcm.Session.qcmVersion = response.data.version;
-                            $.Oda.App.Controller.Qcm.Session.qcmLang = response.data.lang;
-                            $.Oda.App.Controller.Qcm.Session.qcmDate = response.data.date;
-                            $.Oda.App.Controller.Qcm.Session.qcmDesc = response.data.desc;
-                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId, $.Oda.App.Controller.Qcm.Session);
-
-                            $.Oda.Scope.Gardian.add({
-                                id : "qcmStart",
-                                listElt : ["firstName", "lastName"],
-                                function : function(e){
-                                    if( ($("#firstName").data("isOk")) && ($("#lastName").data("isOk")) ){
-                                        $("#submit").removeClass("disabled");
-                                        $("#submit").removeAttr("disabled");
-                                    }else{
-                                        $("#submit").addClass("disabled");
-                                        $("#submit").attr("disabled", true);
-                                    }
-                                }
-                            });
-                        }});
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.QcmStart.start : " + er.message);
-                        return null;
-                    }
-                },
-                /**
-                 * @returns {$.Oda.App.Controller.QcmStart}
-                 */
-                submit: function () {
-                    try {
-                        $.Oda.App.Controller.Qcm.Session.firstName = $('#firstName').val();
-                        $.Oda.App.Controller.Qcm.Session.lastName = $('#lastName').val();
-                        $.Oda.App.Controller.Qcm.Session.company = $('#company').val();
-
-                        var call = $.Oda.Interface.callRest($.Oda.Context.rest+"api/rest/sessionUser/", {type:'POST', callback : function(response){
-                            $.Oda.App.Controller.Qcm.Session.id = response.data;
-                            $.Oda.Storage.set("QCM-SESSION-"+$.Oda.App.Controller.Qcm.Session.qcmId,$.Oda.App.Controller.Qcm.Session);
-                            $.Oda.Router.navigateTo({'route':'qcm','args':{id:$.Oda.App.Controller.Qcm.Session.qcmId}});
-                        }},{
-                            "firstName": $.Oda.App.Controller.Qcm.Session.firstName,
-                            "lastName": $.Oda.App.Controller.Qcm.Session.lastName,
-                            "company": $.Oda.App.Controller.Qcm.Session.company,
-                            "qcmId": $.Oda.App.Controller.Qcm.Session.qcmId,
-                            "qcmName": $.Oda.App.Controller.Qcm.Session.qcmName,
-                            "qcmLang": $.Oda.App.Controller.Qcm.Session.qcmLang
-                        });
-                        return this;
-                    } catch (er) {
-                        $.Oda.Log.error("$.Oda.App.Controller.QcmStart.submit : " + er.message);
-                        return null;
-                    }
-                }
             },
             "QcmFinish": {
                 /**
