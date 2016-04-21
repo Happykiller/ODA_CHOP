@@ -1,297 +1,297 @@
-"Chapitre BonitaSoft en quelques mots":
-  - "Quelles sont les services et moyens proposés par BonitaSoft ?":
-    - "Support": true
-    - "Réalisation de projet": false
-    - "Equipe de suivi pour la réussite": true
-    - "Formations": true
-    - "Large communauté": true
-    - "Point de vente physique": false
-    - "Partenaires et consultants": true
-"Chapitre Introduction au BPM":
-  - "Parmi les propositions suivantes, lesquelles sont des composantes du BPM ?":
-    - "Echanges entre personnes": true
-    - "Enchaînements d'activités": true
-    - "Enchaînements d'état": false
-    - "Suivi et surveillance pour l'amélioration": true
-"Chapitre Living applications":
-  - "Qu'es-ce qu'une application métier ?":
-    - "Centrée sur les utilisateurs finaux": true
-    - "Centrée sur l'administration de la plateforme": false
-    - "Composée d'écrans adaptés aux profils d'utilisateurs": true
-    - "Repose forcément sur des processus": false
-  - "Qu'es-ce qu'une application BPM ?":
-    - "Repose forcément sur des processus": true
-    - "Composée de processus complètement automatique": false
-    - "Interagie avec le système d'information": true
-    - "Coordonne les tâches entre personnes": true
-    - "Propose des interfaces utilisateurs de type to-do list ou personnalisées": true
-"Chapitre Bonita BPM architecture":
-  - "Quelles sont les composantes de la logique de l'architecture ?":
-    - "Des applications BPM": true
-    - "Héberger des applications tierces": false
-    - "Un portail": true
-    - "Des services API du moteur": true
-    - "Des bases de données métier et moteur": true
-    - "Fournir des services de type ldap, mail etc": false
-  - "Quel est le modèle applicatif ?":
-    - "Modèle Vue Présenteur": false
-    - "Modèle Vue Contrôleur": true
-    - "Modèle Vue Vue-Modèle": false
-"Chapitre Bonita BPM solution":
-  - "Quelles sont les différentes composantes de Bonita BPM ?":
+"Bonitasoft chapter in a few words":
+  - "What are the services proposed by Bonitasoft ?":
+    - "Support Team": true
+    - "Project delivery Team": false
+    - "Customer success Team": true
+    - "Training": true
+    - "Large Community": true
+    - "Sale stores": false
+    - "Partners and consultants": true
+"Introduction to BPM Chapter":
+  - "Which of the following are BPM components ?":
+    - "People working together": true
+    - "Chaining activities": true
+    - "Chaining states": false
+	- "Monitoring for continuous improvement": true
+"Living applications Chapter":
+  - "What is a living application ?":
+    - "End user centric": true
+    - "Platform administration centric": false
+    - "Composed of pages adapted to user profiles": true
+    - "Rely necessarily on processes": false
+  - "What is a BPM Application ?":
+    - "Rely necessarily on processes": true
+    - "Built only with automatic processes": false
+    - "Interact with Information systems": true
+    - "Coordinate tasks between users": true
+    - "Allows to use custom UIs and to-do lists": true
+"Bonita BPM architecture chapter":
+  - "What are the logical architecture components ?":
+    - "BPM applications": true
+    - "Host third party applications": false
+    - "A portal": true
+    - "Engine api services": true
+    - "Engine and business databases": true
+    - "other services, such as ldap or email": false
+  - "What is the application model ?":
+    - "Model View Presenter": false
+    - "Model View Controler": true
+    - "Model View View-Model": false
+"Bonita BPM solution chapter":
+  - "What are the different components of bonita BPM ?":
     - "Bonita Studio": true
     - "Bonita Integration": false
     - "Bonita Portal": true
     - "Bonita IDE web (UI Designer)": true
     - "Bonita Engine": true
     - "Bonita Server": false
-  - "Pourquoi utiliser le Studio Bonita BPM ?":
-    - "Modèliser des processus": true
-    - "Initialiser des formulaire": true
-    - "Lancer l'intégration": false
-    - "Gérer une organisation pour le devellopement": true
-    - "Déployer sur d'autre plateforme": false
-    - "Gérer son modèle de donnée": true
-  - "A quoi servent les fichiers .bos et .bar ?":
-    - "Bos pour le partage entre Studios": true
-    - "Bos pour le deploiement sur les serveurs": false
-    - "Bar pour le deploiement sur les serveurs": true
-    - "Bar pour l'échange entre Studios": false
-"Chapitre BPMN":
-  - "Quels sont les différents types de tâche disponibles ?":
-    - "Humaine": true
+  - "Why should i use Bonita BPM Studio ?":
+    - "to model my processes": true
+    - "to initialise my forms": true
+    - "to run the integration": false
+    - "manage an organisation": true
+    - "deploy my processes on other platforms": false
+    - "manage my data model": true
+  - "What are the extensions .bos et .bar used for ?":
+    - "Bos for sharing between Studios": true
+    - "Bos for deploying on servers": false
+    - "Bar for deploying on servers": true
+    - "Bar for sharing between Studios": false
+"BPMN Chapter":
+  - "What are the different types of tasks available in bonita BPM ?":
+    - "Human": true
     - "Service": true
-    - "Chronologique": false
-    - "Activité appelante": true
+    - "Chronological": false
+    - "Calling activity": true
     - "Script": true
-    - "Abstraite": true
+    - "Abstract": true
     - "E-Mail": false
     - "Message": true
-  - "Parmi les propositions suivantes, trouver un exemple de tâches humaine et service":
-    - "Tâche humaine: Validation d'une demande faite par quelqu'un d'autre": true
-    - "Tâche humaine: Envoi d'un e-mail": false
-    - "Tâche service: Demande de validation": false
-    - "Tâche service: Mise à jour de la base de données": true
-  - "Quelle est la différence entre un événement terminaison et un événement de fin":
-    - "L'événement terminaison stoppe toutes les branches du processus. L'événement de fin stoppe la branche courante": true
-    - "Il n'y a pas de différence": false
-"Chapitre utiliser les données dans la solution Bonita BPM":
-  - "A quoi servent les variables et les documents ?":
-    - "A déterminer des conditions": true
-    - "A contenir des informations métier": false
-    - "A donner des indicateurs": false
-    - "A stocker des informations intermédiaires": true
-"Chapitre les portes":
-  - "Les types de portes ?":
-    - "Porte serie": false
-    - "Porte exclusive": true
-    - "Porte absolue": false
-    - "Porte inclusive": true
-    - "Porte parallèle": true
-  - "La règle pour la porte exclusive":
-    - "Attends un chemin avant et exécute un chemin après": true
-    - "Attends tous les chemins avant et exécute tous les chemins après": false
-  - "La règle pour la porte parallèle":
-    - "Attends un chemin avant et exécute un chemin après": false
-    - "Attends tous les chemins avant et exécute tous les chemins après": true
-  - "La règle pour la porte inclusive":
-    - "Attends tous les chemins à condition qu'ils soient exécutables et exécute tous les chemins après, à condition que la condition soit bonne": true
-    - "Attends un chemin et exécute tous les chemins après, à condition que la condition soit bonne": false
-  - "Quelle transition devrait toujours être défini lors de l'utilisation des portes exclusives ?":
-    - "Une transition toujours pour éviter un blocage": false
-    - "Une transition par défaut pour éviter un blocage": true
-  - "Quel est le comportement du processus quand il y a des entrées directes dans une tâche (pas de passerelle)?":
-    - "Exclusive: la première transition à arriver (activé et complété) aura priorité. L'autre branche(s) peut encore atteindre la tâche et conduire à la duplication": true
-    - "Parallèle: attendre toutes les transitions pour s'exécuter": false
-"Chapitre évènements":
-  - "Dans quelles catégories pourrions-vous classifier les événements BPMN ?":
-    - "Evènements absolue": false
-    - "Evènements de début": true
-    - "Evènements de fin": true
-    - "Evènements intermédaire": true
-    - "Evènements de bordure": true
-    - "Evènements e-mail": false
-  - "Quels sont les différents types d'événements de minuterie ?":
-    - "Minuterie de début": true
-    - "Minuterie de fin": false
-    - "Minuterie terminée": false
-    - "Minuterie intermédiaire": true
-    - "Minuterie de bordure intéruptive": true
-    - "Minuterie de bordure non-intéruptive": true
-  - "Quel autre événement permet d'orienter le processus sur une autre branche ?":
-    - "Evènement intermédiaire": false
-    - "Evènement de bordure intéruptif": true
-    - "Evènement de bordure non-intéruptif": true
-"Chapitre Message":
-  - "Quel type d'événements peut envoyer un message ?":
-    - "Evènement de début de processus": false
-    - "Evènement de fin de processus": true
-    - "Evènement intermédiaire de processus": true
-  - "Quelles sont les caractèristiques d'un message ?":
-    - "Un message peux transporter des données": true
-    - "Un message peut être synchrone": false
-    - "Un message est asynchrone": true
-  - "Pouvons-nous commencer un processus par un message ?":
-    - "Oui": true
-    - "Non": false
-  - "Peut-on mettre fin à un processus par un message ?":
-    - "Oui": true
-    - "Non": false
-"Chapitre Tâche humaine":
-  - "De quoi est composée une tâche humaine ?":
-    - "Un contrat avec le moteur": true
-    - "D'au moins un formulaire": false
-    - "De plusieurs formulaire": false
-    - "D'une interface utilisateur découplée du moteur": true
-"Chapitre Acteur":
-  - "Comment les tâches sont liées à des acteurs ?":
-    - "Acteur mapping dans le studio": false
-    - "Choix du profil sur le portail": false
-    - "Choix de l'acteur dans le Studio": true
-    - "Acteur mapping dans le Portail": false
-  - "Sous quelles conditions un utilisateur peux voir une tâche dans sa liste de tâches ?":
-    - "Si, après le calcul de l'acteur mapping l'utilisateur correspondent à l'acteur": true
-    - "S'il a été nommé à la définition à la tâche": false
-"Chapitre filtre d'acteur":
-  - "Quel est le résultat de l'exécution d'un filtre ?":
-    - "Une liste de nom": false
-    - "Une liste d'identifiant": true
-"Chapitre activité appelante":
-  - "En quoi les activités appelantes sont-elles utiles?":
-    - "Mutualiser des processus simples": true
-    - "Améliorer la performance": false
-    - "Améliorer la lisibilité des diagrammes": true
-    - "Faciliter la maintenance": true
-    - "Améliorer la traçabilité": false
-  - "Comment est / sont transférées les données lors de l'utilisation des activités d'appel ?":
-    - "Elles sont déclarées dans le mapping des données": true
-    - "Elles sont auto-calculées par Bonita BPM grâce au lien fort entre les deux processus": false
-  - "Où se situe la fonction de mapping des données ?":
-    - "Au niveau du processus parent": false
-    - "Au niveau de l'activité appelante": true
-    - "Au niveau du processus appelé": false
-    - "Au niveau de la première activité du processus appelé": false
-"Chapitre Iterations":
-  - "Peut-on utiliser multi-instanciation avec une activité appelante ?":
-    - "Oui": true
-    - "Non": false
-  - "Peut-on configurer une multi-instanciation avec une liste ?":
-    - "Oui": true
+  - "Which of the following sentences are true ?":
+    - "Human Task: Validate a request made by someone else": true
+    - "Human Task: Send an e-mail": false
+    - "Service Task: Ask for a validation": false
+    - "Service Task: Update a database": true
+  - "What is the difference between a terminating event and an end event":
+    - "The terminating event stops all the process branches. The end event stops only the current branch.": true
+    - "There is no difference": false
+"Bonita BPM Data Chapter":
+  - "What are variables and documents used for ?":
+    - "Determine conditions": true
+    - "Hold business data": false
+    - "Provide indicators": false
+    - "Store intermediate informations": true
+"Gateways chapter":
+  - "The different types of gateways ?":
+    - "Serial Gateway": false
+    - "Exclusive Gateway": true
+    - "Absolute Gateway": false
+    - "inclusive Gateway": true
+    - "Parallel Gateway": true
+  - "Exclusive gateway usage":
+    - "Wait for one input link, and validate one output link": true
+    - "Wait for all input links, and validate all output links": false
+  - "Parallel gateway usage":
+    - "Wait for one input link, and validate one output link": false
+    - "Wait for all input links, and validate all output links": true
+  - "Inclusive gateway usage":
+    - "Waits for all links, provided they were triggered. Triggers all the links that validate the conditions.": true
+    - "Waits for a link, and executes all the links provided they were triggered.": false
+  - "Which type of flow need to be always defined when using an exclusive gateway?":
+    - "At least a conditional flow": false
+    - "At least a default flow": true
+  - "What is the default behavior when multiple flows are used as inputs for a task?":
+    - "Exclusive: the first completed flow to reach the task will trigger task execution. the other flows will still be available, and could trigger another instance of the task (duplication)": true
+    - "Parallel: wait for all the flows to execute": false
+"Events chapter":
+  - "Which of the following events are valid bonita events ?":
+    - "Absolute events": false
+    - "Start events": true
+    - "End events": true
+    - "Intermediate events": true
+    - "Border events": true
+    - "Email events": false
+  - "What are the different kinds of timer events ?":
+    - "Start timer event": true
+    - "End timer event": false
+    - "Final timer event": false
+    - "Intermediate timer event": true
+    - "Border interruptive timer event": true
+    - "Border non-interruptive timer event": true
+  - "Which events allow to redirect the process flow on another branch ?":
+    - "Intermediate events": false
+    - "Interruptive border events": true
+    - "Non-interruptive border events": true
+"Message chapter":
+  - "Which kind of events can send a BPMN message ?":
+    - "Start events": false
+    - "End events": true
+    - "Intermediate events": true
+  - "Which statements are true ?":
+    - "A BPMN message can hold data": true
+    - "A BPMN message is synchronous": false
+    - "A BPMN message is asynchronous": true
+  - "Is it possible to start a process by receiving a BPMN message ?":
+    - "Yes": true
     - "No": false
-"Chapitre Connecteur":
-  - "A quoi sert un connecteur ?":
-    - "A connecter le processus à un autre processus": false
-    - "A ouvrir une porte vers l'extérieur du processus": true
-    - "A traiter des données d'entrée et produire des données de sorties": true
-  - "Où un connecteur peut-il être déclenché ?":
-    - "Au niveau du processus": true
-    - "Au niveau d'une activité services": true
-    - "Au niveau d'un formulaire": false
-    - "Au niveau d'une activité humaine": true
-    - "Au niveau d'une application": false
-    - "Au niveau du serveur": false
-  - "Que se passe-t-il lorsque l'exécution d'un connecteur échoue ?":
-    - "L'erreur peut être ignorée": true
-    - "L'exécution peut être rétentée": false
-    - "Une notification peut être envoyée": false
-    - "L'étape peut être mise en état échec": true
-    - "Une erreur BPMN peut être émise": true
-"Chapitre Exception":
-  - "Quelles genres d'erreurs peut être gérées dans un processus ?":
-    - "Technique Java": true
-    - "Technique JavaScript": false
-    - "Technique Html": false
-    - "Fonctionnel": true
-  - "Qui peut renvoyer une erreur ?":
-    - "Connecteur": true
-    - "Evènement de début": false
-    - "Evènement de fin": true
-  - "Qui peut réceptionner une erreur ?":
-    - "Connecteur": false
-    - "Evènement de bordure": true
-    - "Evènement de début": true
-    - "Evènement de fin": false
-    - "Sous-processus évènementiel": true
-"Chapitre Portal":
-  - "Qu'est-ce qu'un utilisateur peut faire dans Bonita Portal BPM ?":
-    - "Démarrer un cas": true
-    - "Finir un cas": false
-    - "Exécuter des tâches sur un cas": true
-    - "Attribuer une tâche": false
-    - "Filtrer par catégories": true
-    - "Voir l'historique d'un cas qu'il a lancé": true
-  - "Quelles sont les actions qu'un utilisateur peut effectuer sur une tâche ?":
-    - "Faire la tâche en remplissant un formulaire": true
-    - "Ajouter une sous-tâche": true
-    - "Prendre / relâcher un tâche": true
-    - "Ajouter un commentaire de cas": true
-    - "Attribuer à un autre utilisateur": false
-  - "Quand un utilisateur peut-il ajouter une sous-tâche ?":
-    - "À tout moment": false
-    - "Sur une tâche prise": true
-"Chapitre BDM":
-  - "Qu'est-ce qui caractérise une BDM ?":
-    - "Transverse entre processus": true
-    - "Modèle de données": true
-    - "Traçabilité, historisation": false
-    - "Privée au processus": false
-    - "Contient la valeur métier": true
-  - "Comment peut-on modifier les valeurs des variables de la BDM ?":
-    - "Par des API REST": false
-    - "Par les DAO": false
-    - "Par des opérations au sein du processus": true
-"Chapitre UI Designer introduction":
-  - "A quoi sert l'UI Designer ?":
-    - "Créer des formulaires de processus": true
-    - "Créer des pages pour les applications": true
-    - "Modifier le portail": false
-    - "Modèliser les processus": false
-"Chapitre UI Designer artefacts":
-  - "Parmi les propositions suivantes, lesquelles designent des widgets ?":
-    - "Carte (map)": false
-    - "Tableau de données (data table)": true
-    - "Enregistrer une video (video recording)": false
-    - "Champs texte (input)": true
-  - "Quelle est la première action exécutée après soumission d'un formulaire ?":
-    - "Le contrat est vérifié": true
-    - "Les connecteurs d'entrée sont executés": false
-"Chapitre UI Designer données":
-  - "Quels sont les types de variables possibles ?":
-    - "Chaîne de caractère": true
-    - "Numérique": false
-    - "Expression javascript": true
+  - "Is it possible to send a BPMN message when a process instance ends ?":
+    - "Yes": true
+    - "No": false
+"Human task chapter":
+  - "What are the components of a human task ?":
+    - "A contract": true
+    - "A form": false
+    - "Several forms": false
+    - "A UI decoupled from the engine": true
+"Actor chapter":
+  - "How are tasks linked to actors ?":
+    - "Actor mapping in the studio": false
+    - "Profil selection in the portal": false
+    - "Actor selection in the studio": true
+    - "Actor mapping in the portal": false
+  - "Under which conditions can a user see tasks in his task list ?":
+    - "After actor mapping resolution, user is part of the task candidates": true
+    - "if user is selected on task definition": false
+"Actor filter chapter":
+  - "What is the result of an actor filter execution ?":
+    - "user names list": false
+    - "user ids list": true
+"Call activity chapter":
+  - "What are call activity pros?":
+    - "Share simple processes between diagrams": true
+    - "Increase performance": false
+    - "Enhance diagrams readability": true
+    - "Make maintainance easier": true
+    - "Enhance traceability": false
+  - "How is data transfered from/to processes when using call activities ?":
+    - "Data transfer is declared manually in the data mapping tab": true
+    - "Data transfer is automatically computed by the engine, bases on the process dependencies": false
+  - "Where is the data mapping located ?":
+    - "In the parent process": false
+    - "In the calling activity": true
+    - "In the called process": false
+    - "In the first task of the called process": false
+"Iterations chapter":
+  - "Can we use multi instantiation with call activities ?":
+    - "Yes": true
+    - "No": false
+  - "Can we configure a multi instantiation with a list as input ?":
+    - "Yes": true
+    - "No": false
+"Connector chapter":
+  - "What are connectors used for ?":
+    - "Connect two processes between each other": false
+    - "Connect a process to an external information system": true
+    - "Compute input data, and provide output data": true
+  - "Where is it possible to configure a connector ?":
+    - "At process level": true
+    - "On a service task": true
+    - "On a form": false
+    - "On a human task": true
+    - "On an application": false
+    - "On the server": false
+  - "What happens when a connector execution fails ?":
+    - "The error can be ignored": true
+    - "It is possible to reexecute the connector": false
+    - "A notification can be sent": false
+    - "The activity can be set to a failed state": true
+    - "A BPMN error can be thrown": true
+"Exception chapter":
+  - "What types of error can be handled in a process ?":
+    - "Technical Java errors": true
+    - "Technical JavaScript errors": false
+    - "Technical Html errors": false
+    - "Business errors": true
+  - "Which elements can throw an error ?":
+    - "Connectors": true
+    - "Start events": false
+    - "End events": true
+  - "Which elements can catch an error ?":
+    - "Connectors": false
+    - "Border events": true
+    - "Start events": true
+    - "End events": false
+    - "Event Subprocess": true
+"Portal chapter":
+  - "What actions a user can do on bonita BPM portal ?":
+    - "Start a case": true
+    - "Finish a case": false
+    - "Execute tasks related to a case": true
+    - "Assign a task": false
+    - "Filter on categories": true
+    - "Show history of a case that he started": true
+  - "What actions a user can do on a specific task ?":
+    - "Submit the task, after completing the form": true
+    - "Add a subtask": true
+    - "Take or release the task": true
+    - "Add a comment on the case containing that task": true
+    - "Assign the task to another user": false
+  - "When is it possible for a user to add a subtask to a task?":
+    - "At any moment": false
+    - "When the task is assigned to him": true
+"BDM chapter":
+  - "What are the characteristics of a BDM ?":
+    - "Shared between processes": true
+    - "Data model": true
+    - "Traceability, keeps track of history": false
+    - "Private for a process": false
+    - "Holds business data": true
+  - "How is it possible to modify BDM variable values ?":
+    - "With REST API": false
+    - "With DAO": false
+    - "With operations in the process": true
+"UI Designer introduction chapter":
+  - "What is UI Designer ?":
+    - "A tool to create bonita forms": true
+    - "A tool to create pages for the applications": true
+    - "A tool to modify the portal": false
+    - "A tool to model the processes": false
+"UI Designer artefacts chapter":
+  - "Which of the following components are UI designer widgets ?":
+    - "Map": false
+    - "Data Table": true
+    - "Video Recording": false
+    - "Input": true
+  - "What is the first action executed after submitting a form ?":
+    - "Contract check": true
+    - "Entry connectors": false
+"UI Designer data chapter":
+  - "What are the different types of variables used in the UI Designer ?":
+    - "String": true
+    - "Numeric": false
+    - "Javascript Expression": true
     - "JSON": true
-    - "csv": false
-    - "Une référence à une API rest": true
-  - "Quelles sont les variables fournies par défaut ?":
-    - "Dans une page, le contexte est fourni": false
-    - "Dans un formulaire, le contexte est fourni": true
-"Chapitre API REST EXT":
-  - "Que peut-on faire avec une API REST extension ?":
-    - "Aggréger des données pour les exploiter dans une page": true
-    - "Récupérer des données ailleurs dans le SI": true
-    - "Faire de la validation du formulaire": false
-  - "Peut-on éditer des données d'une BDM avec une API REST EXT ?":
-    - "Oui": false
-    - "Non": true
-"Chapitre BPM Application":
-  - "De quoi est composé une application BPM ?":
+    - "CSV": false
+    - "Rest api call": true
+  - "What are the variables available by default ?":
+    - "The context in a UI Designer page": false
+    - "The context in a UI Designer form": true
+"REST API Extension chapter":
+  - "What is the usage of REST API Extensions ?":
+    - "Aggregate data so that it can be used in a page or form": true
+    - "Access data from external IS": true
+    - "Do form validation": false
+  - "is it possible to update BDM data using a REST API Extension ?":
+    - "Yes": false
+    - "No": true
+"BPM Application chapter":
+  - "What is BPM application composed of ?":
     - "Process": true
     - "Pages": true
     - "Menu": true
-    - "Une organisation dédié": false
-    - "API REST EXT": true
-  - "L'archive d'une application BPM contient ?":
-    - "Les procesus": false
-    - "Des références aux pages, processus": true
-    - "Les pages": false
-    - "Le menu": true
-    - "API REST EXT": false
-"Chapitre Projet":
-  - "Comment travailler efficacement en équipe ?":
-    - "En s'échangent des fichiers bos": false
-    - "Avec les fonctionnalités de travail en équipe du Studio": true
-  - "Que permettent les indicateur-clés de performance (KPIs) ?":
-    - "Evaluer le succès d'une organisation": true
-    - "Debugger": false
-    - "Mesurer la performance": true
+    - "Organization": false
+    - "REST API Extensions": true
+  - "A BPM application archive contains ?":
+    - "Processes": false
+    - "References to pages and processes": true
+    - "Pages": false
+    - "Menu": true
+    - "REST API Extensions": false
+"Project chapter":
+  - "How to work efficiently on BPM projects with a team ?":
+    - "By exchanging bos files": false
+    - "With Bonita BPM Studio teamwork features": true
+  - "What are the pros of key performance indicators(KPIs) in Bonita BPM ?":
+    - "Evaluate the success of an organization": true
+    - "Debug": false
+    - "Measure the performance": true
