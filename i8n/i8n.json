@@ -30,11 +30,13 @@
   "groupName": "home",
   "fr": {
     "title": "Accueil",
-    "hello": "Bonjour avec le FrameWork Oda"
+    "hello": "Bonjour dans le CMS pour la gestion et la création des sessions QCM.",
+    "gotToIssues": "Pour créer une anomalie ou demander un amélioration : <a href='https://github.com/Happykiller/ODA_CHOP/issues'>Ici</a>"
   },
   "en": {
     "title": "Home",
-    "hello": "Hello with Oda FrameWork"
+    "hello": "Hello in the CMS for the management and creation of QCM sessions.",
+    "gotToIssues": "To create an issue or enhancement request :<a href='https://github.com/Happykiller/ODA_CHOP/issues'>Here</a>"
   }
 }, {
   "groupName": "qcm",
