@@ -1,0 +1,147 @@
+- "Chapter Bonita BPM Engine":
+  - "Prerequisites":
+    - "Java Development Kit (JDK) is mandatory for the engine": true
+    - "Java Runtime Environment (JRE) is mandatory for the engine": false
+    - "Java version 6": false
+    - "Java version 7": true
+    - "Java version 8": true
+  - "Technical architecture what is an ORM ?":
+    - "An ORM provide the information of database by object": true
+    - "An ORM can deploy a Cluster for database": false
+    - "An ORM can abstract the support of multi-type of database": true
+  - "API & services, what are the interfaces to be used to ensure the sustainability of my code ?":
+    - "API": true
+    - "Services": false
+  - "What are the most personalized services ?":
+    - "Service Login": true
+    - "Service process engine": false
+    - "Service authentification": true
+    - "Service envent handler": true
+    - "Service archive": true
+    - "Service process executor": false
+  - "Witch protocle are supported for the service authentificiation ?":
+    - "LDAP": true
+    - "SSO": false
+    - "Null": true
+    - "Basique": true
+- "Chapter BONITA_HOME and configuration files":
+  - "What is the goal of BONITA_HOME ?":
+    - "Host configuration files": true
+    - "Host temporary file of the platform": true
+    - "Archive data": false
+    - "Archive Documents": false
+- "Chapter Bonita BPM Engine API":
+  - "What are the methods to access the APIs ?":
+    - "WebService": false
+    - "HTTP": true
+    - "Local (Java)": true
+    - "EJB": true
+    - "SSH": false
+  - "Among these elements which are the existing API ?":
+    - "IdentityAPI": true
+    - "ProcessAPI": true
+    - "StatisticsAPI": false
+    - "ProcessManagementAPI": true
+    - "WebAPI": false
+  - "In a human task what are the correct execution order among the following ?":
+    - "Connector in are execute before contract": true
+    - "Connector in are execute after contrat": false
+    - "Initialisation data are execute before the contract": true
+    - "Initialisation Data are execute after contract": false
+    - "Operations are execute before contract": false
+    - "Operations are execute after contrect": true
+- "Chapter REST APIs":
+  - "This call 'API/bdm/businessData/com.training.model.Employee?q=findAll&p=10&c=0' fails, what is wrong ?":
+    - "Because the pagination have to not be present 'p=10&c=0'": false
+    - "Because the method findAll is not be the one by default": true
+    - "Because the object businessData is wrong": false
+    - "The call will work, there is no issue": false
+  - "How can you retrieve an object property named 'address', which has a Eager relationship, assuming the original call is API/bdm/businessData/com.training.model.Employee/2":
+    - "Calling API/bdm/businessData/com.training.model.Employee/2/address":	false
+    - "Accessing to the value of employee.links[0].href and doing another call": false
+    - "Accessing to the value of the property address with employee.address": true
+    - "Calling API/bdm/businessData/com.training.model.Address/2": false
+- "Chapter UI Designer deep dive":
+  - "What are the possiblity of type for properties ?":
+    - "Static": true
+    - "Toggle": true
+    - "Associate": true
+    - "Text": true
+    - "REST": false
+    - "Javascript experssion": false
+  - "What are actions can do with the button widget ?":
+    - "Interact with the current process": true
+    - "Do REST CALL": true
+    - "Manipulate collection": true
+    - "Join a link to an url": false
+    - "Do an action javascript": false
+- "Chapter portal resources":
+  - "What of the following are all portal resources?":
+    - ".bos, .bar": false
+    - "Themes, layouts": true
+    - "Organization, company logo": false
+    - "Pages, forms and tasks": false
+    - "Pages, forms, REST API Extentions": true
+  - "What have all resources in common?":
+    - "They all have an index.html file": false
+    - "One bos file in which the resource is included": false
+    - "they are all packaged in a zip file": true
+    - "they have all a page.properties file": true
+- "Chapter REST APIs Extensions":
+  - "Which of these properties do you need to define in the file page.properties if you have an extension call 'myExtension'":
+    - "myExtension.pathTemplate = myExtensionPath": false
+    - "displayName": true
+    - "description": true
+    - "security.role = Admin": false
+    - "contentType = apiExtension": true
+    - "apiExtensions=myExtension": true
+    - "myExtension.permissions = myExtensionPermission": true
+    - "myExtension.restPermissions = myExtensionPermission": false
+    - "myExtension.classFileName = MyExtension.groovy": true
+    - "name": true
+    - "myExtension.method = GET": true
+  - "Which language will you use to develop your REST API Extension?":
+    - "C++": false
+    - "Groovy": true
+    - "AngularJS": false
+    - "Any language, there is no restriction": false
+- "Chapter Living application":
+  - "How many Living Applications can you create using Bonita BPM?":
+    - "One per process. The Living Application is related to one process and the Living Application URL must be unique.": false
+    - "As many as you need. There is no limit creating Living Applications.": true
+    - "As many as profiles you have, being the relation 1 profile to 1 living application.": false
+  - "For a successful living application import, you must deploy":
+    - "The application .zip file, that contains the organization, the profiles, the actor mapping, the pages, the layouts, the themes, the REST API extensions and the BDM.": false
+    - "The REST API extensions, the BDM and the application .zip file, that contains the organization, the profiles, the actor mapping, the pages, the themes and the layouts.": false
+    - "The organization, then the profiles, the REST API extensions, the pages, the layouts, the themes, the BDM and the application .zip file.": true
+- "Chapter Live update":
+  - "How can I update a form related to a human task on my process?":
+    - "Bonita Portal as an Admin, go to: BPM > Processes > MyProcess > Forms > Forms list > pencil button.": true
+    - "Bonita Portal as an Admin, go to: Resources > Forms > edit button.": false
+    - "Bonita Portal as an Admin, go to: BPM > Processes > MyProcess > Forms > Mapping > Tasks > select the form using the autocomplete.": flase
+- "Chapter Create connector":
+  - "How many parts compose a connector ?":
+    - "0": false
+    - "1": false
+    - "2": true
+    - "3": false
+  - "Can you have multiple versions of definitions and implementations connectors ?":
+    - "1 version of definition and 1 version of implementation only (one to one only)": false
+    - "1 version of definition and X versions of implementation": true
+    - "X versions of definition and 1 version of implementation for each one": true
+  - "What methods are present in the implementation of a connector ?":
+    - "StartConnector": false
+    - "SetInputParameters": true
+    - "ValidateInputParameters": true
+    - "Connect": true
+    - "HelloBonitaItsMe": false
+    - "ExecuteBusinessLogic": true
+    - "GetOutPutParameters": true
+    - "Disconnect": true
+    - "FinishConnector": true
+  - "Can we add dependencies on external libraries in the definition ?":
+    - "Yes": true
+    - "No": false
+  - "Can we add dependencies on external libraries in the implementation ?":
+    - "yes": true
+    - "No": false

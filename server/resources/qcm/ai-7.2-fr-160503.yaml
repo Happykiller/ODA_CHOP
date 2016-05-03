@@ -1,0 +1,147 @@
+- "Chapitre moteur Bonita BPM moteur":
+  - "Quels sont les pré-requis pour le moteur ?":
+    - "Kit de Development Java (JDK) est obligatoire pour le moteur": true
+    - "Environnemnt d'execution Java (JRE) est obligatoire pour le moteur": false
+    - "Java version  6": false
+    - "Java version  7": true
+    - "Java version  8": true
+  - "L'architecture technique, qu'es-ce qu'un ORM ?":
+    - "Un ORM permet de restituer les informations d'une base donnée en objet": true
+    - "Un ORM permet la mise en Cluster de la base de donnée": false
+    - "Un ORM permet d'abstraire les base de donnée pour support de plusieurs type de base": true
+  - "API & services, quels sont les interfaces à utiliser pour garentir la pérénité de mon code ?":
+    - "API": true
+    - "Services": false
+  - "Quels sont les services les plus couramments personnalisés ?":
+    - "Le service login": true
+    - "Le service moteur des processus": false
+    - "le service authentification": true
+    - "Le service gestion des évènements": true
+    - "Le service archive": true
+    - "Le service execution des processus": false
+  - "Quels sont les protocles supportés pour le service d'authentification ?":
+    - "LDAP": true
+    - "SSO": false
+    - "Null": true
+    - "Basique": true
+- "Chapitre BONITA_HOME et les fichiers de configuration":
+  - "A quoi sert le BONITA_HOME ?":
+    - "Héberger les fichiers de configurtions": true
+    - "Héberger les fichiers temporaires de la plateforme": true
+    - "Archiver les données": false
+    - "Archiver les docuements": false
+- "Chapitre moteur Bonita BPM API":
+  - "Quels sont les methodes pour accéder aux APIs ?":
+    - "WebService": false
+    - "HTTP": true
+    - "Local (Java)": true
+    - "EJB": true
+    - "SSH": false
+  - "Parmis ces éléments quels sont les API existant ?":
+    - "IdentityAPI": true
+    - "ProcessAPI": true
+    - "StatisticsAPI": false
+    - "ProcessManagementAPI": true
+    - "WebAPI": false
+  - "Dans une tâche humaine quels sont les ordres d'éxecutions correctes parmis les suivants ?":
+    - "Le connecteur d'entrée avant l'éxécution du contrat": true
+    - "Le connecteur d'entrée après l'éxécution du contrat": false
+    - "L'initialisation des données est éxécuté avant le contrat": true
+    - "L'initialisation des données est éxécuté après le contrat": false
+    - "Les opérations sont éxécuté avant le contrat": false
+    - "Les opérations sont éxécuté après le contrat": true
+- "Chapitre REST APIs":
+  - "Cette appel REST 'API/bdm/businessData/com.training.model.Employee?q=findAll&p=10&c=0' échoue, pourquoi ?":
+    - "Car la pagination est en trop 'p=10&c=0'": false
+    - "Car la méthode findAll n'est pas celle par défaut qui cherche tout": true
+    - "Car l'objet metier n'est pas le bon": false
+    - "En fait l'appel marche": false
+  - "Coment récupérer l'attribut objet 'Address' d'un objet 'Employee' avec la relation définie en eager, au regard de l'appel d'origine 'API/bdm/businessData/com.training.model.Employee/2' ?":
+    - "En appelant API/bdm/businessData/com.training.model.Employee/2/address":	false
+    - "En accédant à la valeur contenu dans la variable employee.links[0].href et en créant un nouvelle appel": false
+    - "En accédant à la valeur contenu dans la variable employee.address": true
+    - "En appelant API/bdm/businessData/com.training.model.Address/2": false
+- "Chapter UI Designer en immersion":
+  - "Quels sont les différents type de propriétées ?":
+    - "Statique": true
+    - "Lier une constante": true
+    - "Associatiasion": true
+    - "Texte": true
+    - "REST": false
+    - "Javascript experssion": false
+  - "Quelles sont les actions qui peuvent êtes faites avec le widget bouton ?":
+    - "Intéragir avec le processus courant": true
+    - "Appeller un REST": true
+    - "Manipuler une collection": true
+    - "Rejoindre une url": false
+    - "Faire une action javascript": false
+- "Chapitre Resources portail":
+  - "Quels sont parmis les éléments suivants présent dans l'onglet 'Resources'?":
+    - ".bos, .bar": false
+    - "Thèmes, patrons": true
+    - "L'organization, le logo de l'entreprise": false
+    - "Les pages, les formulaires et les tâches": false
+    - "Les pages, les formulaires, les REST API Extentions": true
+  - "Quels sont les points communs à ces resources ?":
+    - "Elles possèdent un fichier index": false
+    - "Un fichier .bos est inclue dans chaque resource": false
+    - "Chaque resrouces est packagé en archive (zip).": true
+    - "Elles ont toutes un fichier page.propoerties.": true
+- "Chapitre REST APIs Extensions":
+  - "Parmis ces propriétés lesquelles ont besoin d'être définies dans le fichier page.properties si vous devez déclarer une exetension 'myExtension'":
+    - "myExtension.pathTemplate = myExtensionPath": false
+    - "displayName": true
+    - "description": true
+    - "security.role = Admin": false
+    - "contentType = apiExtension": true
+    - "apiExtensions = myExtension": true
+    - "myExtension.permissions = myExtensionPermission": true
+    - "myExtension.restPermissions = myExtensionPermission": false
+    - "myExtension.classFileName = MyExtension.groovy": true
+    - "name": true
+    - "myExtension.method = GET": true
+  - "Avec quel language puis-je dévellopper mes REST API Exetention ?":
+    - "C++": false
+    - "Groovy": true
+    - "AngularJS": false
+    - "N'importe quel language, il n'y a pas de restriction": false
+- "Chapitre Living Application":
+  - "Combien de Living Application peut-on créer en utilisant Bonita BPM ?":
+    - "Un par processus, la Living Application est relié un processus, et l'URL de la Living Application doit être unique.": false
+    - "Autant que vous avez besoin. Il n'y a pas de limite à la création de Living Application.": true
+    - "Autant que vous disposez de profile. suivant la relation un profile une Living Application": false
+  - "Pour importer avec succès une Living Application, que devez-vous deployer ?":
+    - "L'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les patrons, les thèmes, les REST API exentions et la BDM.": false
+    - "Les REST API extension, la BDM et l'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les pages, les thèmes, et patrons.": false
+    - "Séparement, l'organisation, puis les profiles, puis les REST API Exentions, puis les pages, puis les patrons, puis les thèmes, la BDM, et l'archive de l'application (zip).": true
+- "Chapitre Live update":
+  - "Comment puis-je mettre à jour un formulaire sans reployer le processus ?":
+    - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processus > Mes Processus > Formulaires > Liste des formulaires > bouton modifier.": true
+    - "Dans le Portail Bonita en tant qu'administrateur, aller dans : Resources > Fomulaires > bouton modifier.": false
+    - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processes > Mes Processus > Formulaires > Mapping > Tâche > selectioner le formulaire en utilisant l'auto-complètion.": false
+- "Chapitre créer un connecteur":
+  - "Combien de parties constituent un connecteur ?":
+    - "0": false
+    - "1": false
+    - "2": true
+    - "3": false
+  - "Peut on avoir plusieurs versions de définitions et d'implémentations de connecteurs ?":
+    - "1 version de définition et 1 version d'implementation uniquement (one to one only)": false
+    - "1 version de definition et X versions d'implementation": true
+    - "X versions de definitions et une version d'implementation pour chacunes": true
+  - "Quelles sont les methodes presentes dans l'implémentation  d'un connecteur ?":
+    - "StartConnector": false
+    - "SetInputParameters": true
+    - "ValidateInputParameters": true
+    - "Connect": true
+    - "HelloBonitaItsMe": false
+    - "ExecuteBusinessLogic": true
+    - "GetOutPutParameters": true
+    - "Disconnect": true
+    - "FinishConnector": true
+  - "Peut on ajouter des dépendances à des librairies externes dans la definition ?":
+    - "Oui": true
+    - "Non": false
+  - "Peut on ajouter des dépendances à des librairies externes dans l'implementation ?":
+    - "Oui": true
+    - "Non": false
