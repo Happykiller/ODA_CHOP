@@ -6,7 +6,7 @@
     * type : GET
     * optional params : "userId"
     * public : false
-* `/qcm/;id`
+* `/qcm/id`
     * type : GET
 * `/qcm/`
     * type : POST

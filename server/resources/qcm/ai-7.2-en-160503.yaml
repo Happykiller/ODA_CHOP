@@ -1,4 +1,4 @@
-- "Chapter Bonita BPM Engine":
+"Chapter Bonita BPM Engine":
   - "Prerequisites":
     - "Java Development Kit (JDK) is mandatory for the engine": true
     - "Java Runtime Environment (JRE) is mandatory for the engine": false
@@ -24,13 +24,13 @@
     - "SSO": false
     - "Null": true
     - "Basique": true
-- "Chapter BONITA_HOME and configuration files":
+"Chapter BONITA_HOME and configuration files":
   - "What is the goal of BONITA_HOME ?":
     - "Host configuration files": true
     - "Host temporary file of the platform": true
     - "Archive data": false
     - "Archive Documents": false
-- "Chapter Bonita BPM Engine API":
+"Chapter Bonita BPM Engine API":
   - "What are the methods to access the APIs ?":
     - "WebService": false
     - "HTTP": true
@@ -50,7 +50,7 @@
     - "Initialisation Data are execute after contract": false
     - "Operations are execute before contract": false
     - "Operations are execute after contrect": true
-- "Chapter REST APIs":
+"Chapter REST APIs":
   - "This call 'API/bdm/businessData/com.training.model.Employee?q=findAll&p=10&c=0' fails, what is wrong ?":
     - "Because the pagination have to not be present 'p=10&c=0'": false
     - "Because the method findAll is not be the one by default": true
@@ -61,7 +61,7 @@
     - "Accessing to the value of employee.links[0].href and doing another call": false
     - "Accessing to the value of the property address with employee.address": true
     - "Calling API/bdm/businessData/com.training.model.Address/2": false
-- "Chapter UI Designer deep dive":
+"Chapter UI Designer deep dive":
   - "What are the possiblity of type for properties ?":
     - "Static": true
     - "Toggle": true
@@ -75,7 +75,7 @@
     - "Manipulate collection": true
     - "Join a link to an url": false
     - "Do an action javascript": false
-- "Chapter portal resources":
+"Chapter portal resources":
   - "What of the following are all portal resources?":
     - ".bos, .bar": false
     - "Themes, layouts": true
@@ -87,7 +87,7 @@
     - "One bos file in which the resource is included": false
     - "they are all packaged in a zip file": true
     - "they have all a page.properties file": true
-- "Chapter REST APIs Extensions":
+"Chapter REST APIs Extensions":
   - "Which of these properties do you need to define in the file page.properties if you have an extension call 'myExtension'":
     - "myExtension.pathTemplate = myExtensionPath": false
     - "displayName": true
@@ -105,7 +105,7 @@
     - "Groovy": true
     - "AngularJS": false
     - "Any language, there is no restriction": false
-- "Chapter Living application":
+"Chapter Living application":
   - "How many Living Applications can you create using Bonita BPM?":
     - "One per process. The Living Application is related to one process and the Living Application URL must be unique.": false
     - "As many as you need. There is no limit creating Living Applications.": true
@@ -114,12 +114,12 @@
     - "The application .zip file, that contains the organization, the profiles, the actor mapping, the pages, the layouts, the themes, the REST API extensions and the BDM.": false
     - "The REST API extensions, the BDM and the application .zip file, that contains the organization, the profiles, the actor mapping, the pages, the themes and the layouts.": false
     - "The organization, then the profiles, the REST API extensions, the pages, the layouts, the themes, the BDM and the application .zip file.": true
-- "Chapter Live update":
+"Chapter Live update":
   - "How can I update a form related to a human task on my process?":
     - "Bonita Portal as an Admin, go to: BPM > Processes > MyProcess > Forms > Forms list > pencil button.": true
     - "Bonita Portal as an Admin, go to: Resources > Forms > edit button.": false
     - "Bonita Portal as an Admin, go to: BPM > Processes > MyProcess > Forms > Mapping > Tasks > select the form using the autocomplete.": flase
-- "Chapter Create connector":
+"Chapter Create connector":
   - "How many parts compose a connector ?":
     - "0": false
     - "1": false

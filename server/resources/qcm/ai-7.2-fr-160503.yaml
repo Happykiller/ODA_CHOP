@@ -1,4 +1,4 @@
-- "Chapitre moteur Bonita BPM moteur":
+"Chapitre moteur Bonita BPM moteur":
   - "Quels sont les pré-requis pour le moteur ?":
     - "Kit de Development Java (JDK) est obligatoire pour le moteur": true
     - "Environnemnt d'execution Java (JRE) est obligatoire pour le moteur": false
@@ -24,13 +24,13 @@
     - "SSO": false
     - "Null": true
     - "Basique": true
-- "Chapitre BONITA_HOME et les fichiers de configuration":
+"Chapitre BONITA_HOME et les fichiers de configuration":
   - "A quoi sert le BONITA_HOME ?":
     - "Héberger les fichiers de configurtions": true
     - "Héberger les fichiers temporaires de la plateforme": true
     - "Archiver les données": false
-    - "Archiver les docuements": false
-- "Chapitre moteur Bonita BPM API":
+    - "Archiver les documents": false
+"Chapitre moteur Bonita BPM API":
   - "Quels sont les methodes pour accéder aux APIs ?":
     - "WebService": false
     - "HTTP": true
@@ -50,7 +50,7 @@
     - "L'initialisation des données est éxécuté après le contrat": false
     - "Les opérations sont éxécuté avant le contrat": false
     - "Les opérations sont éxécuté après le contrat": true
-- "Chapitre REST APIs":
+"Chapitre REST APIs":
   - "Cette appel REST 'API/bdm/businessData/com.training.model.Employee?q=findAll&p=10&c=0' échoue, pourquoi ?":
     - "Car la pagination est en trop 'p=10&c=0'": false
     - "Car la méthode findAll n'est pas celle par défaut qui cherche tout": true
@@ -61,7 +61,7 @@
     - "En accédant à la valeur contenu dans la variable employee.links[0].href et en créant un nouvelle appel": false
     - "En accédant à la valeur contenu dans la variable employee.address": true
     - "En appelant API/bdm/businessData/com.training.model.Address/2": false
-- "Chapter UI Designer en immersion":
+"Chapter UI Designer en immersion":
   - "Quels sont les différents type de propriétées ?":
     - "Statique": true
     - "Lier une constante": true
@@ -75,7 +75,7 @@
     - "Manipuler une collection": true
     - "Rejoindre une url": false
     - "Faire une action javascript": false
-- "Chapitre Resources portail":
+"Chapitre Resources portail":
   - "Quels sont parmis les éléments suivants présent dans l'onglet 'Resources'?":
     - ".bos, .bar": false
     - "Thèmes, patrons": true
@@ -87,7 +87,7 @@
     - "Un fichier .bos est inclue dans chaque resource": false
     - "Chaque resrouces est packagé en archive (zip).": true
     - "Elles ont toutes un fichier page.propoerties.": true
-- "Chapitre REST APIs Extensions":
+"Chapitre REST APIs Extensions":
   - "Parmis ces propriétés lesquelles ont besoin d'être définies dans le fichier page.properties si vous devez déclarer une exetension 'myExtension'":
     - "myExtension.pathTemplate = myExtensionPath": false
     - "displayName": true
@@ -105,7 +105,7 @@
     - "Groovy": true
     - "AngularJS": false
     - "N'importe quel language, il n'y a pas de restriction": false
-- "Chapitre Living Application":
+"Chapitre Living Application":
   - "Combien de Living Application peut-on créer en utilisant Bonita BPM ?":
     - "Un par processus, la Living Application est relié un processus, et l'URL de la Living Application doit être unique.": false
     - "Autant que vous avez besoin. Il n'y a pas de limite à la création de Living Application.": true
@@ -114,12 +114,12 @@
     - "L'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les patrons, les thèmes, les REST API exentions et la BDM.": false
     - "Les REST API extension, la BDM et l'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les pages, les thèmes, et patrons.": false
     - "Séparement, l'organisation, puis les profiles, puis les REST API Exentions, puis les pages, puis les patrons, puis les thèmes, la BDM, et l'archive de l'application (zip).": true
-- "Chapitre Live update":
+"Chapitre Live update":
   - "Comment puis-je mettre à jour un formulaire sans reployer le processus ?":
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processus > Mes Processus > Formulaires > Liste des formulaires > bouton modifier.": true
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : Resources > Fomulaires > bouton modifier.": false
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processes > Mes Processus > Formulaires > Mapping > Tâche > selectioner le formulaire en utilisant l'auto-complètion.": false
-- "Chapitre créer un connecteur":
+"Chapitre créer un connecteur":
   - "Combien de parties constituent un connecteur ?":
     - "0": false
     - "1": false
