@@ -1,7 +1,7 @@
-"Chapitre moteur Bonita BPM moteur":
+"Chapitre moteur Bonita BPM":
   - "Quels sont les pré-requis pour le moteur ?":
-    - "Kit de Development Java (JDK) est obligatoire pour le moteur": true
-    - "Environnemnt d'execution Java (JRE) est obligatoire pour le moteur": false
+    - "Kit de Development Java (JDK) est obligatoire pour le moteur": false
+    - "Environnemnt d'execution Java (JRE) est obligatoire pour le moteur": true
     - "Java version  6": false
     - "Java version  7": true
     - "Java version  8": true

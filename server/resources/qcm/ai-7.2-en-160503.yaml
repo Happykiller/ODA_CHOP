@@ -1,7 +1,7 @@
 "Chapter Bonita BPM Engine":
   - "Prerequisites":
-    - "Java Development Kit (JDK) is mandatory for the engine": true
-    - "Java Runtime Environment (JRE) is mandatory for the engine": false
+    - "Java Development Kit (JDK) is mandatory for the engine": false
+    - "Java Runtime Environment (JRE) is mandatory for the engine": true
     - "Java version 6": false
     - "Java version 7": true
     - "Java version 8": true
