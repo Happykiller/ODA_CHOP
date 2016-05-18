@@ -138,7 +138,7 @@
     - "ExecuteBusinessLogic": true
     - "GetOutPutParameters": true
     - "Disconnect": true
-    - "FinishConnector": true
+    - "FinishConnector": false
   - "Can we add dependencies on external libraries in the definition ?":
     - "Yes": true
     - "No": false

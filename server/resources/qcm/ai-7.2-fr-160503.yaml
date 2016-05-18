@@ -78,7 +78,7 @@
 "Chapitre Resources portail":
   - "Quels sont parmis les éléments suivants présent dans l'onglet 'Resources'?":
     - ".bos, .bar": false
-    - "Thèmes, patrons": true
+    - "Thèmes, mise en page": true
     - "L'organization, le logo de l'entreprise": false
     - "Les pages, les formulaires et les tâches": false
     - "Les pages, les formulaires, les REST API Extentions": true
@@ -88,7 +88,7 @@
     - "Chaque resrouces est packagé en archive (zip).": true
     - "Elles ont toutes un fichier page.propoerties.": true
 "Chapitre REST APIs Extensions":
-  - "Parmis ces propriétés lesquelles ont besoin d'être définies dans le fichier page.properties si vous devez déclarer une exetension 'myExtension'":
+  - "Parmis ces propriétés lesquelles ont besoin d'être définies dans le fichier page.properties si vous devez déclarer une extension 'myExtension'":
     - "myExtension.pathTemplate = myExtensionPath": false
     - "displayName": true
     - "description": true
@@ -100,7 +100,7 @@
     - "myExtension.classFileName = MyExtension.groovy": true
     - "name": true
     - "myExtension.method = GET": true
-  - "Avec quel language puis-je dévellopper mes REST API Exetention ?":
+  - "Avec quel language puis-je dévellopper mes REST API Extention ?":
     - "C++": false
     - "Groovy": true
     - "AngularJS": false
@@ -113,9 +113,9 @@
   - "Pour importer avec succès une Living Application, que devez-vous deployer ?":
     - "L'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les patrons, les thèmes, les REST API exentions et la BDM.": false
     - "Les REST API extension, la BDM et l'archive de l'application (zip), qui contient l'organisation, les profiles, le mapping des acteurs, les pages, les thèmes, et patrons.": false
-    - "Séparement, l'organisation, puis les profiles, puis les REST API Exentions, puis les pages, puis les patrons, puis les thèmes, la BDM, et l'archive de l'application (zip).": true
+    - "Séparement, l'organisation, puis les profiles, puis les REST API Exentions, puis les pages, puis les mise en page, puis les thèmes, la BDM, les processus, et l'archive de l'application (zip).": true
 "Chapitre Live update":
-  - "Comment puis-je mettre à jour un formulaire sans reployer le processus ?":
+  - "Comment puis-je mettre à jour un formulaire sans redeployer le processus ?":
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processus > Mes Processus > Formulaires > Liste des formulaires > bouton modifier.": true
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : Resources > Fomulaires > bouton modifier.": false
     - "Dans le Portail Bonita en tant qu'administrateur, aller dans : BPM > Processes > Mes Processus > Formulaires > Mapping > Tâche > selectioner le formulaire en utilisant l'auto-complètion.": false
@@ -138,7 +138,7 @@
     - "ExecuteBusinessLogic": true
     - "GetOutPutParameters": true
     - "Disconnect": true
-    - "FinishConnector": true
+    - "FinishConnector": false
   - "Peut on ajouter des dépendances à des librairies externes dans la definition ?":
     - "Oui": true
     - "Non": false
