@@ -701,7 +701,18 @@
                                 for(var index in response.data){
                                     var elt = response.data[index];
                                     var data = [];
-                                    data.push(elt.question, parseInt(elt.number));
+                                    var label = elt.question;
+                                    label = $.Oda.Tooling.replaceAll({
+                                        str: label,
+                                        find: 'Chapitre ',
+                                        by: ''
+                                    });
+                                    label = $.Oda.Tooling.replaceAll({
+                                        str: label,
+                                        find: 'Chapter ',
+                                        by: ''
+                                    });
+                                    data.push(label, parseInt(elt.number));
                                     listData.push(data);
                                 }
 
@@ -803,7 +814,18 @@
                             var listCate = [];
                             for(var index in response.data.listQuestions){
                                 var elt = response.data.listQuestions[index];
-                                listCate.push(elt.question);
+                                var label = elt.question;
+                                label = $.Oda.Tooling.replaceAll({
+                                    str: label,
+                                    find: 'Chapitre ',
+                                    by: ''
+                                });
+                                label = $.Oda.Tooling.replaceAll({
+                                    str: label,
+                                    find: 'Chapter ',
+                                    by: ''
+                                });
+                                listCate.push(label);
                             }
 
                             $('#graph').highcharts({

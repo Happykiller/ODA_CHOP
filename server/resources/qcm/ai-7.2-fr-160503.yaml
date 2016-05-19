@@ -61,7 +61,7 @@
     - "En accédant à la valeur contenu dans la variable employee.links[0].href et en créant un nouvelle appel": false
     - "En accédant à la valeur contenu dans la variable employee.address": true
     - "En appelant API/bdm/businessData/com.training.model.Address/2": false
-"Chapter UI Designer en immersion":
+"Chapitre UI Designer en immersion":
   - "Quels sont les différents type de propriétées ?":
     - "Statique": true
     - "Lier une constante": true
