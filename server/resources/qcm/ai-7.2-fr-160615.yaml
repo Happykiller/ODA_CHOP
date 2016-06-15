@@ -26,7 +26,7 @@
     - "Basique": true
 "Chapitre BONITA_HOME et les fichiers de configuration":
   - "A quoi sert le BONITA_HOME ?":
-    - "Héberger les fichiers de configurtions": true
+    - "Héberger les fichiers de configurations": true
     - "Héberger les fichiers temporaires de la plateforme": true
     - "Archiver les données": false
     - "Archiver les documents": false

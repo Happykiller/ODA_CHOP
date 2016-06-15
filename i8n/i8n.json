@@ -42,7 +42,7 @@
   "groupName": "qcm",
   "fr": {
     "title": "QCM",
-    "hello": "Dans ce Questionnaire à Choix Multiple, il vous suffit de proposer vos choix, si ils sont jsutes vous pourrez passer à la suite.",
+    "hello": "Dans ce Questionnaire à Choix Multiple, il vous suffit de proposer vos choix, si ils sont justes vous pourrez passer à la suite.",
     "start": "Commencer",
     "next": "Suivant",
     "validate": "Valider",
