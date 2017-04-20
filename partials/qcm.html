@@ -1,9 +1,9 @@
 <div class="container">
-    <h2 oda-label="qcm.title"></h2>
+    <h2><oda-label oda-label-value="qcm.title"/></h2>
 
     <div class="row">
         <div class="col-md-12">
-            <span oda-label="qcm.hello"></span>
+            <oda-label oda-label-value="qcm.hello"/>
             <br/>
             <br/>
         </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-right">
-                <button type="button" oda-label="qcm.start" oda-submit="submit" onclick="$.Oda.App.Controller.Qcm.moveNext();" class="btn btn-primary">qcm.start</button >
+                <oda-btn oda-btn-style="primary" oda-btn-enter="1" oda-btn-icon-before="ok" oda-btn-click="$.Oda.App.Controller.Qcm.moveNext();">qcm.start</oda-btn>
             </div>
         </div>
     </div>
@@ -53,20 +53,16 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <button type="button" oda-label="qcm.validate" id="validate-{{id}}" onclick="$.Oda.App.Controller.Qcm.validate();" class="btn btn-primary">qcm.validate</button >
-                <button type="button" oda-label="qcm.next" oda-submit="submit-{{id}}" onclick="$.Oda.App.Controller.Qcm.moveNext();" class="btn btn-success" style="display: none;">qcm.next</button >
+                <oda-btn oda-btn-name="validate-{{id}}" oda-btn-style="primary" oda-btn-icon-before="ok" oda-btn-click="$.Oda.App.Controller.Qcm.validate();">qcm.validate</oda-btn>
+                <oda-btn oda-btn-name="submit-{{id}}" oda-btn-style="success" oda-btn-icon-before="ok" oda-btn-click="$.Oda.App.Controller.Qcm.moveNext();" style="display: none;">qcm.next</oda-btn>
             </div>
         </div>
     </div>
 </script>
 
 <script id="qcmResponse" type="text/template">
-    <div class="form-group">
-        <div class="checkbox">
-            <input type="checkbox" data-attempt="{{responseBody}}" oda-input-select="{{id}}">
-            <label>
-                {{title}}
-            </label>
-        </div>
-    </div>
+    <oda-input-checkbox 
+        oda-input-checkbox-name="{{id}}" 
+        oda-input-checkbox-tips="{{title}}"
+        data-attempt="{{responseBody}}"/>
 </script>

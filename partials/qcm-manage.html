@@ -1,15 +1,15 @@
 <div class="container">
-    <h2 oda-label="qcm-manage.title"></h2>
+    <h2><oda-label oda-label-value="qcm-manage.title"/></h2>
 
     <div class="row">
         <div class="col-md-12">
-            <span oda-label="qcm-manage.hello"></span>
+            <oda-label oda-label-value="qcm-manage.hello"/>
         </div>
         <div class="col-md-12" style="padding: 10px">
-            <button type="button" oda-label="oda-main.new" onclick="$.Oda.App.Controller.ManageQcm.formQcm();" class="btn btn-primary">oda-main.new</button>
+            <oda-btn oda-btn-name="submit" oda-btn-style="primary" oda-btn-enter="1" oda-btn-icon-before="ok" oda-btn-click="$.Oda.App.Controller.ManageQcm.formQcm();">oda-main.new</oda-btn>
         </div>
         <div class="col-md-12" id="divTabQcm">
-            <oda-loading></oda-loading>
+            <oda-loading/>
         </div>
     </div>
 </div>
@@ -21,47 +21,72 @@
 <script id="formQcm" type="text/template">
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group">
-                <label for="desc" oda-label="qcm-manage.desc">qcm-manage.desc</label>
-                <input required type="text" class="form-control" oda-input-text="desc" oda-input-text-tips="qcm-manage.desc-tips" oda-input-text-placeholder="qcm-manage.desc-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
+            <oda-input-text
+                oda-input-text-name="desc"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.desc"
+                oda-input-text-tips="qcm-manage.desc-tips"
+                oda-input-text-advice="qcm-manage.desc-advice"
+                oda-input-text-placeholder="qcm-manage.desc-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
-                <label for="titleNewQcm" oda-label="qcm-manage.titleNewQcm">qcm-manage.titleNewQcm</label>
-                <input required type="text" class="form-control" oda-input-text="titleNewQcm" oda-input-text-tips="qcm-manage.titleNewQcm-tips" oda-input-text-placeholder="qcm-manage.titleNewQcm-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
+            <oda-input-text
+                oda-input-text-name="titleNewQcm"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.titleNewQcm"
+                oda-input-text-tips="qcm-manage.titleNewQcm-tips"
+                oda-input-text-advice="qcm-manage.titleNewQcm-advice"
+                oda-input-text-placeholder="qcm-manage.titleNewQcm-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"
+                required/>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label for="hours" oda-label="qcm-manage.hours">qcm-manage.hours</label>
-                <input required type="text" class="form-control" oda-input-text="hours" oda-input-text-tips="qcm-manage.hours-tips" oda-input-text-placeholder="qcm-manage.hours-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="duration" oda-label="qcm-manage.duration">qcm-manage.duration</label>
-                <input required type="text" class="form-control" oda-input-text="duration" oda-input-text-tips="qcm-manage.duration-tips" oda-input-text-placeholder="qcm-manage.duration-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="detailsNewQcm" oda-label="qcm-manage.detailsNewQcm">qcm-manage.detailsNewQcm</label>
-                <input required type="text" class="form-control" oda-input-text="detailsNewQcm" oda-input-text-tips="qcm-manage.detailsNewQcm-tips" oda-input-text-placeholder="qcm-manage.detailsNewQcm-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
+            <oda-input-text
+                oda-input-text-name="hours"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.hours"
+                oda-input-text-tips="qcm-manage.hours-tips"
+                oda-input-text-advice="qcm-manage.hours-advice"
+                oda-input-text-placeholder="qcm-manage.hours-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
-                <label for="location" oda-label="qcm-manage.location">qcm-manage.location</label>
-                <input required type="text" class="form-control" oda-input-text="location" oda-input-text-tips="qcm-manage.location-tips" oda-input-text-placeholder="qcm-manage.location-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
+            <oda-input-text
+                oda-input-text-name="duration"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.duration"
+                oda-input-text-tips="qcm-manage.duration-tips"
+                oda-input-text-advice="qcm-manage.duration-advice"
+                oda-input-text-placeholder="qcm-manage.duration-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
+        </div>
+        <div class="col-md-6">
+            <oda-input-text
+                oda-input-text-name="detailsNewQcm"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.detailsNewQcm"
+                oda-input-text-tips="qcm-manage.detailsNewQcm-tips"
+                oda-input-text-advice="qcm-manage.detailsNewQcm-advice"
+                oda-input-text-placeholder="qcm-manage.detailsNewQcm-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <oda-input-text
+                oda-input-text-name="location"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm-manage.location"
+                oda-input-text-tips="qcm-manage.location-tips"
+                oda-input-text-advice="qcm-manage.location-advice"
+                oda-input-text-placeholder="qcm-manage.location-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
         </div>
     </div>
     <hr>
@@ -85,15 +110,15 @@
 <script id="tplDetailHorse" type="text/template">
     <div class="row">
         <div class="col-md-6">
-            <label oda-label="qcm.company">qcm.company</label>: {{company}}
+            <oda-label oda-label-value="qcm.company"/>: {{company}}
         </div>
         <div class="col-md-6">
-            <label oda-label="qcm-manage.createDate">qcm-manage.createDate</label>: {{createDate}}
+            <oda-label oda-label-value="qcm-manage.createDate"/>: {{createDate}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <span oda-label="qcm-manage.urlGetSessionUser"></span>{{urlGetSessionUser}}
+            <oda-label oda-label-value="qcm-manage.urlGetSessionUser"/>: {{urlGetSessionUser}}
         </div>
     </div>
     <div class="row">

@@ -222,7 +222,7 @@
                     return null;
                 }
             },
-            "Home": {
+            Home: {
                 /**
                  * @returns {$.Oda.App.Controller.Home}
                  */
@@ -306,7 +306,7 @@
                     }
                 }
             },
-            "ManageQcm": {
+            ManageQcm: {
                 "files": {},
                 /**
                  * @returns {$.Oda.App.Controller.ManageQcm}
@@ -428,9 +428,9 @@
                                                 "date": row[objDataTable.entete["date"]],
                                                 "desc": row[objDataTable.entete["desc"]]
                                             };
-                                            var strHtml = '<button onclick="$.Oda.App.Controller.ManageQcm.seeDetails('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> '+ $.Oda.I8n.get('qcm-manage','details')+'</button>';
+                                            var strHtml = '<button onclick="$.Oda.App.Controller.ManageQcm.seeDetails('+$.Oda.Tooling.jsonToStringHtml({'json':datas})+')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> '+ $.Oda.I8n.get('qcm-manage','details')+'</button>';
                                             strHtml += '<button onclick="$.Oda.App.Controller.displayEmarg({id:'+row[objDataTable.entete["id"]]+'});" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-th-list"></span> '+ $.Oda.I8n.get('qcm-manage','emarg')+'</button>'
-                                            strHtml += '<button onclick="$.Oda.App.Controller.ManageQcm.displayStats('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+');" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stats"></span> '+ $.Oda.I8n.get('qcm-manage','stats')+'</button>'
+                                            strHtml += '<button onclick="$.Oda.App.Controller.ManageQcm.displayStats('+$.Oda.Tooling.jsonToStringHtml({'json':datas})+');" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stats"></span> '+ $.Oda.I8n.get('qcm-manage','stats')+'</button>'
                                             return strHtml;
                                         },
                                         "aTargets": [10]
@@ -523,7 +523,7 @@
                                                         "lang": row.lang,
                                                         "date": row.date
                                                     };
-                                                    return '<a onclick="$.Oda.App.Controller.ManageQcm.selectQcm('+$.Oda.Display.jsonToStringSingleQuote({'json':datas})+')" class="btn btn-primary btn-xs">'+ $.Oda.I8n.get('qcm-manage','select')+'</a>';
+                                                    return '<a onclick="$.Oda.App.Controller.ManageQcm.selectQcm('+$.Oda.Tooling.jsonToStringHtml({'json':datas})+')" class="btn btn-primary btn-xs">'+ $.Oda.I8n.get('qcm-manage','select')+'</a>';
                                                 }
                                             }
                                         }
@@ -1012,7 +1012,7 @@
                     }
                 }
             },
-            "QcmStart" : {
+            QcmStart: {
                 /**
                  * @returns {$.Oda.App.Controller.QcmStart}
                  */
@@ -1120,7 +1120,7 @@
                     }
                 }
             },
-            "Qcm": {
+            Qcm: {
                 Session: null,
                 SessionDefault: {
                     "id": "0",
@@ -1292,7 +1292,8 @@
                         var gardian = 0;
                         for(var indice in $.Oda.App.Controller.Qcm.listCheckbox){
                             var elt = $("#"+$.Oda.App.Controller.Qcm.listCheckbox[indice]);
-                            if(!( (elt.prop("checked") && (elt.data('attempt') === "required") ) || (!elt.prop("checked") && (elt.data('attempt') === "")) )){
+                            var eltOda = $("[oda-input-checkbox-name='"+$.Oda.App.Controller.Qcm.listCheckbox[indice]+"']");
+                            if(!( (elt.prop("checked") && (eltOda.data('attempt') === "required") ) || (!elt.prop("checked") && (eltOda.data('attempt') === "")) )){
                                 gardian++;
                             }
                         }
@@ -1308,7 +1309,7 @@
                                 var elt = $("#"+$.Oda.App.Controller.Qcm.listCheckbox[indice]);
                                 elt.attr("disabled", true);
                             }
-                            $.Oda.Display.Notification.success($.Oda.I8n.get("qcm","SuccessMessage"));
+                            $.Oda.Display.Notification.successI8n("qcm.SuccessMessage");
                             var btValidte = $("#validate-"+$.Oda.App.Controller.Qcm.current);
                             btValidte.hide();
                             var btSubmit = $("#submit-"+$.Oda.App.Controller.Qcm.current);
@@ -1324,7 +1325,7 @@
                     }
                 },
             },
-            "QcmFinish": {
+            QcmFinish: {
                 /**
                  * @returns {$.Oda.App.Controller.QcmFinish}
                  */

@@ -1,35 +1,53 @@
 <div class="container">
-    <h2 oda-label="qcmStart.title"></h2>
+    <h2><oda-label oda-label-value="qcmStart.title"/></h2>
+
     <div class="row" style="margin-bottom: 30px">
         <div class="col-md-12">
-            <span oda-label="qcmStart.hello"></span>
+            <oda-label oda-label-value="qcmStart.hello"/>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
-                <label for="firstName" oda-label="oda-main.subscrib-fristName">frist</label>
-                <input required="" type="text" class="form-control" oda-input-text="firstName" oda-input-text-tips="oda-main.subscrib-fristName-tips" oda-input-text-placeholder="oda-main.subscrib-fristName-placeholder" oda-input-text-check="Oda.Regexs:firstName">
-            </div>
+            <oda-input-text
+                oda-input-text-name="firstName"
+                oda-input-text-type="text"
+                oda-input-text-label="oda-main.subscrib-firstName"
+                oda-input-text-tips="oda-main.subscrib-firstName-tips"
+                oda-input-text-advice="oda-main.subscrib-firstName-advice"
+                oda-input-text-placeholder="oda-main.subscrib-firstName-placeholder"
+                oda-input-text-check="Oda.Regexs:firstName"
+                required/>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label for="lastName" oda-label="oda-main.subscrib-lastName">last</label>
-                <input type="text" class="form-control" oda-input-text="lastName" oda-input-text-tips="oda-main.subscrib-lastName-tips" oda-input-text-placeholder="oda-main.subscrib-lastName-placeholder" oda-input-text-check="Oda.Regexs:lastName">
-            </div>
+            <oda-input-text
+                oda-input-text-name="lastName"
+                oda-input-text-type="text"
+                oda-input-text-label="oda-main.subscrib-lastName"
+                oda-input-text-tips="oda-main.subscrib-lastName-tips"
+                oda-input-text-advice="oda-main.subscrib-lastName-advice"
+                oda-input-text-placeholder="oda-main.subscrib-lastName-placeholder"
+                oda-input-text-check="Oda.Regexs:lastName"
+                required/>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group">
-                <label for="company" oda-label="qcm.company">company</label>
-                <input type="text" class="form-control" oda-input-text="company" oda-input-text-tips="qcm.company-tips" oda-input-text-placeholder="qcm.company-placeholder" oda-input-text-check="Oda.Regexs:noInjection">
-            </div>
+            <oda-input-text
+                oda-input-text-name="company"
+                oda-input-text-type="text"
+                oda-input-text-label="qcm.company"
+                oda-input-text-tips="qcm.company-tips"
+                oda-input-text-advice="qcm.company-advice"
+                oda-input-text-placeholder="qcm.company-placeholder"
+                oda-input-text-check="Oda.Regexs:noInjection"/>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12 text-right">
-            <button type="button" oda-label="qcm.start" oda-submit="submit" onclick="$.Oda.App.Controller.QcmStart.submit();" class="btn btn-primary disabled" disabled>qcm.start</button >
+            <oda-btn oda-btn-name="submit" oda-btn-style="primary" oda-btn-enter="1" oda-btn-icon-before="ok" oda-btn-click="$.Oda.App.Controller.QcmStart.submit();" disabled>qcm.start</oda-btn>
         </div>
     </div>
 </div>
