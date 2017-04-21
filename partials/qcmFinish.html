@@ -4,11 +4,11 @@
         <div class="banner"></div>
         <div class="card">
             <div class="content">
-                <span class="title" oda-label="qcmFinish.certComple">qcmFinish.certCompl</span> <span id="medal">or</span> <span class="title">!</span>
-                <p class="press" oda-label="qcmFinish.certPress">qcmFinish.certPress</p>
-                <h2 class="trainee" id="trainee">trainee</h2>
+                <span class="title"><oda-label oda-label-value="qcmFinish.certComple"/></span> <span id="medal">or</span> <span class="title">!</span>
+                <p class="press"><oda-label oda-label-value="qcmFinish.certPress"/></p>
+                <h2 class="trainee" id="trainee"></h2>
                 <div class="sep"></div>
-                <p class="for"><span oda-label="qcmFinish.certDate">For successfully completing the powrezrzerzer in </span><span id="qcm">qcm</span></p>
+                <p class="for"><span><oda-label oda-label-value="qcmFinish.certDate"/></span><span id="qcm"></span></p>
             </div>
             <div class="accurate">
                 <div class="progress-radial" id="progress">
@@ -22,7 +22,7 @@
 
     <div class="row" style="padding-top: 20px">
         <div class="col-md-12">
-            <button type="button" class="btn btn-primary" onclick="$.Oda.App.Controller.QcmFinish.getPdfCertificate();" oda-label="qcmFinish.getPdf">qcmFinish.getPdf</button>
+            <oda-btn oda-btn-style="primary" oda-btn-icon-before="print" oda-btn-click="$.Oda.App.Controller.QcmFinish.getPdfCertificate();">qcmFinish.getPdf</oda-btn>
         </div>
     </div>
 </div>

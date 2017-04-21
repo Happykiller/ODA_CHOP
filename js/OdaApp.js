@@ -142,7 +142,7 @@
                         });
 
                         var strLabel = response.data.qcmDetails.qcmName+' '+response.data.qcmDetails.qcmLang+' '+response.data.qcmDetails.qcmVersion+' '+response.data.qcmDetails.qcmDate;
-                        var strFooter = '<button type="button" onclick="$.Oda.App.Controller.getPdfEmarg();" class="btn btn-info" oda-label="qcm-main.getPdfEmarg">qcm-main.getPdfEmarg</button>';
+                        var strFooter = '<oda-btn oda-btn-style="primary" oda-btn-icon-before="print" oda-btn-click="$.Oda.App.Controller.getPdfEmarg();">qcm-main.getPdfEmarg</oda-btn>';
 
                         $.Oda.Display.Popup.open({
                             "name": "popEmarg",
